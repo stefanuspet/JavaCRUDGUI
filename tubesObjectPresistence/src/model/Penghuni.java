@@ -10,10 +10,12 @@ package model;
  */
 public class Penghuni {
     private int id_penghuni;
-    private String nama,alamat,no_telp,tanggal_masuk,tanggal_keluar;
+    private String username, password, nama,alamat,no_telp,tanggal_masuk,tanggal_keluar;
 
-    public Penghuni(int id_penghuni, String nama, String alamat, String no_telp, String tanggal_masuk, String tanggal_keluar) {
+    public Penghuni(int id_penghuni, String username, String password, String nama, String alamat, String no_telp, String tanggal_masuk, String tanggal_keluar) {
         this.id_penghuni = id_penghuni;
+        this.username = username;
+        this.password = password;
         this.nama = nama;
         this.alamat = alamat;
         this.no_telp = no_telp;
