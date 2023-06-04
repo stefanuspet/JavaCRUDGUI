@@ -87,6 +87,8 @@ public class Penghuni {
         this.tanggal_keluar = tanggal_keluar;
     }
 
-    
+    public String showPenghuni(){
+        return this.username +"|"+ this.password +"|"+ this.nama +"|"+ this.alamat +"|"+ this.no_telp +"|"+ this.tanggal_masuk +"|"+ this.tanggal_keluar;
+    }
     
 }
