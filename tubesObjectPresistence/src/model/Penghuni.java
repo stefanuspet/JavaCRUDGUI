@@ -31,6 +31,22 @@ public class Penghuni {
         this.id_penghuni = id_penghuni;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getNama() {
         return nama;
     }
@@ -70,6 +86,7 @@ public class Penghuni {
     public void setTanggal_keluar(String tanggal_keluar) {
         this.tanggal_keluar = tanggal_keluar;
     }
+
     
     
 }
