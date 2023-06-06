@@ -10,17 +10,15 @@ package model;
  */
 public class Penghuni {
     private int id_penghuni;
-    private String username, password, nama,alamat,no_telp,tanggal_masuk,tanggal_keluar;
+    private String username, password, nama,alamat,no_telp;
 
-    public Penghuni(int id_penghuni, String username, String password, String nama, String alamat, String no_telp, String tanggal_masuk, String tanggal_keluar) {
+    public Penghuni(int id_penghuni, String username, String password, String nama, String alamat, String no_telp) {
         this.id_penghuni = id_penghuni;
         this.username = username;
         this.password = password;
         this.nama = nama;
         this.alamat = alamat;
         this.no_telp = no_telp;
-        this.tanggal_masuk = tanggal_masuk;
-        this.tanggal_keluar = tanggal_keluar;
     }
 
     public int getId_penghuni() {
@@ -71,24 +69,8 @@ public class Penghuni {
         this.no_telp = no_telp;
     }
 
-    public String getTanggal_masuk() {
-        return tanggal_masuk;
-    }
-
-    public void setTanggal_masuk(String tanggal_masuk) {
-        this.tanggal_masuk = tanggal_masuk;
-    }
-
-    public String getTanggal_keluar() {
-        return tanggal_keluar;
-    }
-
-    public void setTanggal_keluar(String tanggal_keluar) {
-        this.tanggal_keluar = tanggal_keluar;
-    }
-
     public String showPenghuni(){
-        return this.username +"|"+ this.password +"|"+ this.nama +"|"+ this.alamat +"|"+ this.no_telp +"|"+ this.tanggal_masuk +"|"+ this.tanggal_keluar;
+        return this.username +"|"+ this.password +"|"+ this.nama +"|"+ this.alamat +"|"+ this.no_telp;
     }
     
 }

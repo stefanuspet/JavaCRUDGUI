@@ -9,13 +9,14 @@ package model;
  * @author nayal
  */
 public class Transaksi {
-    private int id_transaksi, id_pemesanan, id_pembayaran;
+    private int id_transaksi, id_pemesanan;
     private int total_bayar;
+    private String jenis_pembayaran;
 
-    public Transaksi(int id_transaksi, int id_pemesanan, int id_pembayaran, int total_bayar) {
+    public Transaksi(int id_transaksi, int id_pemesanan, String jenis_pembayaran, int total_bayar) {
         this.id_transaksi = id_transaksi;
         this.id_pemesanan = id_pemesanan;
-        this.id_pembayaran = id_pembayaran;
+        this.jenis_pembayaran = jenis_pembayaran;
         this.total_bayar = total_bayar;
     }
 
@@ -35,12 +36,12 @@ public class Transaksi {
         this.id_pemesanan = id_pemesanan;
     }
 
-    public int getId_pembayaran() {
-        return id_pembayaran;
+    public String getJenis_pembayaran() {
+        return jenis_pembayaran;
     }
 
-    public void setId_pembayaran(int id_pembayaran) {
-        this.id_pembayaran = id_pembayaran;
+    public void setJenis_pembayaran(String jenis_pembayaran) {
+        this.jenis_pembayaran = jenis_pembayaran;
     }
 
     public int getTotal_bayar() {

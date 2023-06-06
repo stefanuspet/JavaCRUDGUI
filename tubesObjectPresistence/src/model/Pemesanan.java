@@ -10,15 +10,15 @@ package model;
  */
 public class Pemesanan {
     private int id_pemesanan, id_penghuni, id_kamar, id_pelanggan;
-    private int lama_sewa;
-    private String status;
+    private String status, tanggal_masuk, tanggal_keluar;
 
-    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, int id_pelanggan, int lama_sewa, String status) {
+    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, int id_pelanggan, String tanggal_masuk, String tanggal_keluar, String status) {
         this.id_pemesanan = id_pemesanan;
         this.id_penghuni = id_penghuni;
         this.id_kamar = id_kamar;
         this.id_pelanggan = id_pelanggan;
-        this.lama_sewa = lama_sewa;
+        this.tanggal_masuk = tanggal_masuk;
+        this.tanggal_keluar = tanggal_keluar;
         this.status = status;
     }
 
@@ -54,12 +54,12 @@ public class Pemesanan {
         this.id_pelanggan = id_pelanggan;
     }
 
-    public int getLama_sewa() {
-        return lama_sewa;
+    public String getTanggal_masuk() {
+        return tanggal_masuk;
     }
 
-    public void setLama_sewa(int lama_sewa) {
-        this.lama_sewa = lama_sewa;
+    public void setTanggal_masuk(String tanggal_masuk) {
+        this.tanggal_masuk = tanggal_masuk;
     }
 
     public String getStatus() {
