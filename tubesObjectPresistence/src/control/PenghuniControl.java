@@ -20,7 +20,7 @@ public class PenghuniControl {
         pDao.insertPenghuni(p);
     }
     
-    public String showDataDosen(){
+    public String showDataPenghuni(){
         List<Penghuni> dataPenghuni = pDao.showPenghuni();
         String PenghuniString = "";
         for (int i = 0; i < dataPenghuni.size(); i++) {
