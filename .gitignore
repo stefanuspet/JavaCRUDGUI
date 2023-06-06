@@ -3,4 +3,5 @@
 # Except this file
 !.gitignore
 private.properties
+private.xml
 /tubesObjectPresistence/build/
