@@ -9,16 +9,16 @@ package model;
  * @author nayal
  */
 public class Pemesanan {
-    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggan;
+    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggaran;
     private String status, tanggal_masuk, tanggal_keluar;
 
-    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, int id_pelanggan, String tanggal_masuk, String tanggal_keluar, String status) {
+    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, String tanggal_masuk, String tanggal_keluar, int id_pelanggaran,String status) {
         this.id_pemesanan = id_pemesanan;
         this.id_penghuni = id_penghuni;
         this.id_kamar = id_kamar;
-        this.id_pelanggan = id_pelanggan;
         this.tanggal_masuk = tanggal_masuk;
         this.tanggal_keluar = tanggal_keluar;
+        this.id_pelanggaran = id_pelanggaran;
         this.status = status;
     }
 
@@ -46,13 +46,6 @@ public class Pemesanan {
         this.id_kamar = id_kamar;
     }
 
-    public int getId_pelanggan() {
-        return id_pelanggan;
-    }
-
-    public void setId_pelanggan(int id_pelanggan) {
-        this.id_pelanggan = id_pelanggan;
-    }
 
     public String getTanggal_masuk() {
         return tanggal_masuk;
@@ -60,6 +53,22 @@ public class Pemesanan {
 
     public void setTanggal_masuk(String tanggal_masuk) {
         this.tanggal_masuk = tanggal_masuk;
+    }
+
+    public String getTanggal_keluar() {
+        return tanggal_keluar;
+    }
+
+    public void setTanggal_keluar(String tanggal_keluar) {
+        this.tanggal_keluar = tanggal_keluar;
+    }
+
+    public int getId_pelanggaran() {
+        return id_pelanggaran;
+    }
+
+    public void setId_pelanggaran(int id_pelanggaran) {
+        this.id_pelanggaran = id_pelanggaran;
     }
 
     public String getStatus() {
