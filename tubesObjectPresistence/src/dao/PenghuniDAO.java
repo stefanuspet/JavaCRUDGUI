@@ -37,7 +37,6 @@ public class PenghuniDAO {
     
     public List<Penghuni> showPenghuni(){
         con = dbCon.makeConnection();
-
         String sql = "SELECT * FROM penghuni";
         System.out.println("Mengambil Data Dosen ...");
         List<Penghuni> list = new ArrayList();

@@ -43,7 +43,21 @@ public class TransaksiDAO {
         }
         dbConnection.closeConnection();
     }
-
+    
+    public ArrayList<Transaksi>showTransaksi(){
+        con = dbConnection.makeConnection();
+        String sql ="SELECT * FROM transaksi";
+        System.out.println("Showing Transaksi...");
+        ArrayList<Transaksi>list = new ArrayList();
+        try{
+            Statement statement=con.createStatement();
+            
+        }catch(Exception e){
+            
+        }
+        return list;
+    }
+    
     public void updateTransaksi(Transaksi t, int id_transaksi){
         con = dbConnection.makeConnection();
         String sql = "UPDATE transaksi SET id_pemesanan='"+t.getId_pemesanan()+"', jenis_pembayaran='"+t.getJenis_pembayaran()+"', total_bayar='"+t.getTotal_bayar()+"' WHERE id_transaksi='"+id_transaksi+"'";
