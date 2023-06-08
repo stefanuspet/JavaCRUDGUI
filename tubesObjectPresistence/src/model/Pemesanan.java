@@ -9,16 +9,29 @@ package model;
  * @author nayal
  */
 public class Pemesanan {
-    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggan;
-    private int lama_sewa;
-    private String status;
+    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggaran;
+    private String status, tanggal_masuk, tanggal_keluar;
+    private Penghuni penghuni;
+    private Kamar kamar;
+    private Pelanggaran pelanggaran;
 
-    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, int id_pelanggan, int lama_sewa, String status) {
+    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, String tanggal_masuk, String tanggal_keluar, int id_pelanggaran,String status) {
         this.id_pemesanan = id_pemesanan;
         this.id_penghuni = id_penghuni;
         this.id_kamar = id_kamar;
-        this.id_pelanggan = id_pelanggan;
-        this.lama_sewa = lama_sewa;
+        this.tanggal_masuk = tanggal_masuk;
+        this.tanggal_keluar = tanggal_keluar;
+        this.id_pelanggaran = id_pelanggaran;
+        this.status = status;
+    }
+
+    public Pemesanan(int id_pemesanan, Penghuni penghuni, Kamar kamar, String tanggal_masuk, String tanggal_keluar, Pelanggaran pelanggaran, String status) {
+        this.id_pemesanan = id_pemesanan;
+        this.penghuni = penghuni;
+        this.kamar = kamar;
+        this.tanggal_masuk = tanggal_masuk;
+        this.tanggal_keluar = tanggal_keluar;
+        this.pelanggaran = pelanggaran;
         this.status = status;
     }
 
@@ -46,20 +59,29 @@ public class Pemesanan {
         this.id_kamar = id_kamar;
     }
 
-    public int getId_pelanggan() {
-        return id_pelanggan;
+
+    public String getTanggal_masuk() {
+        return tanggal_masuk;
     }
 
-    public void setId_pelanggan(int id_pelanggan) {
-        this.id_pelanggan = id_pelanggan;
+    public void setTanggal_masuk(String tanggal_masuk) {
+        this.tanggal_masuk = tanggal_masuk;
     }
 
-    public int getLama_sewa() {
-        return lama_sewa;
+    public String getTanggal_keluar() {
+        return tanggal_keluar;
     }
 
-    public void setLama_sewa(int lama_sewa) {
-        this.lama_sewa = lama_sewa;
+    public void setTanggal_keluar(String tanggal_keluar) {
+        this.tanggal_keluar = tanggal_keluar;
+    }
+
+    public int getId_pelanggaran() {
+        return id_pelanggaran;
+    }
+
+    public void setId_pelanggaran(int id_pelanggaran) {
+        this.id_pelanggaran = id_pelanggaran;
     }
 
     public String getStatus() {
@@ -68,6 +90,30 @@ public class Pemesanan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Penghuni getPenghuni() {
+        return penghuni;
+    }
+
+    public void setPenghuni(Penghuni penghuni) {
+        this.penghuni = penghuni;
+    }
+
+    public Kamar getKamar() {
+        return kamar;
+    }
+
+    public void setKamar(Kamar kamar) {
+        this.kamar = kamar;
+    }
+
+    public Pelanggaran getPelanggaran() {
+        return pelanggaran;
+    }
+
+    public void setPelanggaran(Pelanggaran pelanggaran) {
+        this.pelanggaran = pelanggaran;
     }
     
 }

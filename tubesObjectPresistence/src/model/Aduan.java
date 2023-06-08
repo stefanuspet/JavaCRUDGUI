@@ -10,12 +10,21 @@ package model;
  */
 public class Aduan {
     private int id_aduan, id_penghuni;
-    private String deskripsi_aduan;
+    private Penghuni penghuni;
+    private String deskripsi_aduan, tanggal;
 
-    public Aduan(int id_aduan, int id_penghuni, String deskripsi_aduan) {
+    public Aduan(int id_aduan, int id_penghuni, String tanggal, String deskripsi_aduan) {
         this.id_aduan = id_aduan;
         this.id_penghuni = id_penghuni;
+        this.tanggal = tanggal;
         this.deskripsi_aduan = deskripsi_aduan;
+    }
+
+    public Aduan(int id, Penghuni penghuni, String tanggal, String deskripsiAduan) {
+        this.id_aduan = id;
+        this.penghuni = penghuni;
+        this.tanggal = tanggal;
+        this.deskripsi_aduan = deskripsiAduan;
     }
 
     public int getId_aduan() {
@@ -34,6 +43,14 @@ public class Aduan {
         this.id_penghuni = id_penghuni;
     }
 
+    public String getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
+    }
+
     public String getDeskripsi_aduan() {
         return deskripsi_aduan;
     }
@@ -42,8 +59,12 @@ public class Aduan {
         this.deskripsi_aduan = deskripsi_aduan;
     }
     
-    
-    
-   
-    
+    public Penghuni getPenghuni() {
+        return penghuni;
+    }
+
+    public void setPenghuni(Penghuni penghuni) {
+        this.penghuni = penghuni;
+    }
+
 }

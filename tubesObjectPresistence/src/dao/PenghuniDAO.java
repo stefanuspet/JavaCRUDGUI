@@ -6,6 +6,7 @@ package dao;
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,8 @@ public class PenghuniDAO {
     
     public void insertPenghuni(Penghuni p){
         con = dbCon.makeConnection();
-        String sql ="INSERT INTO penghuni(username, password, nama, alamat, no_telp, tanggal_masuk, tanggal_keluar) "
-                + "VALUES ('"+p.getUsername()+"','"+p.getPassword()+"','"+p.getNama()+"','"+p.getAlamat()+"','"+p.getNo_telp()+"','"+p.getTanggal_masuk()+"','"+p.getTanggal_keluar()+"')";
+        String sql ="INSERT INTO penghuni(username, password, nama, alamat, no_telp) "
+                + "VALUES ('"+p.getUsername()+"','"+p.getPassword()+"','"+p.getNama()+"','"+p.getAlamat()+"','"+p.getNo_telp()+"')";
         System.out.println("Adding Penghuni....");
         try {
             Statement statement = con.createStatement();
@@ -37,7 +38,6 @@ public class PenghuniDAO {
     
     public List<Penghuni> showPenghuni(){
         con = dbCon.makeConnection();
-
         String sql = "SELECT * FROM penghuni";
         System.out.println("Mengambil Data Dosen ...");
         List<Penghuni> list = new ArrayList();
@@ -55,9 +55,7 @@ public class PenghuniDAO {
                             rs.getString("password"),
                             rs.getString("nama"),
                             rs.getString("alamat"),
-                            rs.getString("no_telp"),
-                            rs.getString("tanggal_masuk"),
-                            rs.getString("tanggal_keluar")
+                            rs.getString("no_telp")
                     );
                     list.add(p);
                 }
@@ -80,11 +78,9 @@ public class PenghuniDAO {
                 + "password='"+p.getPassword()+"',"
                 + "nama='"+p.getNama()+"',"
                 + "alamat='"+p.getAlamat()+"',"
-                + "no_telp='"+p.getNo_telp()+"',"
-                + "tanggal_masuk='"+p.getTanggal_masuk()+"',"
-                + "tanggal_keluar='"+p.getTanggal_keluar()+"'"
+                + "no_telp='"+p.getNo_telp()+"'"
                 + "WHERE id_penghuni = '" + id + "'";
-        System.out.println("Editing Dosen ...");
+        System.out.println("Editing Penghuni ...");
 
         try {
             Statement statement = con.createStatement();
@@ -115,5 +111,35 @@ public class PenghuniDAO {
         }
         dbCon.closeConnection();
     }
-    
+
+    public Penghuni searchPenghuni(int id) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT * FROM penghuni WHERE id_penghuni = '" + id + "'";
+        System.out.println("Mengambil Data Penghuni ...");
+        List<Penghuni> list = new ArrayList();
+
+        Penghuni penghuni = null;
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var ResultSet = statement.getResultSet();
+            while (ResultSet.next()) {
+                penghuni = new Penghuni(
+                        ResultSet.getInt("id_penghuni"),
+                        ResultSet.getString("username"),
+                        ResultSet.getString("password"),
+                        ResultSet.getString("nama"),
+                        ResultSet.getString("alamat"),
+                        ResultSet.getString("no_telp")
+                );
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        } finally {
+            dbCon.closeConnection();
+        }
+        return penghuni;
+    }
 }

@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package control;
 
-/**
- *
- * @author stefa
- */
 
 import dao.PenghuniDAO;
 import java.util.List;
@@ -20,7 +12,7 @@ public class PenghuniControl {
         pDao.insertPenghuni(p);
     }
     
-    public String showDataDosen(){
+    public String showDataPenghuni(){
         List<Penghuni> dataPenghuni = pDao.showPenghuni();
         String PenghuniString = "";
         for (int i = 0; i < dataPenghuni.size(); i++) {
@@ -40,5 +32,9 @@ public class PenghuniControl {
     public List<Penghuni> showListPenghuni(){
         List<Penghuni> dataPenghuni = pDao.showPenghuni();
         return dataPenghuni;
+    }
+
+    public Penghuni searchPenghuni (int id){
+        return pDao.searchPenghuni(id);
     }
 }
