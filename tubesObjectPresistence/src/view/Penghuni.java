@@ -688,9 +688,9 @@ public class Penghuni extends javax.swing.JFrame {
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
         // TODO add your handling code here:
-        setComponent(false);
-        setEditDeleteBtn(false);
-        clearText();
+//        setComponent(false);
+//        setEditDeleteBtn(false);
+//        clearText();
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed

@@ -4,29 +4,25 @@
  */
 package view;
 
-
-
 import control.PemesananControl;
 import control.KamarControl;
 import control.PenghuniControl;
 import control.AduanControl;
 import java.util.ArrayList;
 import model.Pemesanan;
-import model.Kamar;
-import model.Ruangan;
 import model.Aduan;
 import javax.swing.JOptionPane;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
-import table.TableKamar;
+//import table.TableKamar;
 
 public class Kamar extends javax.swing.JFrame {
     private PemesananControl  psc;
     private KamarControl kc;
     private AduanControl ac;
     private PenghuniControl pc;
-    private TableKamar tk;
+    //private TableKamar tk;
     String action = null;
     List<Kamar> listPemesanan;
     List<Kamar> listKamar;
@@ -47,16 +43,16 @@ public class Kamar extends javax.swing.JFrame {
         pc = new PenghuniControl();
         
         
-        showKamar();
-        IDkamarCombobox();
+//        showKamar();
+//        IDkamarCombobox();
     }
     
     public void setIDkamarCombobox(){
-        listKamar = kc.showListAllKamar();
-        for(int i = 0; i < listKamar.size(); i++){
-            IDkamarCombobox.addItem(listKamar.get(i).getId_kamar());
-            indexKamar.add(i);
-        }
+//        listKamar = kc.showListAllKamar();
+//        for(int i = 0; i < listKamar.size(); i++){
+//            IDkamarCombobox.addItem(listKamar.get(i).getId_kamar());
+//            indexKamar.add(i);
+//        }
     }
     
     
@@ -87,9 +83,9 @@ public class Kamar extends javax.swing.JFrame {
         cariField.setText("");
     }
     
-    public void showKamar(){
-        tableKamar.setModel(kc.showDataKamar(""));
-    }
+//    public void showKamar(){
+//        tableKamar.setModel(kc.showDataKamar(""));
+//    }
     
         
     /**
@@ -121,28 +117,28 @@ public class Kamar extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        PanelPeminjaman = new javax.swing.JPanel();
+        KamarPanel = new javax.swing.JPanel();
         KamarText = new javax.swing.JLabel();
         cariField = new javax.swing.JTextField();
         cariButton = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
         idPanel = new javax.swing.JPanel();
-        idLabel = new javax.swing.JLabel();
+        FasilitasText = new javax.swing.JLabel();
         KamarMandiCheckBox = new javax.swing.JCheckBox();
         ACCheckBox = new javax.swing.JCheckBox();
         WIFICheckBox = new javax.swing.JCheckBox();
         idPanel2 = new javax.swing.JPanel();
-        idLabel2 = new javax.swing.JLabel();
+        IdKamarText = new javax.swing.JLabel();
         IDkamarCombobox = new javax.swing.JComboBox<>();
         idPanel4 = new javax.swing.JPanel();
-        idLabel10 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        StatusText = new javax.swing.JLabel();
+        StatusComboBox = new javax.swing.JComboBox<>();
         idPanel5 = new javax.swing.JPanel();
-        idLabel11 = new javax.swing.JLabel();
+        DeskripsiText = new javax.swing.JLabel();
         idText5 = new javax.swing.JTextField();
         idPanel3 = new javax.swing.JPanel();
-        idLabel9 = new javax.swing.JLabel();
+        HargaSewaText = new javax.swing.JLabel();
         HargaPanel = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -318,7 +314,7 @@ public class Kamar extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(247, 241, 229));
 
-        PanelPeminjaman.setBackground(new java.awt.Color(179, 200, 144));
+        KamarPanel.setBackground(new java.awt.Color(179, 200, 144));
 
         KamarText.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
         KamarText.setForeground(new java.awt.Color(51, 51, 0));
@@ -340,11 +336,11 @@ public class Kamar extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout PanelPeminjamanLayout = new javax.swing.GroupLayout(PanelPeminjaman);
-        PanelPeminjaman.setLayout(PanelPeminjamanLayout);
-        PanelPeminjamanLayout.setHorizontalGroup(
-            PanelPeminjamanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPeminjamanLayout.createSequentialGroup()
+        javax.swing.GroupLayout KamarPanelLayout = new javax.swing.GroupLayout(KamarPanel);
+        KamarPanel.setLayout(KamarPanelLayout);
+        KamarPanelLayout.setHorizontalGroup(
+            KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(KamarPanelLayout.createSequentialGroup()
                 .addGap(113, 113, 113)
                 .addComponent(KamarText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
@@ -353,11 +349,11 @@ public class Kamar extends javax.swing.JFrame {
                 .addComponent(cariButton)
                 .addGap(78, 78, 78))
         );
-        PanelPeminjamanLayout.setVerticalGroup(
-            PanelPeminjamanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPeminjamanLayout.createSequentialGroup()
+        KamarPanelLayout.setVerticalGroup(
+            KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(KamarPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(PanelPeminjamanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(KamarText)
                     .addComponent(cariButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -386,9 +382,9 @@ public class Kamar extends javax.swing.JFrame {
 
         idPanel.setBackground(new java.awt.Color(214, 232, 219));
 
-        idLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel.setText("Fasilitas");
+        FasilitasText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        FasilitasText.setForeground(new java.awt.Color(51, 51, 0));
+        FasilitasText.setText("Fasilitas");
 
         KamarMandiCheckBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         KamarMandiCheckBox.setForeground(new java.awt.Color(51, 51, 0));
@@ -425,14 +421,14 @@ public class Kamar extends javax.swing.JFrame {
                         .addComponent(ACCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(WIFICheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(idLabel))
+                    .addComponent(FasilitasText))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         idPanelLayout.setVerticalGroup(
             idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(idLabel)
+                .addComponent(FasilitasText)
                 .addGap(18, 18, 18)
                 .addGroup(idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(KamarMandiCheckBox)
@@ -443,9 +439,9 @@ public class Kamar extends javax.swing.JFrame {
 
         idPanel2.setBackground(new java.awt.Color(214, 232, 219));
 
-        idLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel2.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel2.setText("ID Kamar");
+        IdKamarText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        IdKamarText.setForeground(new java.awt.Color(51, 51, 0));
+        IdKamarText.setText("ID Kamar");
 
         IDkamarCombobox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,14 +457,14 @@ public class Kamar extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(idPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(IDkamarCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idLabel2))
+                    .addComponent(IdKamarText))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         idPanel2Layout.setVerticalGroup(
             idPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(idLabel2)
+                .addComponent(IdKamarText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(IDkamarCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
@@ -476,14 +472,14 @@ public class Kamar extends javax.swing.JFrame {
 
         idPanel4.setBackground(new java.awt.Color(214, 232, 219));
 
-        idLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel10.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel10.setText("Status");
+        StatusText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        StatusText.setForeground(new java.awt.Color(51, 51, 0));
+        StatusText.setText("Status");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
+        StatusComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                StatusComboBoxActionPerformed(evt);
             }
         });
 
@@ -494,25 +490,25 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idLabel10))
+                    .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StatusText))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         idPanel4Layout.setVerticalGroup(
             idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(idLabel10)
+                .addComponent(StatusText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
         idPanel5.setBackground(new java.awt.Color(214, 232, 219));
 
-        idLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel11.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel11.setText("Deskripsi");
+        DeskripsiText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        DeskripsiText.setForeground(new java.awt.Color(51, 51, 0));
+        DeskripsiText.setText("Deskripsi");
 
         idText5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -527,7 +523,7 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel5Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idLabel11)
+                    .addComponent(DeskripsiText)
                     .addComponent(idText5, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -535,7 +531,7 @@ public class Kamar extends javax.swing.JFrame {
             idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel5Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(idLabel11)
+                .addComponent(DeskripsiText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(idText5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
@@ -543,9 +539,9 @@ public class Kamar extends javax.swing.JFrame {
 
         idPanel3.setBackground(new java.awt.Color(214, 232, 219));
 
-        idLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel9.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel9.setText("Harga Sewa");
+        HargaSewaText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        HargaSewaText.setForeground(new java.awt.Color(51, 51, 0));
+        HargaSewaText.setText("Harga Sewa");
 
         HargaPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -560,7 +556,7 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idLabel9)
+                    .addComponent(HargaSewaText)
                     .addComponent(HargaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -568,7 +564,7 @@ public class Kamar extends javax.swing.JFrame {
             idPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(idLabel9)
+                .addComponent(HargaSewaText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HargaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
@@ -667,13 +663,13 @@ public class Kamar extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(PanelPeminjaman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KamarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 744, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(PanelPeminjaman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KamarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -689,10 +685,11 @@ public class Kamar extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(SaveBtn)
-                            .addComponent(CancelBtn)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(SaveBtn)
+                                .addComponent(CancelBtn)))))
                 .addGap(83, 83, 83))
         );
 
@@ -759,7 +756,7 @@ public class Kamar extends javax.swing.JFrame {
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
                                             
         clearText();
-        showKamar();
+        //showKamar();
         setComponent(false);
         setEditDeleteBtn(false);
     
@@ -772,7 +769,7 @@ public class Kamar extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonTambahActionPerformed
 
     private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
-        tableKamar.setModel(kc.showDataKamar(cariField.getText()));
+        //tableKamar.setModel(kc.showDataKamar(cariField.getText()));
     }//GEN-LAST:event_cariButtonActionPerformed
 
     private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
@@ -783,7 +780,7 @@ public class Kamar extends javax.swing.JFrame {
     private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
         kc.deleteDataKamar(selectedId);
         clearText();
-        showKamar();
+        //showKamar();
         setComponent(false);
         setEditDeleteBtn(false);
     }//GEN-LAST:event_hapusButtonActionPerformed
@@ -812,15 +809,15 @@ public class Kamar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_KamarMandiCheckBoxActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void StatusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_StatusComboBoxActionPerformed
 
     private void iconPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconPemesananMouseClicked
         // TODO add your handling code here:
-        Pemesanan pv = new PemesananView();
-        this.dispose();
-        pv.setVisible(true);
+//        Pemesanan pv = new PemesananView();
+//        this.dispose();
+//        pv.setVisible(true);
     }//GEN-LAST:event_iconPemesananMouseClicked
 
     private void iconKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconKamarMouseClicked
@@ -893,15 +890,21 @@ public class Kamar extends javax.swing.JFrame {
     private javax.swing.JCheckBox ACCheckBox;
     private javax.swing.JLabel AduanText;
     private javax.swing.JButton CancelBtn;
+    private javax.swing.JLabel DeskripsiText;
+    private javax.swing.JLabel FasilitasText;
     private javax.swing.JTextField HargaPanel;
+    private javax.swing.JLabel HargaSewaText;
     private javax.swing.JComboBox<String> IDkamarCombobox;
+    private javax.swing.JLabel IdKamarText;
     private javax.swing.JCheckBox KamarMandiCheckBox;
+    private javax.swing.JPanel KamarPanel;
     private javax.swing.JLabel KamarText;
     private javax.swing.JLabel KostText;
     private javax.swing.JLabel NamaUnivText;
-    private javax.swing.JPanel PanelPeminjaman;
     private javax.swing.JLabel PelanggaranText;
     private javax.swing.JButton SaveBtn;
+    private javax.swing.JComboBox<String> StatusComboBox;
+    private javax.swing.JLabel StatusText;
     private javax.swing.JLabel Universitastext;
     private javax.swing.JCheckBox WIFICheckBox;
     private javax.swing.JButton buttonTambah;
@@ -913,18 +916,12 @@ public class Kamar extends javax.swing.JFrame {
     private javax.swing.JLabel iconPelanggaran;
     private javax.swing.JLabel iconPemesanan;
     private javax.swing.JLabel iconPenghuni;
-    private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel idLabel10;
-    private javax.swing.JLabel idLabel11;
-    private javax.swing.JLabel idLabel2;
-    private javax.swing.JLabel idLabel9;
     private javax.swing.JPanel idPanel;
     private javax.swing.JPanel idPanel2;
     private javax.swing.JPanel idPanel3;
     private javax.swing.JPanel idPanel4;
     private javax.swing.JPanel idPanel5;
     private javax.swing.JTextField idText5;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
