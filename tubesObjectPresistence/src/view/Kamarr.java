@@ -4,89 +4,7 @@
  */
 package view;
 
-import control.PemesananControl;
-import control.KamarControl;
-import control.PenghuniControl;
-import control.AduanControl;
-import java.util.ArrayList;
-import model.Pemesanan;
-import model.Aduan;
-import javax.swing.JOptionPane;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.TableModel;
-//import table.TableKamar;
-
-public class Kamar extends javax.swing.JFrame {
-    private PemesananControl  psc;
-    private KamarControl kc;
-    private AduanControl ac;
-    private PenghuniControl pc;
-    //private TableKamar tk;
-    String action = null;
-    List<Kamar> listPemesanan;
-    List<Kamar> listKamar;
-    List<Integer> indexPemesanan = new ArrayList<>();;
-    List<Integer> indexKamar = new ArrayList<>();;
-    int selectedId = 0;
-
-    /**
-     * Creates new form 
-     */
-    public Kamar() {
-        initComponents();
-        setComponent(false);
-        setEditDeleteBtn(false);
-        psc  = new PemesananControl();
-        kc = new KamarControl();
-        ac = new AduanControl();
-        pc = new PenghuniControl();
-        
-        
-//        showKamar();
-//        IDkamarCombobox();
-    }
-    
-    public void setIDkamarCombobox(){
-//        listKamar = kc.showListAllKamar();
-//        for(int i = 0; i < listKamar.size(); i++){
-//            IDkamarCombobox.addItem(listKamar.get(i).getId_kamar());
-//            indexKamar.add(i);
-//        }
-    }
-    
-    
-    public void setEditDeleteBtn(boolean value){
-        ubahButton.setEnabled(value);
-        hapusButton.setEnabled(value);
-        
-    }
-    
-    public void setComponent(boolean value){
-        IDkamarCombobox.setEnabled(value);
-        KamarPanel.setEnabled(value);
-        
-        KamarMandiCheckBox.setEnabled(value);
-        ACCheckBox.setEnabled(value);
-        WIFICheckBox.setEnabled(value);
-        
-        SaveBtn.setEnabled(value);
-        CancelBtn.setEnabled(value);   
-    }
-    
-    public void clearText(){
-        IDkamarCombobox.setSelectedItem(ABORT);
-        KamarMandiCheckBox.setEnabled(false);
-        ACCheckBox.setEnabled(false);
-        WIFICheckBox.setEnabled(false);
-        
-        cariField.setText("");
-    }
-    
-//    public void showKamar(){
-//        tableKamar.setModel(kc.showDataKamar(""));
-//    }
-    
+public class Pemesanan extends javax.swing.JFrame {
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,59 +17,73 @@ public class Kamar extends javax.swing.JFrame {
 
         ruanganLabel = new javax.swing.JPanel();
         sidebarPanel = new javax.swing.JPanel();
+        iconKaryawan = new javax.swing.JLabel();
         Universitastext = new javax.swing.JLabel();
         NamaUnivText = new javax.swing.JLabel();
-        KostText = new javax.swing.JLabel();
+        Universitastext2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
-        iconPemesanan = new javax.swing.JLabel();
-        iconKamar = new javax.swing.JLabel();
-        pemesananText = new javax.swing.JLabel();
-        penghuniText = new javax.swing.JLabel();
-        kamartext = new javax.swing.JLabel();
-        AduanText = new javax.swing.JLabel();
-        PelanggaranText = new javax.swing.JLabel();
-        iconPenghuni = new javax.swing.JLabel();
-        iconPelanggaran = new javax.swing.JLabel();
-        iconAduan = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        idLabel3 = new javax.swing.JLabel();
+        idLabel4 = new javax.swing.JLabel();
+        idLabel5 = new javax.swing.JLabel();
+        idLabel6 = new javax.swing.JLabel();
+        idLabel7 = new javax.swing.JLabel();
+        idLabel8 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        KamarPanel = new javax.swing.JPanel();
-        KamarText = new javax.swing.JLabel();
+        AdminPnel = new javax.swing.JPanel();
         cariField = new javax.swing.JTextField();
         cariButton = new javax.swing.JButton();
+        PemesananText = new javax.swing.JLabel();
         SaveBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
         idPanel = new javax.swing.JPanel();
-        FasilitasText = new javax.swing.JLabel();
-        KamarMandiCheckBox = new javax.swing.JCheckBox();
-        ACCheckBox = new javax.swing.JCheckBox();
-        WIFICheckBox = new javax.swing.JCheckBox();
+        idLabel = new javax.swing.JLabel();
+        idText = new javax.swing.JTextField();
         idPanel2 = new javax.swing.JPanel();
-        IdKamarText = new javax.swing.JLabel();
-        IDkamarCombobox = new javax.swing.JComboBox<>();
+        idLabel2 = new javax.swing.JLabel();
+        idText2 = new javax.swing.JTextField();
         idPanel4 = new javax.swing.JPanel();
-        StatusText = new javax.swing.JLabel();
-        StatusComboBox = new javax.swing.JComboBox<>();
+        idLabel10 = new javax.swing.JLabel();
+        idText4 = new javax.swing.JTextField();
         idPanel5 = new javax.swing.JPanel();
-        DeskripsiText = new javax.swing.JLabel();
+        idLabel11 = new javax.swing.JLabel();
         idText5 = new javax.swing.JTextField();
+        idPanel6 = new javax.swing.JPanel();
+        idLabel12 = new javax.swing.JLabel();
+        idText6 = new javax.swing.JTextField();
         idPanel3 = new javax.swing.JPanel();
-        HargaSewaText = new javax.swing.JLabel();
-        HargaPanel = new javax.swing.JTextField();
+        idLabel9 = new javax.swing.JLabel();
+        idText3 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         buttonTambah = new javax.swing.JButton();
         ubahButton = new javax.swing.JButton();
         hapusButton = new javax.swing.JButton();
+        idPanel7 = new javax.swing.JPanel();
+        idLabel13 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         ruanganLabel.setBackground(new java.awt.Color(255, 255, 255));
 
         sidebarPanel.setBackground(new java.awt.Color(153, 169, 143));
+
+        iconKaryawan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconKaryawan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/employeee.png"))); // NOI18N
+        iconKaryawan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconKaryawanMouseClicked(evt);
+            }
+        });
 
         Universitastext.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
         Universitastext.setForeground(new java.awt.Color(51, 51, 0));
@@ -161,9 +93,9 @@ public class Kamar extends javax.swing.JFrame {
         NamaUnivText.setForeground(new java.awt.Color(51, 51, 0));
         NamaUnivText.setText("Jaya");
 
-        KostText.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
-        KostText.setForeground(new java.awt.Color(51, 51, 0));
-        KostText.setText("Kost");
+        Universitastext2.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
+        Universitastext2.setForeground(new java.awt.Color(51, 51, 0));
+        Universitastext2.setText("Kost");
 
         javax.swing.GroupLayout sidebarPanelLayout = new javax.swing.GroupLayout(sidebarPanel);
         sidebarPanel.setLayout(sidebarPanelLayout);
@@ -171,18 +103,19 @@ public class Kamar extends javax.swing.JFrame {
             sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(KostText)
+                .addComponent(Universitastext2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Universitastext)
                 .addGap(12, 12, 12)
                 .addComponent(NamaUnivText)
-                .addContainerGap(962, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
+                .addComponent(iconKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         sidebarPanelLayout.setVerticalGroup(
             sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(KostText)
+                .addComponent(Universitastext2)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarPanelLayout.createSequentialGroup()
                 .addContainerGap(50, Short.MAX_VALUE)
@@ -190,69 +123,50 @@ public class Kamar extends javax.swing.JFrame {
                     .addComponent(Universitastext)
                     .addGroup(sidebarPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(NamaUnivText, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NamaUnivText, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(iconKaryawan))))
                 .addGap(8, 8, 8))
         );
 
         jPanel4.setBackground(new java.awt.Color(0, 153, 153));
 
-        iconPemesanan.setBackground(new java.awt.Color(153, 204, 0));
-        iconPemesanan.setForeground(new java.awt.Color(153, 204, 0));
-        iconPemesanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/admin.png"))); // NOI18N
-        iconPemesanan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconPemesananMouseClicked(evt);
-            }
-        });
+        jLabel2.setBackground(new java.awt.Color(153, 204, 0));
+        jLabel2.setForeground(new java.awt.Color(153, 204, 0));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/admin.png"))); // NOI18N
 
-        iconKamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/kamr.png"))); // NOI18N
-        iconKamar.setText("                Data");
-        iconKamar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconKamarMouseClicked(evt);
-            }
-        });
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/kamr.png"))); // NOI18N
+        jLabel5.setText("                Data");
 
-        pemesananText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        pemesananText.setForeground(new java.awt.Color(51, 51, 0));
-        pemesananText.setText("Pemesanan");
+        idLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel3.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel3.setText("Pemesanan");
 
-        penghuniText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        penghuniText.setForeground(new java.awt.Color(51, 51, 0));
-        penghuniText.setText("Penghuni");
+        idLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel4.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel4.setText("ID Karyawan");
 
-        kamartext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        kamartext.setForeground(new java.awt.Color(51, 51, 0));
-        kamartext.setText("Kamar");
+        idLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel5.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel5.setText("Penghuni");
 
-        AduanText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        AduanText.setForeground(new java.awt.Color(51, 51, 0));
-        AduanText.setText("Aduan");
+        idLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel6.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel6.setText("Kamar");
 
-        PelanggaranText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        PelanggaranText.setForeground(new java.awt.Color(51, 51, 0));
-        PelanggaranText.setText("Pelanggaran");
+        idLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel7.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel7.setText("Aduan");
 
-        iconPenghuni.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/penghuni.png"))); // NOI18N
-        iconPenghuni.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconPenghuniMouseClicked(evt);
-            }
-        });
+        idLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel8.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel8.setText("Pelanggaran");
 
-        iconPelanggaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pelanggaran.png"))); // NOI18N
-        iconPelanggaran.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconPelanggaranMouseClicked(evt);
-            }
-        });
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/penghuni.png"))); // NOI18N
 
-        iconAduan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
-        iconAduan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                iconAduanMouseClicked(evt);
-            }
-        });
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pelanggaran.png"))); // NOI18N
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -261,64 +175,70 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(56, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(iconKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(pemesananText))
-                    .addComponent(iconPemesanan)
+                        .addComponent(idLabel3))
+                    .addComponent(jLabel2)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(penghuniText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(idLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(PelanggaranText)
-                                .addComponent(iconPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(idLabel8)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(9, 9, 9))
-                        .addComponent(iconPenghuni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iconAduan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(65, 65, 65))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addComponent(kamartext))
+                        .addComponent(idLabel6))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(83, 83, 83)
-                        .addComponent(AduanText)))
+                        .addComponent(idLabel7)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addContainerGap(71, Short.MAX_VALUE)
+                    .addComponent(idLabel4)
+                    .addGap(64, 64, 64)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(121, 121, 121)
-                .addComponent(iconPemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pemesananText)
+                .addComponent(idLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(iconKamar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kamartext)
+                .addComponent(idLabel6)
                 .addGap(24, 24, 24)
-                .addComponent(iconPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(penghuniText)
+                .addComponent(idLabel5)
                 .addGap(30, 30, 30)
-                .addComponent(iconAduan)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AduanText)
+                .addComponent(idLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(iconPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PelanggaranText)
+                .addComponent(idLabel8)
                 .addContainerGap(240, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(306, 306, 306)
+                    .addComponent(idLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(646, Short.MAX_VALUE)))
         );
 
         jPanel1.setBackground(new java.awt.Color(247, 241, 229));
 
-        KamarPanel.setBackground(new java.awt.Color(179, 200, 144));
-
-        KamarText.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
-        KamarText.setForeground(new java.awt.Color(51, 51, 0));
-        KamarText.setText("Kamar");
+        AdminPnel.setBackground(new java.awt.Color(179, 200, 144));
 
         cariField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,27 +256,34 @@ public class Kamar extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout KamarPanelLayout = new javax.swing.GroupLayout(KamarPanel);
-        KamarPanel.setLayout(KamarPanelLayout);
-        KamarPanelLayout.setHorizontalGroup(
-            KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(KamarPanelLayout.createSequentialGroup()
+        PemesananText.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
+        PemesananText.setForeground(new java.awt.Color(51, 51, 0));
+        PemesananText.setText("PEMESANAN");
+
+        javax.swing.GroupLayout AdminPnelLayout = new javax.swing.GroupLayout(AdminPnel);
+        AdminPnel.setLayout(AdminPnelLayout);
+        AdminPnelLayout.setHorizontalGroup(
+            AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AdminPnelLayout.createSequentialGroup()
                 .addGap(113, 113, 113)
-                .addComponent(KamarText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
+                .addComponent(PemesananText)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addComponent(cariButton)
-                .addGap(78, 78, 78))
+                .addGap(724, 724, 724))
         );
-        KamarPanelLayout.setVerticalGroup(
-            KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(KamarPanelLayout.createSequentialGroup()
+        AdminPnelLayout.setVerticalGroup(
+            AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AdminPnelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cariButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+            .addGroup(AdminPnelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(KamarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(KamarText)
-                    .addComponent(cariButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PemesananText)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -382,31 +309,15 @@ public class Kamar extends javax.swing.JFrame {
 
         idPanel.setBackground(new java.awt.Color(214, 232, 219));
 
-        FasilitasText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        FasilitasText.setForeground(new java.awt.Color(51, 51, 0));
-        FasilitasText.setText("Fasilitas");
+        idLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel.setText("ID Penghuni");
 
-        KamarMandiCheckBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        KamarMandiCheckBox.setForeground(new java.awt.Color(51, 51, 0));
-        KamarMandiCheckBox.setText("Kamar Mandi Dalam");
-        KamarMandiCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        idText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KamarMandiCheckBoxActionPerformed(evt);
+                idTextActionPerformed(evt);
             }
         });
-
-        ACCheckBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        ACCheckBox.setForeground(new java.awt.Color(51, 51, 0));
-        ACCheckBox.setText("AC");
-        ACCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ACCheckBoxActionPerformed(evt);
-            }
-        });
-
-        WIFICheckBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        WIFICheckBox.setForeground(new java.awt.Color(51, 51, 0));
-        WIFICheckBox.setText("WIFI");
 
         javax.swing.GroupLayout idPanelLayout = new javax.swing.GroupLayout(idPanel);
         idPanel.setLayout(idPanelLayout);
@@ -415,37 +326,29 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(idPanelLayout.createSequentialGroup()
-                        .addComponent(KamarMandiCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(ACCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(WIFICheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(FasilitasText))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(idLabel)
+                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         idPanelLayout.setVerticalGroup(
             idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(FasilitasText)
-                .addGap(18, 18, 18)
-                .addGroup(idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(KamarMandiCheckBox)
-                    .addComponent(ACCheckBox)
-                    .addComponent(WIFICheckBox))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(idLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         idPanel2.setBackground(new java.awt.Color(214, 232, 219));
 
-        IdKamarText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        IdKamarText.setForeground(new java.awt.Color(51, 51, 0));
-        IdKamarText.setText("ID Kamar");
+        idLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel2.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel2.setText("ID Pemesanan");
 
-        IDkamarCombobox.addActionListener(new java.awt.event.ActionListener() {
+        idText2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IDkamarComboboxActionPerformed(evt);
+                idText2ActionPerformed(evt);
             }
         });
 
@@ -456,30 +359,29 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(IDkamarCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdKamarText))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(idLabel2)
+                    .addComponent(idText2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         idPanel2Layout.setVerticalGroup(
             idPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(IdKamarText)
+                .addComponent(idLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(IDkamarCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
         idPanel4.setBackground(new java.awt.Color(214, 232, 219));
 
-        StatusText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        StatusText.setForeground(new java.awt.Color(51, 51, 0));
-        StatusText.setText("Status");
+        idLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel10.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel10.setText("Tanggal Keluar");
 
-        StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
-        StatusComboBox.addActionListener(new java.awt.event.ActionListener() {
+        idText4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatusComboBoxActionPerformed(evt);
+                idText4ActionPerformed(evt);
             }
         });
 
@@ -490,25 +392,25 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(StatusText))
+                    .addComponent(idLabel10)
+                    .addComponent(idText4, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         idPanel4Layout.setVerticalGroup(
             idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(StatusText)
+                .addComponent(idLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idText4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
         idPanel5.setBackground(new java.awt.Color(214, 232, 219));
 
-        DeskripsiText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        DeskripsiText.setForeground(new java.awt.Color(51, 51, 0));
-        DeskripsiText.setText("Deskripsi");
+        idLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel11.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel11.setText("Tanggal Masuk");
 
         idText5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -523,7 +425,7 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel5Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DeskripsiText)
+                    .addComponent(idLabel11)
                     .addComponent(idText5, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -531,21 +433,54 @@ public class Kamar extends javax.swing.JFrame {
             idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel5Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(DeskripsiText)
+                .addComponent(idLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(idText5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        idPanel6.setBackground(new java.awt.Color(214, 232, 219));
+
+        idLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel12.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel12.setText("ID Pelanggaran");
+
+        idText6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idText6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout idPanel6Layout = new javax.swing.GroupLayout(idPanel6);
+        idPanel6.setLayout(idPanel6Layout);
+        idPanel6Layout.setHorizontalGroup(
+            idPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel6Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(idPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(idLabel12)
+                    .addComponent(idText6, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        idPanel6Layout.setVerticalGroup(
+            idPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel6Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(idLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(idText6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
         idPanel3.setBackground(new java.awt.Color(214, 232, 219));
 
-        HargaSewaText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        HargaSewaText.setForeground(new java.awt.Color(51, 51, 0));
-        HargaSewaText.setText("Harga Sewa");
+        idLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel9.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel9.setText("ID Kamar");
 
-        HargaPanel.addActionListener(new java.awt.event.ActionListener() {
+        idText3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HargaPanelActionPerformed(evt);
+                idText3ActionPerformed(evt);
             }
         });
 
@@ -556,29 +491,29 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(idPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(idPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HargaSewaText)
-                    .addComponent(HargaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idLabel9)
+                    .addComponent(idText3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         idPanel3Layout.setVerticalGroup(
             idPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(HargaSewaText)
+                .addComponent(idLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(HargaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID Kamar", "Fasilitas", "Harga Sewa", "Deskripsi", "Status"
+                "ID Pesanan", "ID Penghuni", "ID Kamar", "Tanggal Masuk", "Tanggal Keluar", "ID Pelanggaran", "Status"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -640,6 +575,40 @@ public class Kamar extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        idPanel7.setBackground(new java.awt.Color(214, 232, 219));
+
+        idLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel13.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel13.setText("Status");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aktif", "Tidak Aktif" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout idPanel7Layout = new javax.swing.GroupLayout(idPanel7);
+        idPanel7.setLayout(idPanel7Layout);
+        idPanel7Layout.setHorizontalGroup(
+            idPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel7Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(idPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idLabel13))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        idPanel7Layout.setVerticalGroup(
+            idPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel7Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(idLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -647,29 +616,31 @@ public class Kamar extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(idPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(idPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(idPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(idPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(idPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(idPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(456, 456, 456)
+                        .addGap(484, 484, 484)
                         .addComponent(SaveBtn)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CancelBtn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(639, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(KamarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 744, Short.MAX_VALUE))
+                .addComponent(AdminPnel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(KamarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AdminPnel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -681,7 +652,11 @@ public class Kamar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(idPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(idPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(idPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -689,8 +664,7 @@ public class Kamar extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(SaveBtn)
-                                .addComponent(CancelBtn)))))
-                .addGap(83, 83, 83))
+                                .addComponent(CancelBtn))))))
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -732,7 +706,7 @@ public class Kamar extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ruanganLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ruanganLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1466, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -747,94 +721,65 @@ public class Kamar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
-        // TODO add your handling code here:
-        setComponent(false);
-        setEditDeleteBtn(false);
-        clearText();
+        
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-                                            
-        clearText();
-        //showKamar();
-        setComponent(false);
-        setEditDeleteBtn(false);
+                                       
     
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void buttonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTambahActionPerformed
-        setComponent(true);
-        clearText();
-        action = "addKamar";
+        
     }//GEN-LAST:event_buttonTambahActionPerformed
 
     private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
-        //tableKamar.setModel(kc.showDataKamar(cariField.getText()));
+        
     }//GEN-LAST:event_cariButtonActionPerformed
 
     private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
-        setComponent(true);
-        action = "editKamar";
+        
     }//GEN-LAST:event_ubahButtonActionPerformed
 
     private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
-        kc.deleteDataKamar(selectedId);
-        clearText();
-        //showKamar();
-        setComponent(false);
-        setEditDeleteBtn(false);
+        
     }//GEN-LAST:event_hapusButtonActionPerformed
 
     private void cariFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cariFieldActionPerformed
 
-    private void ACCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ACCheckBoxActionPerformed
+    private void iconKaryawanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconKaryawanMouseClicked
+        
+    }//GEN-LAST:event_iconKaryawanMouseClicked
 
-    private void HargaPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HargaPanelActionPerformed
+    private void idTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_HargaPanelActionPerformed
+    }//GEN-LAST:event_idTextActionPerformed
+
+    private void idText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idText2ActionPerformed
+
+    private void idText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idText3ActionPerformed
+
+    private void idText4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idText4ActionPerformed
 
     private void idText5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idText5ActionPerformed
 
-    private void IDkamarComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDkamarComboboxActionPerformed
+    private void idText6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_IDkamarComboboxActionPerformed
+    }//GEN-LAST:event_idText6ActionPerformed
 
-    private void KamarMandiCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KamarMandiCheckBoxActionPerformed
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_KamarMandiCheckBoxActionPerformed
-
-    private void StatusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StatusComboBoxActionPerformed
-
-    private void iconPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconPemesananMouseClicked
-        // TODO add your handling code here:
-//        Pemesanan pv = new PemesananView();
-//        this.dispose();
-//        pv.setVisible(true);
-    }//GEN-LAST:event_iconPemesananMouseClicked
-
-    private void iconKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconKamarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iconKamarMouseClicked
-
-    private void iconPenghuniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconPenghuniMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iconPenghuniMouseClicked
-
-    private void iconAduanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconAduanMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iconAduanMouseClicked
-
-    private void iconPelanggaranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconPelanggaranMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iconPelanggaranMouseClicked
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -853,22 +798,14 @@ public class Kamar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Kamar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Kamar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Kamar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Kamar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -881,47 +818,56 @@ public class Kamar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Kamar().setVisible(true);
+                new Pemesanan().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox ACCheckBox;
-    private javax.swing.JLabel AduanText;
+    private javax.swing.JPanel AdminPnel;
     private javax.swing.JButton CancelBtn;
-    private javax.swing.JLabel DeskripsiText;
-    private javax.swing.JLabel FasilitasText;
-    private javax.swing.JTextField HargaPanel;
-    private javax.swing.JLabel HargaSewaText;
-    private javax.swing.JComboBox<String> IDkamarCombobox;
-    private javax.swing.JLabel IdKamarText;
-    private javax.swing.JCheckBox KamarMandiCheckBox;
-    private javax.swing.JPanel KamarPanel;
-    private javax.swing.JLabel KamarText;
-    private javax.swing.JLabel KostText;
     private javax.swing.JLabel NamaUnivText;
-    private javax.swing.JLabel PelanggaranText;
+    private javax.swing.JLabel PemesananText;
     private javax.swing.JButton SaveBtn;
-    private javax.swing.JComboBox<String> StatusComboBox;
-    private javax.swing.JLabel StatusText;
     private javax.swing.JLabel Universitastext;
-    private javax.swing.JCheckBox WIFICheckBox;
+    private javax.swing.JLabel Universitastext2;
     private javax.swing.JButton buttonTambah;
     private javax.swing.JButton cariButton;
     private javax.swing.JTextField cariField;
     private javax.swing.JButton hapusButton;
-    private javax.swing.JLabel iconAduan;
-    private javax.swing.JLabel iconKamar;
-    private javax.swing.JLabel iconPelanggaran;
-    private javax.swing.JLabel iconPemesanan;
-    private javax.swing.JLabel iconPenghuni;
+    private javax.swing.JLabel iconKaryawan;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JLabel idLabel10;
+    private javax.swing.JLabel idLabel11;
+    private javax.swing.JLabel idLabel12;
+    private javax.swing.JLabel idLabel13;
+    private javax.swing.JLabel idLabel2;
+    private javax.swing.JLabel idLabel3;
+    private javax.swing.JLabel idLabel4;
+    private javax.swing.JLabel idLabel5;
+    private javax.swing.JLabel idLabel6;
+    private javax.swing.JLabel idLabel7;
+    private javax.swing.JLabel idLabel8;
+    private javax.swing.JLabel idLabel9;
     private javax.swing.JPanel idPanel;
     private javax.swing.JPanel idPanel2;
     private javax.swing.JPanel idPanel3;
     private javax.swing.JPanel idPanel4;
     private javax.swing.JPanel idPanel5;
+    private javax.swing.JPanel idPanel6;
+    private javax.swing.JPanel idPanel7;
+    private javax.swing.JTextField idText;
+    private javax.swing.JTextField idText2;
+    private javax.swing.JTextField idText3;
+    private javax.swing.JTextField idText4;
     private javax.swing.JTextField idText5;
+    private javax.swing.JTextField idText6;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -930,9 +876,6 @@ public class Kamar extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel kamartext;
-    private javax.swing.JLabel pemesananText;
-    private javax.swing.JLabel penghuniText;
     private javax.swing.JPanel ruanganLabel;
     private javax.swing.JPanel sidebarPanel;
     private javax.swing.JButton ubahButton;
