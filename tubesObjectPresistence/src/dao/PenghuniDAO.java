@@ -6,6 +6,7 @@ package dao;
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,4 +112,34 @@ public class PenghuniDAO {
         dbCon.closeConnection();
     }
 
+    public Penghuni searchPenghuni(int id) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT * FROM penghuni WHERE id_penghuni = '" + id + "'";
+        System.out.println("Mengambil Data Penghuni ...");
+        List<Penghuni> list = new ArrayList();
+
+        Penghuni penghuni = null;
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var ResultSet = statement.getResultSet();
+            while (ResultSet.next()) {
+                penghuni = new Penghuni(
+                        ResultSet.getInt("id_penghuni"),
+                        ResultSet.getString("username"),
+                        ResultSet.getString("password"),
+                        ResultSet.getString("nama"),
+                        ResultSet.getString("alamat"),
+                        ResultSet.getString("no_telp")
+                );
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        } finally {
+            dbCon.closeConnection();
+        }
+        return penghuni;
+    }
 }

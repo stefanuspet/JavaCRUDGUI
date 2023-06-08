@@ -82,4 +82,26 @@ public class PelanggaranDAO {
         dbConnection.closeConnection();
         return listPelanggaran;
     }
+
+    public Pelanggaran getPelanggaran(int id_pelanggaran){
+        con = dbConnection.makeConnection();
+        Pelanggaran p = null;
+        String sql = "SELECT * FROM pelanggaran WHERE id_pelanggaran='"+id_pelanggaran+"'";
+        System.out.println("Getting Pelanggaran....");
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while (result.next()) {
+                p = new Pelanggaran(result.getInt("id_pelanggaran"),  result.getInt("denda"), result.getString("jenis_pelanggaran"));
+            }
+            System.out.println("Get " + p.getJenis_pelanggaran() + " Pelanggaran");
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("Error getting Pelanggaran...");
+            System.out.println(e);
+        }
+        dbConnection.closeConnection();
+        return p;
+    }
 }

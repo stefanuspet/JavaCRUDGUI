@@ -2,14 +2,17 @@ package dao;
 
 import connection.DbConnection;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Transaksi;
+import control.PemesananControl;
 public class TransaksiDAO {
     private DbConnection dbConnection = new DbConnection();
 
     private Connection con;
+    private PemesananControl pemesananControl = new PemesananControl();
 
     public void insertTransaksi(Transaksi t){
         con = dbConnection.makeConnection();
@@ -44,18 +47,57 @@ public class TransaksiDAO {
         dbConnection.closeConnection();
     }
     
-    public ArrayList<Transaksi>showTransaksi(){
+    public List<Transaksi> showTransaksi(String username){
+        List<Transaksi> listTransaksi = new ArrayList<>();
         con = dbConnection.makeConnection();
-        String sql ="SELECT * FROM transaksi";
-        System.out.println("Showing Transaksi...");
-        ArrayList<Transaksi>list = new ArrayList();
-        try{
-            Statement statement=con.createStatement();
-            
-        }catch(Exception e){
-            
+        String sql = "SELECT * FROM transaksi t JOIN pemesanan p ON t.id_pemesanan = p.id_pemesanan JOIN penghuni pe ON p.id_penghuni = pe.id_penghuni WHERE pe.username='"+username+"'";
+        System.out.println("Showing Transaksi....");
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while (result.next()){
+                Transaksi t = new Transaksi(
+                        result.getInt("id_transaksi"),
+                        pemesananControl.getPemesanan(result.getInt("id_pemesanan")),
+                        result.getString("jenis_pembayaran"),
+                        result.getInt("total_bayar")
+                );
+                listTransaksi.add(t);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error showing Transaksi...");
+            throw new RuntimeException(e);
         }
-        return list;
+        return listTransaksi;
+    }
+
+    public List<Transaksi> showAllTransaksi(String query){
+        List<Transaksi> listTransaksi2 = new ArrayList<>();
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM transaksi t JOIN pemesanan p ON t.id_pemesanan = p.id_pemesanan JOIN penghuni pe ON p.id_penghuni = pe.id_penghuni " +
+                "WHERE t.id_transaksi LIKE '%"+query+"%' OR p.id_pemesanan LIKE '%"+query+"%' OR pe.nama LIKE '%"+query+"%' OR t.jenis_pembayaran LIKE '%"+query+"%' OR t.total_bayar LIKE '%"+query+"%'";
+        System.out.println("Showing Transaksi....");
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while(result.next()){
+                Transaksi t = new Transaksi(
+                  result.getInt("id_transaksi"),
+                  pemesananControl.getPemesanan(result.getInt("id_pemesanan")),
+                  result.getString("jenis_pembayaran"),
+                  result.getInt("total_bayar")
+                );
+                listTransaksi2.add(t);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error showing Transaksi...");
+            throw new RuntimeException(e);
+        }
+        return listTransaksi2;
     }
     
     public void updateTransaksi(Transaksi t, int id_transaksi){
@@ -72,7 +114,5 @@ public class TransaksiDAO {
             System.out.println(e);
         }
     }
-
-    //kurang select all
 
 }

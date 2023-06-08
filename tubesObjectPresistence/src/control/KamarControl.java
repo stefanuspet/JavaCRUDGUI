@@ -10,15 +10,7 @@ public class KamarControl {
     public void insertDataKamar(Kamar k){
         kDao.insertKamar(k);
     }
-    
-//    public String showDataKamar(){
-//        List<Kamar> dataKamar = kDao.showKamar();
-//        String KamarString = "";
-//        for(int i=0; i<dataKamar.size(); i++){
-//            KamarString = KamarString + dataKamar.get(i).showKamar()+"\n";
-//        }
-//        return KamarString;
-//    }
+
     
     public void updateDataKamar(Kamar k, int id_kamar){
         kDao.updateKamar(k, id_kamar);
@@ -31,6 +23,10 @@ public class KamarControl {
     public List<Kamar>showListKamar(){
         List<Kamar> dataKamar = kDao.showKamar();
         return dataKamar;
+    }
+
+    public Kamar getKamar(int id_kamar){
+        return kDao.getKamar(id_kamar);
     }
 }
 

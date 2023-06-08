@@ -10,15 +10,7 @@ public class TransaksiControl {
     public void insertDataTransaksi(Transaksi t){
         tDao.insertTransaksi(t);
     }
-    
-//    public String showDataTransaksi(){
-//        List<Transaksi> dataTransaksi = tDao.showTransaksi();
-//        String TransaksiString= "";
-//        for(int i=0; i<dataTransaksi.size(); i++){
-//            TransaksiString =  TransaksiString + dataTransaksi.get(i).showTransaksi()+"\n";
-//        }
-//        return TransaksiString;
-//    }
+
     
     public void updateDataTransaksi(Transaksi t,int id_transaksi){
         tDao.updateTransaksi(t, id_transaksi);
@@ -28,8 +20,13 @@ public class TransaksiControl {
         tDao.deleteTransaksi(id_transaksi);
     }
     
-    public List<Transaksi> showListTransaksi(){
-        List<Transaksi>dataTransaksi = tDao.showTransaksi();
+    public List<Transaksi> showTransaksi(String username){
+        List<Transaksi>dataTransaksi = tDao.showTransaksi(username);
+        return dataTransaksi;
+    }
+
+    public List<Transaksi> showAllTransaksi(String query){
+        List<Transaksi>dataTransaksi = tDao.showAllTransaksi(query);
         return dataTransaksi;
     }
 }

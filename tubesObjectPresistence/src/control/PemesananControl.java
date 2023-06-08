@@ -10,15 +10,7 @@ public class PemesananControl {
     public void insertDataPemesanan(Pemesanan p){
         pDao.insertPemesanan(p);
     }
-    
-//    public String showDataPemesanan(){
-//        List<Pemesanan> dataPemesanan = pDao.showPemesanan();
-//        String PemesananString = "";
-//        for(int i=0; i<dataPemesanan.size(); i++){
-//            PemesananString = PemesananString + dataPemesanan.get(i).showPemesanan()+"\n";
-//        }
-//        return PemesananString;
-//    }
+
     
     public void  updateDatePemesanan(Pemesanan p, int id_pemesanan){
         pDao.updatePemesanan(p, id_pemesanan);
@@ -28,8 +20,12 @@ public class PemesananControl {
         pDao.deletePemesanan(id_pemesanan);
     }
     
-//    public List<Pemesanan> showListPemesanan(){
-//        List<Pemesanan> dataPemesanan = pDao.showPemesanan();
-//        return dataPemesanan;
-//    }
+    public List<Pemesanan> showListPemesanan(String query){
+        List<Pemesanan> dataPemesanan = pDao.showAllPemesanan(query);
+        return dataPemesanan;
+    }
+
+    public Pemesanan getPemesanan(int id_pemesanan){
+        return pDao.getPemesanan(id_pemesanan);
+    }
 }

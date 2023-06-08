@@ -11,15 +11,6 @@ public class AduanControl {
         aDao.insertAduan(a);
     }
     
-//    public String showDataAduan(){
-//        List<Aduan> dataAduan = aDao.showAduan();
-//        String AduanString ="";
-//        for(int i=0; i<dataAduan.size(); i++){
-//            AduanString = AduanString + dataAduan.get(i).showAduan()+ "\n";
-//        }
-//        return AduanString;
-//    }
-    
     public void updateDataAduan(Aduan a, int id_aduan){
         aDao.updateAduan(a, id_aduan);
     }
@@ -27,10 +18,9 @@ public class AduanControl {
     public void deleteDataAduan (int id_aduan){
         aDao.deleteAduan(id_aduan);
     }
-    
-    
-//    public List<Aduan> showListAduan(){
-//        List<Aduan> dataAduan = aDao.showAduan();
-//        return dataAduan;
-//    }
+
+    public List<Aduan> showListAduan(){
+        List<Aduan> dataAduan = aDao.showAduan();
+        return dataAduan;
+    }
 }

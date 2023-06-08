@@ -33,4 +33,8 @@ public class PenghuniControl {
         List<Penghuni> dataPenghuni = pDao.showPenghuni();
         return dataPenghuni;
     }
+
+    public Penghuni searchPenghuni (int id){
+        return pDao.searchPenghuni(id);
+    }
 }

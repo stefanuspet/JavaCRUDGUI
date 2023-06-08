@@ -87,4 +87,32 @@ public class KamarDAO {
         dbCon.closeConnection();
         return list;
     }
+
+    public Kamar getKamar(int id_kamar){
+        con = dbCon.makeConnection();
+        String sql = "SELECT * FROM kamar WHERE id_kamar='"+id_kamar+"'";
+        System.out.println("Mengambil Data Kamar ...");
+        Kamar k = null;
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    k = new Kamar(
+                            rs.getInt("id_kamar"),
+                            rs.getInt("harga_sewa"),
+                            rs.getString("fasilitas"),
+                            rs.getString("deskripsi"),
+                            rs.getString("status")
+                    );
+                }
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Error getting Kamar...");
+            System.out.println(e);
+        }
+        dbCon.closeConnection();
+        return k;
+    }
 }
