@@ -6,7 +6,7 @@ package view;
 
 /**
  *
- * @author stefa
+ * @author Fidelis Vendriko G
  */
 public class Login extends javax.swing.JFrame {
 
@@ -26,56 +26,46 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        usernameText = new javax.swing.JTextField();
-        passwordText = new javax.swing.JTextField();
-        buttonLogin = new javax.swing.JPanel();
-        Background = new javax.swing.JLabel();
+        Username = new javax.swing.JTextField();
+        Password = new javax.swing.JTextField();
+        Login = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        usernameText.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        usernameText.setBorder(null);
-        usernameText.setOpaque(true);
-        getContentPane().add(usernameText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 230, 220, 30));
-
-        passwordText.setFont(new java.awt.Font("Bookshelf Symbol 7", 0, 12)); // NOI18N
-        passwordText.setBorder(null);
-        passwordText.setOpaque(true);
-        getContentPane().add(passwordText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, 220, 30));
-
-        buttonLogin.setBackground(new java.awt.Color(0, 0, 0));
-        buttonLogin.setOpaque(false);
-        buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonLoginMouseClicked(evt);
+        Username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsernameActionPerformed(evt);
             }
         });
+        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 400, 290, 40));
+        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 549, 290, 40));
 
-        javax.swing.GroupLayout buttonLoginLayout = new javax.swing.GroupLayout(buttonLogin);
-        buttonLogin.setLayout(buttonLoginLayout);
-        buttonLoginLayout.setHorizontalGroup(
-            buttonLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+        Login.setOpaque(false);
+
+        javax.swing.GroupLayout LoginLayout = new javax.swing.GroupLayout(Login);
+        Login.setLayout(LoginLayout);
+        LoginLayout.setHorizontalGroup(
+            LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 290, Short.MAX_VALUE)
         );
-        buttonLoginLayout.setVerticalGroup(
-            buttonLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 34, Short.MAX_VALUE)
+        LoginLayout.setVerticalGroup(
+            LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
         );
 
-        getContentPane().add(buttonLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 380, 90, 34));
+        getContentPane().add(Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 760, 290, 70));
 
-        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Login.png"))); // NOI18N
-        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Tampilan Login.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, -1, 1040));
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLoginMouseClicked
+    private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
         // TODO add your handling code here:
-        System.out.println("Oke");
-    }//GEN-LAST:event_buttonLoginMouseClicked
+    }//GEN-LAST:event_UsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,9 +103,9 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Background;
-    private javax.swing.JPanel buttonLogin;
-    private javax.swing.JTextField passwordText;
-    private javax.swing.JTextField usernameText;
+    private javax.swing.JPanel Login;
+    private javax.swing.JTextField Password;
+    private javax.swing.JTextField Username;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
