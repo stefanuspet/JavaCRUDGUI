@@ -3,9 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/nayal/Downloads/TUBES%20PBO/JavaCRUDGUI/tubesObjectPresistence/src/view/Aduan.java</file>
             <file>file:/C:/Users/nayal/Downloads/TUBES%20PBO/JavaCRUDGUI/tubesObjectPresistence/src/view/Transaksi.java</file>
             <file>file:/C:/Users/nayal/Downloads/TUBES%20PBO/JavaCRUDGUI/tubesObjectPresistence/src/view/Pelanggaran.java</file>
+=======
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/Login.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/PenghuniB.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/AduanB.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/KamarB.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/TransaksiB.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/PelanggaranB.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/PemesananB.java</file>
+>>>>>>> 389187539d4733ef2b7745a28d3923b08f81f884
         </group>
     </open-files>
 </project-private>
