@@ -135,7 +135,7 @@ public class Pemesanan extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 204, 0));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/admin.png"))); // NOI18N
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/kamr.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/kamar.png"))); // NOI18N
         jLabel5.setText("                Data");
 
         idLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -258,33 +258,30 @@ public class Pemesanan extends javax.swing.JFrame {
 
         PemesananText.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
         PemesananText.setForeground(new java.awt.Color(51, 51, 0));
-        PemesananText.setText("PEMESANAN");
+        PemesananText.setText("KAMAR");
 
         javax.swing.GroupLayout AdminPnelLayout = new javax.swing.GroupLayout(AdminPnel);
         AdminPnel.setLayout(AdminPnelLayout);
         AdminPnelLayout.setHorizontalGroup(
             AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminPnelLayout.createSequentialGroup()
-                .addGap(113, 113, 113)
+                .addContainerGap(101, Short.MAX_VALUE)
                 .addComponent(PemesananText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(632, 632, 632)
                 .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cariButton)
-                .addGap(724, 724, 724))
+                .addGap(148, 148, 148))
         );
         AdminPnelLayout.setVerticalGroup(
             AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminPnelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(AdminPnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cariField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cariButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cariButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PemesananText))
                 .addGap(22, 22, 22))
-            .addGroup(AdminPnelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(PemesananText)
-                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         SaveBtn.setBackground(new java.awt.Color(214, 232, 219));
@@ -632,7 +629,7 @@ public class Pemesanan extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CancelBtn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(639, Short.MAX_VALUE))
+                .addContainerGap(636, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(AdminPnel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
