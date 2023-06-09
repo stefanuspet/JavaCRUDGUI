@@ -8,12 +8,12 @@ package view;
  *
  * @author nayal
  */
-public class PemesananB extends javax.swing.JFrame {
+public class Pemesanan extends javax.swing.JFrame {
 
     /**
      * Creates new form PemesananB
      */
-    public PemesananB() {
+    public Pemesanan() {
         initComponents();
     }
 
@@ -905,20 +905,21 @@ public class PemesananB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PemesananB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PemesananB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PemesananB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PemesananB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pemesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PemesananB().setVisible(true);
+                new Pemesanan().setVisible(true);
             }
         });
     }
@@ -942,7 +943,6 @@ public class PemesananB extends javax.swing.JFrame {
     private javax.swing.JLabel idLabel13;
     private javax.swing.JLabel idLabel14;
     private javax.swing.JLabel idLabel15;
-    private javax.swing.JLabel idLabel16;
     private javax.swing.JLabel idLabel17;
     private javax.swing.JLabel idLabel2;
     private javax.swing.JLabel idLabel3;
@@ -953,7 +953,6 @@ public class PemesananB extends javax.swing.JFrame {
     private javax.swing.JLabel idLabel8;
     private javax.swing.JLabel idLabel9;
     private javax.swing.JPanel idPanel;
-    private javax.swing.JPanel idPanel10;
     private javax.swing.JPanel idPanel11;
     private javax.swing.JPanel idPanel2;
     private javax.swing.JPanel idPanel3;
@@ -962,7 +961,6 @@ public class PemesananB extends javax.swing.JFrame {
     private javax.swing.JPanel idPanel7;
     private javax.swing.JPanel idPanel9;
     private javax.swing.JTextField idText;
-    private javax.swing.JTextField idText10;
     private javax.swing.JTextField idText11;
     private javax.swing.JTextField idText2;
     private javax.swing.JTextField idText3;
