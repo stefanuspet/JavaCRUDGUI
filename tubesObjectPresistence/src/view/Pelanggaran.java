@@ -8,12 +8,12 @@ package view;
  *
  * @author nayal
  */
-public class PelanggaranB extends javax.swing.JFrame {
+public class Pelanggaran extends javax.swing.JFrame {
 
     /**
      * Creates new form PelanggaranB
      */
-    public PelanggaranB() {
+    public Pelanggaran() {
         initComponents();
     }
 
@@ -57,21 +57,17 @@ public class PelanggaranB extends javax.swing.JFrame {
         hapusButton = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
-        idPanel = new javax.swing.JPanel();
-        idLabel = new javax.swing.JLabel();
-        idText1 = new javax.swing.JTextField();
         idPanel2 = new javax.swing.JPanel();
         idLabel2 = new javax.swing.JLabel();
         idText = new javax.swing.JTextField();
-        idPanel5 = new javax.swing.JPanel();
-        idLabel11 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         idPanel3 = new javax.swing.JPanel();
         idLabel9 = new javax.swing.JLabel();
         idText3 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        idPanel4 = new javax.swing.JPanel();
+        idLabel10 = new javax.swing.JLabel();
+        idText4 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -358,50 +354,11 @@ public class PelanggaranB extends javax.swing.JFrame {
             }
         });
 
-        idPanel.setBackground(new java.awt.Color(214, 232, 219));
-
-        idLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel.setText("Nama Penghuni");
-
-        idText1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idText1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout idPanelLayout = new javax.swing.GroupLayout(idPanel);
-        idPanel.setLayout(idPanelLayout);
-        idPanelLayout.setHorizontalGroup(
-            idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(idPanelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(idLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, idPanelLayout.createSequentialGroup()
-                    .addContainerGap(27, Short.MAX_VALUE)
-                    .addComponent(idText1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)))
-        );
-        idPanelLayout.setVerticalGroup(
-            idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(idPanelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(idLabel)
-                .addContainerGap(65, Short.MAX_VALUE))
-            .addGroup(idPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, idPanelLayout.createSequentialGroup()
-                    .addContainerGap(53, Short.MAX_VALUE)
-                    .addComponent(idText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(27, 27, 27)))
-        );
-
         idPanel2.setBackground(new java.awt.Color(214, 232, 219));
 
         idLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         idLabel2.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel2.setText("ID Aduan");
+        idLabel2.setText("ID Pelanggaran");
 
         idText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,42 +389,11 @@ public class PelanggaranB extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        idPanel5.setBackground(new java.awt.Color(214, 232, 219));
-
-        idLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        idLabel11.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel11.setText("Deskripsi Aduan");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout idPanel5Layout = new javax.swing.GroupLayout(idPanel5);
-        idPanel5.setLayout(idPanel5Layout);
-        idPanel5Layout.setHorizontalGroup(
-            idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(idPanel5Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idLabel11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        idPanel5Layout.setVerticalGroup(
-            idPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(idPanel5Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(idLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
         idPanel3.setBackground(new java.awt.Color(214, 232, 219));
 
         idLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         idLabel9.setForeground(new java.awt.Color(51, 51, 0));
-        idLabel9.setText("Tanggal");
+        idLabel9.setText("Jenis Pelanggaran");
 
         idText3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -493,7 +419,7 @@ public class PelanggaranB extends javax.swing.JFrame {
                 .addComponent(idLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(idText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -509,18 +435,50 @@ public class PelanggaranB extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable2);
 
+        idPanel4.setBackground(new java.awt.Color(214, 232, 219));
+
+        idLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        idLabel10.setForeground(new java.awt.Color(51, 51, 0));
+        idLabel10.setText("Denda");
+
+        idText4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idText4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout idPanel4Layout = new javax.swing.GroupLayout(idPanel4);
+        idPanel4.setLayout(idPanel4Layout);
+        idPanel4Layout.setHorizontalGroup(
+            idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel4Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(idLabel10)
+                    .addComponent(idText4, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        idPanel4Layout.setVerticalGroup(
+            idPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(idLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(idText4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(idPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(idPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(idPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(idPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(SaveBtn)
@@ -541,11 +499,9 @@ public class PelanggaranB extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(idPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(idPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(idPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(idPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(idPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -642,10 +598,6 @@ public class PelanggaranB extends javax.swing.JFrame {
         //        clearText();
     }//GEN-LAST:event_CancelBtnActionPerformed
 
-    private void idText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idText1ActionPerformed
-
     private void idTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idTextActionPerformed
@@ -653,6 +605,10 @@ public class PelanggaranB extends javax.swing.JFrame {
     private void idText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idText3ActionPerformed
+
+    private void idText4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idText4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -671,20 +627,23 @@ public class PelanggaranB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PelanggaranB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pelanggaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PelanggaranB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pelanggaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PelanggaranB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pelanggaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PelanggaranB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pelanggaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PelanggaranB().setVisible(true);
+                new Pelanggaran().setVisible(true);
             }
         });
     }
@@ -701,8 +660,7 @@ public class PelanggaranB extends javax.swing.JFrame {
     private javax.swing.JButton cariButton;
     private javax.swing.JTextField cariField;
     private javax.swing.JButton hapusButton;
-    private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel idLabel11;
+    private javax.swing.JLabel idLabel10;
     private javax.swing.JLabel idLabel2;
     private javax.swing.JLabel idLabel3;
     private javax.swing.JLabel idLabel4;
@@ -711,13 +669,12 @@ public class PelanggaranB extends javax.swing.JFrame {
     private javax.swing.JLabel idLabel7;
     private javax.swing.JLabel idLabel8;
     private javax.swing.JLabel idLabel9;
-    private javax.swing.JPanel idPanel;
     private javax.swing.JPanel idPanel2;
     private javax.swing.JPanel idPanel3;
-    private javax.swing.JPanel idPanel5;
+    private javax.swing.JPanel idPanel4;
     private javax.swing.JTextField idText;
-    private javax.swing.JTextField idText1;
     private javax.swing.JTextField idText3;
+    private javax.swing.JTextField idText4;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -730,9 +687,7 @@ public class PelanggaranB extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel ruanganLabel;
     private javax.swing.JPanel sidebarPanel;
     private javax.swing.JButton ubahButton;
