@@ -611,29 +611,17 @@ public class Aduan extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cariFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariFieldActionPerformed
+    private void idText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cariFieldActionPerformed
+    }//GEN-LAST:event_idText3ActionPerformed
 
-    private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
+    private void idTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idTextActionPerformed
 
-    }//GEN-LAST:event_cariButtonActionPerformed
-
-    private void buttonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTambahActionPerformed
-
-    }//GEN-LAST:event_buttonTambahActionPerformed
-
-    private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
-
-    }//GEN-LAST:event_ubahButtonActionPerformed
-
-    private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
-
-    }//GEN-LAST:event_hapusButtonActionPerformed
-
-    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
-
-    }//GEN-LAST:event_SaveBtnActionPerformed
+    private void idText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idText1ActionPerformed
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
         // TODO add your handling code here:
@@ -642,17 +630,29 @@ public class Aduan extends javax.swing.JFrame {
         //        clearText();
     }//GEN-LAST:event_CancelBtnActionPerformed
 
-    private void idText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idText1ActionPerformed
+    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
 
-    private void idTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTextActionPerformed
+    }//GEN-LAST:event_SaveBtnActionPerformed
 
-    private void idText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idText3ActionPerformed
+    private void hapusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusButtonActionPerformed
+
+    }//GEN-LAST:event_hapusButtonActionPerformed
+
+    private void ubahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahButtonActionPerformed
+
+    }//GEN-LAST:event_ubahButtonActionPerformed
+
+    private void buttonTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTambahActionPerformed
+
+    }//GEN-LAST:event_buttonTambahActionPerformed
+
+    private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
+
+    }//GEN-LAST:event_cariButtonActionPerformed
+
+    private void cariFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_idText3ActionPerformed
+    }//GEN-LAST:event_cariFieldActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,6 +3,7 @@ package control;
 import dao.KamarDAO;
 import java.util.List;
 import model.Kamar;
+import table.KamarTable;
 
 public class KamarControl {
     private KamarDAO kDao = new KamarDAO();
@@ -27,6 +28,13 @@ public class KamarControl {
 
     public Kamar getKamar(int id_kamar){
         return kDao.getKamar(id_kamar);
+    }
+    
+    public KamarTable showTableKamar(){
+        List<Kamar> dataKamar = kDao.showKamar();
+        KamarTable kamartbl = new KamarTable(dataKamar);
+        
+        return kamartbl;
     }
 }
 
