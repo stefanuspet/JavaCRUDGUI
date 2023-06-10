@@ -44,8 +44,8 @@ public class PemesananTable extends AbstractTableModel {
                 return list.get(rowIndex).getTanggal_keluar();
             case 5:
                 return list.get(rowIndex).getPelanggaran();
-            case 6:
-                return list.get(rowIndex).getTotal();
+//            case 6:
+//                return list.get(rowIndex).getTotal();
             case 7:
                 return list.get(rowIndex).getStatus();
             default:
