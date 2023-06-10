@@ -21,8 +21,8 @@ public class PemesananDAO {
 
     public void insertPemesanan(Pemesanan p){
         con = dbConnection.makeConnection();
-        String sql ="INSERT INTO pemesanan(id_penghuni, id_kamar, tanggal_masuk, tanggal_keluar, id_pelanggaran, status) "
-                + "VALUES ('"+p.getId_penghuni()+"','"+p.getId_kamar()+"','"+p.getTanggal_masuk()+"','"+p.getTanggal_keluar()+"','"+p.getId_pelanggaran()+"','"+p.getStatus()+"')";
+        String sql = "INSERT INTO pemesanan(id_penghuni, id_kamar, tanggal_masuk, tanggal_keluar, id_pelanggaran, total, status) "
+                + "VALUES ('"+p.getId_penghuni()+"','"+p.getId_kamar()+"','"+p.getTanggal_masuk()+"','"+p.getTanggal_keluar()+"','"+p.getId_pelanggaran()+"','"+p.getTotal()+"','"+p.getStatus()+"')";
         System.out.println("Adding Pemesanan....");
         try {
             Statement statement = con.createStatement();
@@ -54,7 +54,7 @@ public class PemesananDAO {
 
     public void updatePemesanan(Pemesanan p, int id_pemesanan){
         con = dbConnection.makeConnection();
-        String sql ="UPDATE pemesanan SET id_penghuni='"+p.getId_penghuni()+"', id_kamar='"+p.getId_kamar()+"', tanggal_masuk='"+p.getTanggal_masuk()+"', tanggal_keluar='"+p.getTanggal_keluar()+"', id_pelanggaran='"+p.getId_pelanggaran()+"', status='"+p.getStatus()+"' WHERE id_pemesanan='"+id_pemesanan+"'";
+        String sql ="UPDATE pemesanan SET id_penghuni='"+p.getId_penghuni()+"', id_kamar='"+p.getId_kamar()+"', tanggal_masuk='"+p.getTanggal_masuk()+"', tanggal_keluar='"+p.getTanggal_keluar()+"', id_pelanggaran='"+p.getId_pelanggaran()+"', total='"+p.getTotal()+"', status='"+p.getStatus()+"' WHERE id_pemesanan='"+id_pemesanan+"'";
         System.out.println("Updating Pemesanan....");
         try {
             Statement statement = con.createStatement();
@@ -74,7 +74,7 @@ public class PemesananDAO {
         con = dbConnection.makeConnection();
         String sql = "SELECT * FROM pemesanan p JOIN penghuni pe ON p.id_penghuni = pe.id_penghuni JOIN " +
                 "kamar k ON p.id_kamar = k.id_kamar JOIN pelanggaran pl ON p.id_pelanggaran = pl.id_pelanggaran " +
-                "WHERE p.id LIKE '%"+query+"%' OR pe.nama LIKE '%"+query+"%' OR k.id_kamar LIKE '%"+query+"%' OR pl.jenis_pelanggaran LIKE '%"+query+"%' OR p.status LIKE '%"+query+"%'";
+                "WHERE p.id_pemesanan LIKE '%"+query+"%' OR pe.nama LIKE '%"+query+"%' OR k.nama_kamar LIKE '%"+query+"%' OR p.tanggal_masuk LIKE '%"+query+"%' OR p.tanggal_keluar LIKE '%"+query+"%' OR pl.nama_pelanggaran LIKE '%"+query+"%' OR pl.denda LIKE '%"+query+"%' OR p.total LIKE '%"+query+"%' OR p.status LIKE '%"+query+"%'";
 
         try {
             Statement statement = con.createStatement();
@@ -88,6 +88,7 @@ public class PemesananDAO {
                         result.getString("tanggal_masuk"),
                         result.getString("tanggal_keluar"),
                         plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                        result.getInt("total"),
                         result.getString("status")
                 );
                 listPemesanan.add(p);
@@ -119,6 +120,7 @@ public class PemesananDAO {
                         result.getString("tanggal_masuk"),
                         result.getString("tanggal_keluar"),
                         plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                        result.getInt("total"),
                         result.getString("status")
                 );
             }

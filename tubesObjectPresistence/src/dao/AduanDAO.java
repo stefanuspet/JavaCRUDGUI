@@ -62,10 +62,11 @@ public class AduanDAO {
     }
 
     //kurang select aduan
-    public ArrayList<Aduan> showAduan(){
+    public ArrayList<Aduan> showAduan(String query){
         con = dbConnection.makeConnection();
         ArrayList<Aduan> aduanList = new ArrayList<>();
-        String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni";
+        String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE " +
+                "a.id_aduan LIKE '%"+query+"p.nama_penghuni LIKE '%"+query+"%' OR a.tanggal LIKE '%"+query+"%' OR a.deskripsi_aduan LIKE '%"+query+"%'";
         System.out.println("Showing Aduan....");
         try {
             Statement statement = con.createStatement();
@@ -86,4 +87,28 @@ public class AduanDAO {
         return aduanList;
     }
 
+    public ArrayList<Aduan> showAduanByPenghuni(String id_penghuni, String query){
+        con = dbConnection.makeConnection();
+        ArrayList<Aduan> aduanList = new ArrayList<>();
+        String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE " +
+                "p.id_penghuni LIKE '%"+id_penghuni+"%' OR a.id_aduan LIKE '%"+query+"%' OR p.nama_penghuni LIKE '%"+query+"%' OR a.tanggal LIKE '%"+query+"%' OR a.deskripsi_aduan LIKE '%"+query+"%'";
+        System.out.println("Showing Aduan....");
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while (result.next()) {
+                Aduan aduan = new Aduan(result.getInt("id"),
+                        pc.searchPenghuni(result.getInt("id_penghuni")),
+                        result.getString("tanggal"),
+                        result.getString("deskripsi_aduan"));
+                aduanList.add(aduan);
+            }
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("Error showing Aduan...");
+            System.out.println(e);
+        }
+        return aduanList;
+    }
 }

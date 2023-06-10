@@ -20,8 +20,8 @@ public class TransaksiControl {
         tDao.deleteTransaksi(id_transaksi);
     }
     
-    public List<Transaksi> showTransaksi(String username){
-        List<Transaksi>dataTransaksi = tDao.showTransaksi(username);
+    public List<Transaksi> showTransaksiByPenghuni(String id_penghuni, String query){
+        List<Transaksi>dataTransaksi = tDao.showTransaksiByPenghuni(id_penghuni, query);
         return dataTransaksi;
     }
 

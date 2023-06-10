@@ -19,8 +19,13 @@ public class AduanControl {
         aDao.deleteAduan(id_aduan);
     }
 
-    public List<Aduan> showListAduan(){
-        List<Aduan> dataAduan = aDao.showAduan();
+    public List<Aduan> showListAduan(String query){
+        List<Aduan> dataAduan = aDao.showAduan(query);
+        return dataAduan;
+    }
+
+    public List<Aduan> showAduanByPenghuni(String id_penghuni, String query){
+        List<Aduan> dataAduan = aDao.showAduanByPenghuni(id_penghuni, query);
         return dataAduan;
     }
 }

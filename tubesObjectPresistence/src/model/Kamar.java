@@ -10,12 +10,13 @@ package model;
  */
 public class Kamar {
     private int id_kamar, harga_sewa;
-    private String fasilitas, deskripsi, status;
+    private String namaKamar, fasilitas, deskripsi, status;
 
-    public Kamar(int id_kamar, int harga_sewa, String fasilitas, String deskripsi, String status) {
+    public Kamar(int id_kamar, String namaKamar, String fasilitas, int harga_sewa, String deskripsi, String status) {
         this.id_kamar = id_kamar;
-        this.harga_sewa = harga_sewa;
+        this.namaKamar = namaKamar;
         this.fasilitas = fasilitas;
+        this.harga_sewa = harga_sewa;
         this.deskripsi = deskripsi;
         this.status = status;
     }
@@ -26,6 +27,14 @@ public class Kamar {
 
     public void setId_kamar(int id_kamar) {
         this.id_kamar = id_kamar;
+    }
+
+    public String getNamaKamar() {
+        return namaKamar;
+    }
+
+    public void setNamaKamar(String namaKamar) {
+        this.namaKamar = namaKamar;
     }
 
     public int getHarga_sewa() {

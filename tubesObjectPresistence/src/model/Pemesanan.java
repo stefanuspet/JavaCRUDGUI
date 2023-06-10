@@ -9,29 +9,31 @@ package model;
  * @author nayal
  */
 public class Pemesanan {
-    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggaran;
+    private int id_pemesanan, id_penghuni, id_kamar, id_pelanggaran, total;
     private String status, tanggal_masuk, tanggal_keluar;
     private Penghuni penghuni;
     private Kamar kamar;
     private Pelanggaran pelanggaran;
 
-    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, String tanggal_masuk, String tanggal_keluar, int id_pelanggaran,String status) {
+    public Pemesanan(int id_pemesanan, int id_penghuni, int id_kamar, String tanggal_masuk, String tanggal_keluar, int id_pelanggaran, int total, String status) {
         this.id_pemesanan = id_pemesanan;
         this.id_penghuni = id_penghuni;
         this.id_kamar = id_kamar;
         this.tanggal_masuk = tanggal_masuk;
         this.tanggal_keluar = tanggal_keluar;
         this.id_pelanggaran = id_pelanggaran;
+        this.total = total;
         this.status = status;
     }
 
-    public Pemesanan(int id_pemesanan, Penghuni penghuni, Kamar kamar, String tanggal_masuk, String tanggal_keluar, Pelanggaran pelanggaran, String status) {
+    public Pemesanan(int id_pemesanan, Penghuni penghuni, Kamar kamar, String tanggal_masuk, String tanggal_keluar, Pelanggaran pelanggaran, int total, String status) {
         this.id_pemesanan = id_pemesanan;
         this.penghuni = penghuni;
         this.kamar = kamar;
         this.tanggal_masuk = tanggal_masuk;
         this.tanggal_keluar = tanggal_keluar;
         this.pelanggaran = pelanggaran;
+        this.total = total;
         this.status = status;
     }
 
@@ -114,6 +116,14 @@ public class Pemesanan {
 
     public void setPelanggaran(Pelanggaran pelanggaran) {
         this.pelanggaran = pelanggaran;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
     
 }

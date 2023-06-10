@@ -12,8 +12,8 @@ public class KamarDAO {
     private Connection con;
     public void insertKamar(Kamar k){
         con = dbCon.makeConnection();
-        String sql ="INSERT INTO kamar(id_kamar,fasilitas, harga_sewa, deskripsi, status) "
-                + "VALUES ('"+k.getId_kamar()+"','"+k.getFasilitas()+"','"+k.getHarga_sewa()+"','"+k.getDeskripsi()+"','"+k.getStatus()+"')";
+        String sql = "INSERT INTO kamar(nama_kamar, fasilitas, harga_sewa, deskripsi, status) "
+                + "VALUES ('"+k.getNamaKamar()+"','"+k.getFasilitas()+"','"+k.getHarga_sewa()+"','"+k.getDeskripsi()+"','"+k.getStatus()+"')";
         System.out.println("Adding Kamar....");
         try {
             Statement statement = con.createStatement();
@@ -29,7 +29,8 @@ public class KamarDAO {
 
     public void updateKamar(Kamar k, int id_kamar){
         con = dbCon.makeConnection();
-        String sql ="UPDATE kamar SET fasilitas='"+k.getFasilitas()+"', harga_sewa='"+k.getHarga_sewa()+"', deskripsi='"+k.getDeskripsi()+"', status='"+k.getStatus()+"' WHERE id_kamar='"+id_kamar+"'";
+        // sql = UPDATE `kamar` SET `nama_kamar`='[value-2]',`fasilitas`='[value-3]',`harga_sewa`='[value-4]',`deskripsi`='[value-5]',`status`='[value-6]' WHERE 1
+        String sql = "UPDATE kamar SET nama_kamar='"+k.getNamaKamar()+"', fasilitas='"+k.getFasilitas()+"', harga_sewa='"+k.getHarga_sewa()+"', deskripsi='"+k.getDeskripsi()+"', status='"+k.getStatus()+"' WHERE id_kamar='"+id_kamar+"'";
         System.out.println("Updating Kamar....");
         try {
             Statement statement = con.createStatement();
@@ -71,8 +72,9 @@ public class KamarDAO {
                 while (rs.next()) {
                     Kamar k = new Kamar(
                             rs.getInt("id_kamar"),
-                            rs.getInt("harga_sewa"),
+                            rs.getString("nama_kamar"),
                             rs.getString("fasilitas"),
+                            rs.getInt("harga_sewa"),
                             rs.getString("deskripsi"),
                             rs.getString("status")
                     );
@@ -100,8 +102,9 @@ public class KamarDAO {
                 while (rs.next()) {
                     k = new Kamar(
                             rs.getInt("id_kamar"),
-                            rs.getInt("harga_sewa"),
+                            rs.getString("nama_kamar"),
                             rs.getString("fasilitas"),
+                            rs.getInt("harga_sewa"),
                             rs.getString("deskripsi"),
                             rs.getString("status")
                     );
