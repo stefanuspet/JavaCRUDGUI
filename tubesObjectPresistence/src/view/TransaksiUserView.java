@@ -475,7 +475,7 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "ID Aduan", "ID Pemesanan", "Jenis Pemesanan"
+                "ID Transaksi", "ID Pemesanan", "Jenis Pemesanan"
             }
         ));
         jScrollPane1.setViewportView(tablePelanggaranShow);

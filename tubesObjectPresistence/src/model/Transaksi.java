@@ -10,23 +10,20 @@ package model;
  */
 public class Transaksi {
     private int id_transaksi, id_pemesanan;
-    private int total_bayar;
     private String jenis_pembayaran;
 
     private Pemesanan pemesanan;
 
-    public Transaksi(int id_transaksi, int id_pemesanan, String jenis_pembayaran, int total_bayar) {
+    public Transaksi(int id_transaksi, int id_pemesanan, String jenis_pembayaran) {
         this.id_transaksi = id_transaksi;
         this.id_pemesanan = id_pemesanan;
         this.jenis_pembayaran = jenis_pembayaran;
-        this.total_bayar = total_bayar;
     }
 
-    public Transaksi(int id_transaksi, Pemesanan pemesanan, String jenis_pembayaran, int total_bayar) {
+    public Transaksi(int id_transaksi, Pemesanan pemesanan, String jenis_pembayaran) {
         this.id_transaksi = id_transaksi;
         this.pemesanan = pemesanan;
         this.jenis_pembayaran = jenis_pembayaran;
-        this.total_bayar = total_bayar;
     }
 
     public int getId_transaksi() {
@@ -51,14 +48,6 @@ public class Transaksi {
 
     public void setJenis_pembayaran(String jenis_pembayaran) {
         this.jenis_pembayaran = jenis_pembayaran;
-    }
-
-    public int getTotal_bayar() {
-        return total_bayar;
-    }
-
-    public void setTotal_bayar(int total_bayar) {
-        this.total_bayar = total_bayar;
     }
     
     public Pemesanan getPemesanan() {

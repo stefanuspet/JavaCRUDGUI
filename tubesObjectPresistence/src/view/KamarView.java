@@ -82,7 +82,7 @@ public class KamarView extends javax.swing.JFrame {
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         StatusLocation.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        StatusLocation.setText("Pemesanan");
+        StatusLocation.setText("Kamar");
 
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
