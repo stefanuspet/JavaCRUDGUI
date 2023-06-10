@@ -9,20 +9,20 @@ import table.KamarTable;
 import control.KamarControl;
 import java.util.List;
 import javax.swing.JOptionPane;
-import model.Kamar;
+
 
 /**
  *
  * @author nayal
  */
-public class KamarView extends javax.swing.JFrame {
+public class Kamar extends javax.swing.JFrame {
 
     /**
      * Creates new form blabla
      */
     private KamarControl kamarCtrl;
     List<Kamar> listKamar;
-    public KamarView() {
+    public Kamar() {
         initComponents();
         setComponent(true);
         kamarCtrl =new KamarControl();
@@ -111,7 +111,6 @@ public class KamarView extends javax.swing.JFrame {
         tableShowKamar = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1035, 650));
         setResizable(false);
 
         ruanganLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -859,7 +858,7 @@ public class KamarView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new KamarView().setVisible(true);
+                new Kamar().setVisible(true);
             }
         });
     }
