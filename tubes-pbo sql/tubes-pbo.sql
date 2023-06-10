@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2023 at 10:53 AM
+-- Generation Time: Jun 10, 2023 at 07:59 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `aduan` (
   `id_aduan` int(6) NOT NULL,
   `id_penghuni` int(6) NOT NULL,
+  `tanggal` varchar(20) NOT NULL,
   `deskripsi_aduan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,6 +42,7 @@ CREATE TABLE `aduan` (
 
 CREATE TABLE `kamar` (
   `id_kamar` int(3) NOT NULL,
+  `nama_kamar` varchar(255) NOT NULL,
   `fasilitas` varchar(255) NOT NULL,
   `harga_sewa` int(255) NOT NULL,
   `deskripsi` varchar(255) NOT NULL,
@@ -62,17 +64,6 @@ CREATE TABLE `pelanggaran` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pembayaran`
---
-
-CREATE TABLE `pembayaran` (
-  `id_pembayaran` int(4) NOT NULL,
-  `jenis_pembayaran` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pemesanan`
 --
 
@@ -80,8 +71,10 @@ CREATE TABLE `pemesanan` (
   `id_pemesanan` int(6) NOT NULL,
   `id_penghuni` int(6) NOT NULL,
   `id_kamar` int(3) NOT NULL,
-  `lama_sewa` int(255) NOT NULL,
+  `tanggal_masuk` varchar(255) NOT NULL,
+  `tanggal_keluar` varchar(255) NOT NULL,
   `id_pelanggaran` int(4) NOT NULL,
+  `total` int(255) NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -97,9 +90,7 @@ CREATE TABLE `penghuni` (
   `password` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `alamat` varchar(255) NOT NULL,
-  `no_telp` varchar(14) NOT NULL,
-  `tanggal_masuk` varchar(20) NOT NULL,
-  `tanggal_keluar` varchar(20) NOT NULL
+  `no_telp` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -111,8 +102,7 @@ CREATE TABLE `penghuni` (
 CREATE TABLE `transaksi` (
   `id_transaksi` int(6) NOT NULL,
   `id_pemesanan` int(6) NOT NULL,
-  `id_pembayaran` int(4) NOT NULL,
-  `total_bayar` int(255) NOT NULL
+  `jenis_pembayaran` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -136,12 +126,6 @@ ALTER TABLE `kamar`
 --
 ALTER TABLE `pelanggaran`
   ADD PRIMARY KEY (`id_pelanggaran`);
-
---
--- Indexes for table `pembayaran`
---
-ALTER TABLE `pembayaran`
-  ADD PRIMARY KEY (`id_pembayaran`);
 
 --
 -- Indexes for table `pemesanan`
@@ -172,10 +156,22 @@ ALTER TABLE `aduan`
   MODIFY `id_aduan` int(6) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `pelanggaran`
+--
+ALTER TABLE `pelanggaran`
+  MODIFY `id_pelanggaran` int(4) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
   MODIFY `id_pemesanan` int(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `penghuni`
+--
+ALTER TABLE `penghuni`
+  MODIFY `id_penghuni` int(6) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
