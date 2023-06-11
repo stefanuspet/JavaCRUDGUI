@@ -69,6 +69,8 @@ public class Kamar {
         this.status = status;
     }
     
-    
+    public String toString(){
+        return this.namaKamar;
+    }
     
 }

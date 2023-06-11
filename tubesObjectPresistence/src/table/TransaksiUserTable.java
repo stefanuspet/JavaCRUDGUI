@@ -37,6 +37,8 @@ public class TransaksiUserTable extends AbstractTableModel{
             case 1:
                 return list.get(rowIndex).getId_pemesanan();
             case 2:
+                return  list.get(rowIndex).getPemesanan().getPenghuni().getNama();
+            case 3:
                 return list.get(rowIndex).getJenis_pembayaran();
             default:
                 return null;
@@ -51,6 +53,8 @@ public class TransaksiUserTable extends AbstractTableModel{
             case 1:
                 return "ID Pemesanan";
             case 2:
+                return "Nama Penghuni";
+            case 3:
                 return "Jenis Pemesanan";
 
             default:

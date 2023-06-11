@@ -42,6 +42,8 @@ public class Pelanggaran {
         this.jenis_pelanggaran = jenis_pelanggaran;
     }
     
-    
+    public String toString(){
+        return jenis_pelanggaran;
+    }
     
 }
