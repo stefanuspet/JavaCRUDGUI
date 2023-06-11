@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2023 at 07:59 AM
+-- Generation Time: Jun 11, 2023 at 03:45 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -154,6 +154,12 @@ ALTER TABLE `transaksi`
 --
 ALTER TABLE `aduan`
   MODIFY `id_aduan` int(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `kamar`
+--
+ALTER TABLE `kamar`
+  MODIFY `id_kamar` int(3) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pelanggaran`
