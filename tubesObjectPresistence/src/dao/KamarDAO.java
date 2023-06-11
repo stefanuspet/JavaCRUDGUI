@@ -7,10 +7,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Kamar;
+
 public class KamarDAO {
+
     private DbConnection dbCon = new DbConnection();
     private Connection con;
-    public void insertKamar(Kamar k){
+
+    public void insertKamar(Kamar k) {
         con = dbCon.makeConnection();
         String sql = "INSERT INTO kamar(nama_kamar, fasilitas, harga_sewa, deskripsi, status) "
                 + "VALUES ('"+k.getNamaKamar()+"','"+k.getFasilitas()+"','"+k.getHarga_sewa()+"','"+k.getDeskripsi()+"','"+k.getStatus()+"')";
@@ -27,7 +30,7 @@ public class KamarDAO {
         dbCon.closeConnection();
     }
 
-    public void updateKamar(Kamar k, int id_kamar){
+    public void updateKamar(Kamar k, int id_kamar) {
         con = dbCon.makeConnection();
         // sql = UPDATE `kamar` SET `nama_kamar`='[value-2]',`fasilitas`='[value-3]',`harga_sewa`='[value-4]',`deskripsi`='[value-5]',`status`='[value-6]' WHERE 1
         String sql = "UPDATE kamar SET nama_kamar='"+k.getNamaKamar()+"', fasilitas='"+k.getFasilitas()+"', harga_sewa='"+k.getHarga_sewa()+"', deskripsi='"+k.getDeskripsi()+"', status='"+k.getStatus()+"' WHERE id_kamar='"+id_kamar+"'";
@@ -44,9 +47,9 @@ public class KamarDAO {
         dbCon.closeConnection();
     }
 
-    public void deleteKamar(int id_kamar){
+    public void deleteKamar(int id_kamar) {
         con = dbCon.makeConnection();
-        String sql ="DELETE FROM kamar WHERE id_kamar='"+id_kamar+"'";
+        String sql = "DELETE FROM kamar WHERE id_kamar='" + id_kamar + "'";
         System.out.println("Deleting Kamar....");
         try {
             Statement statement = con.createStatement();
@@ -60,7 +63,7 @@ public class KamarDAO {
         dbCon.closeConnection();
     }
 
-    public ArrayList<Kamar> showKamar(){
+    public ArrayList<Kamar> showKamar() {
         con = dbCon.makeConnection();
         String sql = "SELECT * FROM kamar";
         System.out.println("Mengambil Data Kamar ...");
@@ -90,9 +93,9 @@ public class KamarDAO {
         return list;
     }
 
-    public Kamar getKamar(int id_kamar){
+    public Kamar getKamar(int id_kamar) {
         con = dbCon.makeConnection();
-        String sql = "SELECT * FROM kamar WHERE id_kamar='"+id_kamar+"'";
+        String sql = "SELECT * FROM kamar WHERE id_kamar='" + id_kamar + "'";
         System.out.println("Mengambil Data Kamar ...");
         Kamar k = null;
         try {
