@@ -3,18 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import connection.DbConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import control.PenghuniControl;
+import javax.swing.JOptionPane;
+import model.Penghuni;
 /**
  *
  * @author Fidelis Vendriko G
  */
 public class Login extends javax.swing.JFrame {
-
+    private PenghuniControl penghuniControl;
+    DbConnection dbCon = new DbConnection();
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    Object set = null;
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        penghuniControl = new PenghuniControl();
     }
 
     /**
@@ -36,9 +48,9 @@ public class Login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         UsernameText = new javax.swing.JTextField();
-        Passwordtext = new javax.swing.JTextField();
         Login = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        Passwordtext = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -106,15 +118,20 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        Login.setText("LOGIN");
+        Login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/illustHome.png"))); // NOI18N
+
         Passwordtext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PasswordtextActionPerformed(evt);
             }
         });
-
-        Login.setText("LOGIN");
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/illustHome.png"))); // NOI18N
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
@@ -131,18 +148,17 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(121, 121, 121))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createSequentialGroup()
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(UsernameText)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createSequentialGroup()
+                                .addComponent(Login)
+                                .addGap(63, 63, 63))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createSequentialGroup()
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel7))
                                 .addGap(147, 147, 147))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(Passwordtext, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(UsernameText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createSequentialGroup()
-                                .addComponent(Login)
-                                .addGap(63, 63, 63)))
+                            .addComponent(Passwordtext))
                         .addGap(92, 92, 92))))
         );
         BackgroundLayout.setVerticalGroup(
@@ -174,7 +190,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -184,6 +200,38 @@ public class Login extends javax.swing.JFrame {
     private void UsernameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UsernameTextActionPerformed
+
+    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+        // TODO add your handling code here:
+        String pwd = new String(Passwordtext.getPassword());
+        if (UsernameText.getText().equals("Admin") && pwd.equals("Admin")) {
+            JOptionPane.showMessageDialog(null, "Berhasil Login Sebagai Admin");
+            PemesananView adm = new PemesananView();
+            adm.setVisible(true);
+            this.dispose();
+        } else {
+            conn = dbCon.makeConnection();
+            String sql = "SELECT * FROM penghuni WHERE username=? AND password=?";
+
+            try {
+                pst = (PreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, UsernameText.getText());
+                pst.setString(2, pwd);
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Berhasil Login");
+                    TransaksiUserView start = new TransaksiUserView();
+                    start.setVisible(true);
+                    this.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Username / Passowrd salah", "pesan", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                System.out.println("eror");
+            }
+        }
+    }//GEN-LAST:event_LoginActionPerformed
 
     private void PasswordtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordtextActionPerformed
         // TODO add your handling code here:
@@ -227,7 +275,7 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JButton Login;
-    private javax.swing.JTextField Passwordtext;
+    private javax.swing.JPasswordField Passwordtext;
     private javax.swing.JTextField UsernameText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
