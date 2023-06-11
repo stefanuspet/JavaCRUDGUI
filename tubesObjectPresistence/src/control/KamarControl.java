@@ -47,4 +47,10 @@ public class KamarControl {
         
         return kamartbl;
     }
+    
+    public KamarTable searchTableKamar(String query){
+        List<Kamar> dataKamar = kDao.searchKamarTable(query);
+        KamarTable kamarTable = new KamarTable(dataKamar);
+        return kamarTable;
+    }
 }

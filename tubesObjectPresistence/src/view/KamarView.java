@@ -3,16 +3,67 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import control.KamarControl;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.Kamar;
+import table.KamarTable;
+
 /**
  *
  * @author stefa
  */
 public class KamarView extends javax.swing.JFrame {
+
     /**
      * Creates new form AdminView
      */
+    private KamarControl kmrCtrl;
+    int selectedId = 0;
+    String action = "";
+
     public KamarView() {
         initComponents();
+        setComponent(false);
+        setEditDeletebtn(false);
+        clearText();
+        kmrCtrl = new KamarControl();
+        idKamarText.setEnabled(false);
+        showKamar();
+    }
+
+    public void showKamar() {
+        tableShowKamar.setModel(kmrCtrl.showTableKamar());
+    }
+
+    public void setComponent(boolean value) {
+        namaKamarText.setEnabled(value);
+        KamarMandiCheckBox.setEnabled(value);
+        ACCheckBox.setEnabled(value);
+        WIFICheckBox1.setEnabled(value);
+        StatusCombo.setEnabled(value);
+        deskripsiText.setEnabled(value);
+        hargaKamarText.setEnabled(value);
+
+        Savebtn.setEnabled(value);
+        cancelbtn.setEnabled(value);
+    }
+
+    public void setEditDeletebtn(boolean value) {
+        editBtn.setEnabled(value);
+        deleteBtn.setEnabled(value);
+    }
+
+    public void clearText() {
+        idKamarText.setText("");
+        namaKamarText.setText("");
+        deskripsiText.setText("");
+        hargaKamarText.setText("");
+
+        KamarMandiCheckBox.setSelected(false);
+        WIFICheckBox1.setSelected(false);
+        ACCheckBox.setSelected(false);
     }
 
     /**
@@ -27,8 +78,8 @@ public class KamarView extends javax.swing.JFrame {
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -37,44 +88,52 @@ public class KamarView extends javax.swing.JFrame {
         ACCheckBox = new javax.swing.JCheckBox();
         WIFICheckBox1 = new javax.swing.JCheckBox();
         jPanel13 = new javax.swing.JPanel();
-        idText = new javax.swing.JTextField();
+        idKamarText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        dendaText = new javax.swing.JTextField();
+        namaKamarText = new javax.swing.JTextField();
         Savebtn = new javax.swing.JButton();
         cancelbtn = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        StatusCombo = new javax.swing.JComboBox<>();
         jPanel15 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        deskripsiText = new javax.swing.JTextArea();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        hargaKamarText = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePelanggaranShow = new javax.swing.JTable();
-        NavPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
+        tableShowKamar = new javax.swing.JTable();
+        searchText = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
+        NavPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        KamarNav = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        NavPenghuni = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jPanel23 = new javax.swing.JPanel();
+        NavPelanggaran = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        jPanel24 = new javax.swing.JPanel();
+        Navtransaksi = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        NavAduan = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        NavPemesanan = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+        setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -84,14 +143,29 @@ public class KamarView extends javax.swing.JFrame {
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Tambah");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ubah");
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(139, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Hapus");
+        deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Hapus");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jPanel9.setOpaque(false);
 
@@ -162,7 +236,7 @@ public class KamarView extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addContainerGap())
         );
@@ -172,13 +246,13 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel17.setOpaque(false);
 
-        jLabel13.setText("Harga Kamar");
+        jLabel13.setText("Nama Kamar");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -188,7 +262,7 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(namaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -197,19 +271,29 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(namaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         cancelbtn.setText("Cancel");
+        cancelbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelbtnActionPerformed(evt);
+            }
+        });
 
         jPanel20.setOpaque(false);
 
         jLabel16.setText("Status");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kosong", "Terisi", " " }));
+        StatusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kosong", "Terisi" }));
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -219,7 +303,7 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jComboBox4, 0, 162, Short.MAX_VALUE)
+                        .addComponent(StatusCombo, 0, 162, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addComponent(jLabel16)
@@ -231,7 +315,7 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(StatusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -239,11 +323,9 @@ public class KamarView extends javax.swing.JFrame {
 
         jLabel11.setText("Deskripsi Pesanan");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        deskripsiText.setColumns(10);
+        deskripsiText.setRows(5);
+        jScrollPane2.setViewportView(deskripsiText);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -252,9 +334,11 @@ public class KamarView extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,8 +346,33 @@ public class KamarView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        jPanel18.setOpaque(false);
+
+        jLabel14.setText("Harga Kamar");
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(hargaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hargaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -272,23 +381,20 @@ public class KamarView extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(Savebtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cancelbtn)))
-                        .addContainerGap())
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(Savebtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cancelbtn))
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,32 +405,41 @@ public class KamarView extends javax.swing.JFrame {
                     .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Savebtn)
                     .addComponent(cancelbtn))
-                .addGap(118, 118, 118))
+                .addGap(64, 64, 64))
         );
 
         jPanel11.setBackground(new java.awt.Color(242, 20, 255));
         jPanel11.setOpaque(false);
 
-        tablePelanggaranShow.setModel(new javax.swing.table.DefaultTableModel(
+        tableShowKamar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID Kamar", "Fasilitas", "Deskripsi Pesanan", "Harga Kamar", "Status"
+                "ID Kamar", "Nama Kamar", "Fasilitas", "Deskripsi Pesanan", "Harga Kamar", "Status"
             }
         ));
-        jScrollPane1.setViewportView(tablePelanggaranShow);
+        tableShowKamar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowKamarMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableShowKamar);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -338,7 +453,7 @@ public class KamarView extends javax.swing.JFrame {
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -357,11 +472,26 @@ public class KamarView extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 5, Short.MAX_VALUE))
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        searchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextActionPerformed(evt);
+            }
+        });
+
+        searchBtn.setText("Cari");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
@@ -373,9 +503,13 @@ public class KamarView extends javax.swing.JFrame {
                     .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(deleteBtn)
+                        .addGap(225, 225, 225)
+                        .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchBtn))
                     .addComponent(StatusLocation)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -388,53 +522,60 @@ public class KamarView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn)
+                    .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(104, Short.MAX_VALUE))
+        );
+
+        NavPanel1.setBackground(new java.awt.Color(41, 128, 185));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Atma Jaya Kost");
+
+        KamarNav.setBackground(new java.awt.Color(13, 82, 128));
+        KamarNav.setForeground(new java.awt.Color(13, 82, 128));
+        KamarNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Kamar");
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Room.png"))); // NOI18N
+
+        javax.swing.GroupLayout KamarNavLayout = new javax.swing.GroupLayout(KamarNav);
+        KamarNav.setLayout(KamarNavLayout);
+        KamarNavLayout.setHorizontalGroup(
+            KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(KamarNavLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        KamarNavLayout.setVerticalGroup(
+            KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KamarNavLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavPanel.setBackground(new java.awt.Color(41, 128, 185));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Atma Jaya Kost");
-
-        jPanel4.setBackground(new java.awt.Color(13, 82, 128));
-        jPanel4.setForeground(new java.awt.Color(13, 82, 128));
-        jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Kamar");
-
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Room.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        jPanel21.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPenghuni.setBackground(new java.awt.Color(21, 108, 165));
+        NavPenghuni.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPenghuni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavPenghuniMouseClicked(evt);
+            }
+        });
 
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -443,28 +584,33 @@ public class KamarView extends javax.swing.JFrame {
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Penghuni.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+        javax.swing.GroupLayout NavPenghuniLayout = new javax.swing.GroupLayout(NavPenghuni);
+        NavPenghuni.setLayout(NavPenghuniLayout);
+        NavPenghuniLayout.setHorizontalGroup(
+            NavPenghuniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPenghuniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+        NavPenghuniLayout.setVerticalGroup(
+            NavPenghuniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPenghuniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel27)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel26)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jPanel23.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel23.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPelanggaran.setBackground(new java.awt.Color(21, 108, 165));
+        NavPelanggaran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPelanggaran.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavPelanggaranMouseClicked(evt);
+            }
+        });
 
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -473,28 +619,33 @@ public class KamarView extends javax.swing.JFrame {
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pelanggaran.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout NavPelanggaranLayout = new javax.swing.GroupLayout(NavPelanggaran);
+        NavPelanggaran.setLayout(NavPelanggaranLayout);
+        NavPelanggaranLayout.setHorizontalGroup(
+            NavPelanggaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPelanggaranLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+        NavPelanggaranLayout.setVerticalGroup(
+            NavPelanggaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPelanggaranLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel30)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel24.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Navtransaksi.setBackground(new java.awt.Color(21, 108, 165));
+        Navtransaksi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Navtransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavtransaksiMouseClicked(evt);
+            }
+        });
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -503,30 +654,36 @@ public class KamarView extends javax.swing.JFrame {
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pemesanan.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout NavtransaksiLayout = new javax.swing.GroupLayout(Navtransaksi);
+        Navtransaksi.setLayout(NavtransaksiLayout);
+        NavtransaksiLayout.setHorizontalGroup(
+            NavtransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavtransaksiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+        NavtransaksiLayout.setVerticalGroup(
+            NavtransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavtransaksiLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel33)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel32)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jPanel2.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel2.setAlignmentX(0.0F);
-        jPanel2.setAlignmentY(0.0F);
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        NavAduan.setBackground(new java.awt.Color(21, 108, 165));
+        NavAduan.setAlignmentX(0.0F);
+        NavAduan.setAlignmentY(0.0F);
+        NavAduan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavAduan.setPreferredSize(new java.awt.Dimension(100, 100));
+        NavAduan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavAduanMouseClicked(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -536,31 +693,36 @@ public class KamarView extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout NavAduanLayout = new javax.swing.GroupLayout(NavAduan);
+        NavAduan.setLayout(NavAduanLayout);
+        NavAduanLayout.setHorizontalGroup(
+            NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(NavAduanLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        NavAduanLayout.setVerticalGroup(
+            NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jPanel5.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPemesanan.setBackground(new java.awt.Color(21, 108, 165));
+        NavPemesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavPemesanan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavPemesananMouseClicked(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -569,62 +731,60 @@ public class KamarView extends javax.swing.JFrame {
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Transaksi.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout NavPemesananLayout = new javax.swing.GroupLayout(NavPemesanan);
+        NavPemesanan.setLayout(NavPemesananLayout);
+        NavPemesananLayout.setHorizontalGroup(
+            NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavPemesananLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                .addGroup(NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+        NavPemesananLayout.setVerticalGroup(
+            NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPemesananLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
 
-        javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
-        NavPanel.setLayout(NavPanelLayout);
-        NavPanelLayout.setHorizontalGroup(
-            NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout NavPanel1Layout = new javax.swing.GroupLayout(NavPanel1);
+        NavPanel1.setLayout(NavPanel1Layout);
+        NavPanel1Layout.setHorizontalGroup(
+            NavPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavPanel1Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addComponent(jLabel1)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavPemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KamarNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavAduan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Navtransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
-        NavPanelLayout.setVerticalGroup(
-            NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavPanelLayout.createSequentialGroup()
-                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(NavPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1))
-                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        NavPanel1Layout.setVerticalGroup(
+            NavPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addComponent(NavAduan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(NavPenghuni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, NavPanel1Layout.createSequentialGroup()
+                    .addGap(24, 24, 24)
+                    .addComponent(jLabel2))
+                .addComponent(NavPemesanan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(KamarNav, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(NavPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Navtransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -632,24 +792,20 @@ public class KamarView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(NavPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(NavPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(NavPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BodyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(NavPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(BodyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void KamarMandiCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KamarMandiCheckBoxActionPerformed
         // TODO add your handling code here:
@@ -658,6 +814,254 @@ public class KamarView extends javax.swing.JFrame {
     private void ACCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ACCheckBoxActionPerformed
+
+    private void NavPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPemesananMouseClicked
+        // TODO add your handling code here:
+        PemesananView pv = new PemesananView();
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_NavPemesananMouseClicked
+
+    private void NavPenghuniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPenghuniMouseClicked
+        // TODO add your handling code here:
+        PenghuniView pv = new PenghuniView();
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_NavPenghuniMouseClicked
+
+    private void NavAduanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAduanMouseClicked
+        // TODO add your handling code here:
+        AduanAdminView adv = new AduanAdminView();
+        this.dispose();
+        adv.setVisible(true);
+    }//GEN-LAST:event_NavAduanMouseClicked
+
+    private void NavPelanggaranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPelanggaranMouseClicked
+        // TODO add your handling code here:
+        PelanggaranView pv = new PelanggaranView();
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_NavPelanggaranMouseClicked
+
+    private void NavtransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavtransaksiMouseClicked
+        // TODO add your handling code here:
+        TransaksiAdminView tav = new TransaksiAdminView();
+        this.dispose();
+        tav.setVisible(true);
+    }//GEN-LAST:event_NavtransaksiMouseClicked
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        clearText();
+        setComponent(true);
+        setEditDeletebtn(false);
+        idKamarText.setText("Auto_increment");
+        idKamarText.setEnabled(false);
+//        searchText.setText("Cari Berdasarkan Nama");
+        action = "add";
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
+        // TODO add your handling code here:
+        if (action.equals("add")) {
+            clearText();
+            setEditDeletebtn(false);
+            setComponent(false);
+        } else if (action.equals("edit")) {
+            clearText();
+            setComponent(false);
+            int clickedRow = tableShowKamar.getSelectedRow();
+            TableModel tableModel = tableShowKamar.getModel();
+
+            selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+            idKamarText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+            namaKamarText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+//            fa.setText(tableModel.getValueAt(clickedRow, 2).toString());
+            hargaKamarText.setText(tableModel.getValueAt(clickedRow, 3).toString());
+            deskripsiText.setText(tableModel.getValueAt(clickedRow, 4).toString());
+            StatusCombo.setSelectedItem(tableModel.getValueAt(clickedRow, 5).toString());
+
+        }
+    }//GEN-LAST:event_cancelbtnActionPerformed
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+        String fasilitas = "";
+        if (KamarMandiCheckBox.isSelected()) {
+            fasilitas = "Kamar Mandi Dalam, ";
+            if (ACCheckBox.isSelected()) {
+                fasilitas = fasilitas + "AC, ";
+                if (WIFICheckBox1.isSelected()) {
+                    fasilitas = fasilitas + "Wifi";
+                }
+            } else {
+                if (WIFICheckBox1.isSelected()) {
+                    fasilitas = fasilitas + "Wifi";
+                }
+            }
+        } else {
+            if (ACCheckBox.isSelected()) {
+                fasilitas = fasilitas + "AC, ";
+                if (WIFICheckBox1.isSelected()) {
+                    fasilitas = fasilitas + "Wifi";
+                }
+            } else {
+                if (WIFICheckBox1.isSelected()) {
+                    fasilitas = fasilitas + "Wifi";
+                }
+            }
+        }
+        try {
+            if (action.equals("add")) {
+                Kamar k = new Kamar(0, namaKamarText.getText(), fasilitas, Integer.parseInt(hargaKamarText.getText()), deskripsiText.getText(), (String) StatusCombo.getSelectedItem());
+                kmrCtrl.insertDataKamar(k);
+            } else if (action.equals("edit")) {
+                Kamar k = new Kamar(selectedId, namaKamarText.getText(), fasilitas, Integer.parseInt(hargaKamarText.getText()), deskripsiText.getText(), (String) StatusCombo.getSelectedItem());
+                kmrCtrl.updateDataKamar(k, selectedId);
+            }
+
+            clearText();
+            showKamar();
+            setComponent(false);
+            setEditDeletebtn(false);
+//            searchText.setText("Cari Berdasarkan Nama");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "EROR");
+        }
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void tableShowKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowKamarMouseClicked
+        // TODO add your handling code here:
+        int indexpenghuni = -1;
+        setEditDeletebtn(true);
+        setComponent(false);
+
+        int clickedRow = tableShowKamar.getSelectedRow();
+        TableModel tableModel = tableShowKamar.getModel();
+
+        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idKamarText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        namaKamarText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+
+        String kmd = "Kamar Mandi Dalam,";
+        String Ac = "AC,";
+        String wifi = "Wifi";
+        String fasilitas = tableModel.getValueAt(clickedRow, 2).toString();
+        if (fasilitas.contains(kmd)) {
+            KamarMandiCheckBox.setSelected(true);
+            if (fasilitas.contains(Ac)) {
+                ACCheckBox.setSelected(true);
+                if (fasilitas.contains(wifi)) {
+                    WIFICheckBox1.setSelected(true);
+                } else {
+                    WIFICheckBox1.setSelected(false);
+                }
+            } else {
+                ACCheckBox.setSelected(false);
+                if (fasilitas.contains(wifi)) {
+                    WIFICheckBox1.setSelected(true);
+                } else {
+                    WIFICheckBox1.setSelected(false);
+                }
+            }
+        } else {
+            KamarMandiCheckBox.setSelected(false);
+            if (fasilitas.contains(Ac)) {
+                ACCheckBox.setSelected(true);
+                if (fasilitas.contains(wifi)) {
+                    WIFICheckBox1.setSelected(true);
+                } else {
+                    WIFICheckBox1.setSelected(false);
+                }
+            } else {
+                ACCheckBox.setSelected(false);
+                if (fasilitas.contains(wifi)) {
+                    WIFICheckBox1.setSelected(true);
+                } else {
+                    WIFICheckBox1.setSelected(false);
+                }
+            }
+        }
+        hargaKamarText.setText(tableModel.getValueAt(clickedRow, 3).toString());
+        deskripsiText.setText(tableModel.getValueAt(clickedRow, 4).toString());
+
+        String Status = tableModel.getValueAt(clickedRow, 5).toString();
+        StatusCombo.setSelectedItem(tableModel.getValueAt(clickedRow, 5).toString());
+    }//GEN-LAST:event_tableShowKamarMouseClicked
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+        action = "edit";
+        setComponent(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Apakah yakin ingin menghapus data ?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION);
+        switch (getAnswer) {
+            case 0:
+                try {
+                kmrCtrl.deleteDataKamar(selectedId);
+                clearText();
+                showKamar();
+                setComponent(false);
+                setEditDeletebtn(false);
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+            } catch (Exception e) {
+                System.out.println("Error : " + e.getMessage());
+            }
+            break;
+
+            case 1:
+                JOptionPane.showMessageDialog(null, "Data tidak jadi dihapus!");
+                break;
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void searchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            KamarTable kt = kmrCtrl.searchTableKamar(searchText.getText());
+            if (kt.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tableShowKamar.setModel(kt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchTextActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            KamarTable kt = kmrCtrl.searchTableKamar(searchText.getText());
+            if (kt.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tableShowKamar.setModel(kt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -699,33 +1103,41 @@ public class KamarView extends javax.swing.JFrame {
     private javax.swing.JCheckBox ACCheckBox;
     private javax.swing.JPanel BodyPanel;
     private javax.swing.JCheckBox KamarMandiCheckBox;
-    private javax.swing.JPanel NavPanel;
+    private javax.swing.JPanel KamarNav;
+    private javax.swing.JPanel NavAduan;
+    private javax.swing.JPanel NavPanel1;
+    private javax.swing.JPanel NavPelanggaran;
+    private javax.swing.JPanel NavPemesanan;
+    private javax.swing.JPanel NavPenghuni;
+    private javax.swing.JPanel Navtransaksi;
     private javax.swing.JButton Savebtn;
+    private javax.swing.JComboBox<String> StatusCombo;
     private javax.swing.JLabel StatusLocation;
     private javax.swing.JCheckBox WIFICheckBox1;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelbtn;
-    private javax.swing.JTextField dendaText;
-    private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JTextArea deskripsiText;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField hargaKamarText;
+    private javax.swing.JTextField idKamarText;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
@@ -734,16 +1146,14 @@ public class KamarView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTable tablePelanggaranShow;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField namaKamarText;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchText;
+    private javax.swing.JTable tableShowKamar;
     // End of variables declaration//GEN-END:variables
 }

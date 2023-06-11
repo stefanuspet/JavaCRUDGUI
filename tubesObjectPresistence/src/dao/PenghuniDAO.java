@@ -146,9 +146,10 @@ public class PenghuniDAO {
         return penghuni;
     }
 
-    public List<Penghuni> searchPenghuniTable(String nama) {
+    public List<Penghuni> searchPenghuniTable(String query) {
         con = dbCon.makeConnection();
-        String sql = "SELECT * FROM penghuni WHERE nama LIKE '" + nama + "%'";
+        String sql = "SELECT * FROM penghuni WHERE nama LIKE '%" + query + "%' OR id_penghuni LIKE '%"+ query +"%'"
+                + "OR alamat LIKE '%"+query+"%' OR no_telp LIKE '%"+query+"%'";
         System.out.println("Mengambil Data Penghuni ...");
         List<Penghuni> list = new ArrayList();
         try {

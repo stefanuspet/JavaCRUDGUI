@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import connection.DbConnection;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author stefa
@@ -11,8 +17,32 @@ public class TransaksiUserView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
-    public TransaksiUserView() {
+    private DbConnection dbCon = new DbConnection();
+    private Connection con;
+    
+    public TransaksiUserView(String usr) {
         initComponents();
+        cekLoginName(usr);
+    }
+    
+    public void cekLoginName(String usr){
+        con = dbCon.makeConnection();
+        String sql ="SELECT nama FROM penghuni WHERE username='"+usr+"'";
+        try{
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("nama");
+                    welcomeText.setText("Selamat Datang "+usr);
+                }
+            }
+            rs.close();
+            statement.close();
+        }catch(Exception e){
+            System.out.println("eror");
+        }
+        
     }
 
     /**
@@ -33,6 +63,7 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        welcomeText = new javax.swing.JLabel();
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
@@ -143,13 +174,19 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        welcomeText.setForeground(new java.awt.Color(255, 255, 255));
+        welcomeText.setText("Selamat datang user !");
+
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
         NavPanel.setLayout(NavPanelLayout);
         NavPanelLayout.setHorizontalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addComponent(jLabel1)
+                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(welcomeText))
                 .addGap(204, 204, 204)
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -160,11 +197,13 @@ public class TransaksiUserView extends javax.swing.JFrame {
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NavPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(NavPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(welcomeText)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -245,7 +284,6 @@ public class TransaksiUserView extends javax.swing.JFrame {
         cancelbtn.setText("Cancel");
 
         jPanel15.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel15.setForeground(new java.awt.Color(0, 0, 0));
         jPanel15.setOpaque(false);
 
         jLabel11.setText("Jenis Pemesanan");
@@ -643,11 +681,11 @@ public class TransaksiUserView extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TransaksiUserView().setVisible(true);
+                String usr = null;
+                new TransaksiUserView(usr).setVisible(true);
             }
         });
     }
@@ -697,5 +735,6 @@ public class TransaksiUserView extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablePelanggaranShow;
+    private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
 }

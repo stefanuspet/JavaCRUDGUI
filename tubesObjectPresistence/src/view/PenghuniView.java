@@ -21,7 +21,7 @@ public class PenghuniView extends javax.swing.JFrame {
      */
     private PenghuniControl penghunictrl;
     int selectedId = 0;
-    String action = " ";
+    String action = "";
 
     public PenghuniView() {
         initComponents();
@@ -30,7 +30,7 @@ public class PenghuniView extends javax.swing.JFrame {
         penghunictrl = new PenghuniControl();
         idPenghuniText.setEnabled(false);
         clearText();
-        searchText.setText("Cari Berdasarkan Nama");
+        
         showPenghuni();
     }
 
@@ -57,6 +57,7 @@ public class PenghuniView extends javax.swing.JFrame {
         passwordText.setText("");
         telpText.setText("");
         alamatText.setText("");
+        searchText.setText("");
     }
 
     public void showPenghuni() {
@@ -442,8 +443,6 @@ public class PenghuniView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        searchText.setForeground(new java.awt.Color(204, 204, 204));
-        searchText.setText("Cari Berdasarkan Nama");
         searchText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchTextMouseClicked(evt);
@@ -808,7 +807,6 @@ public class PenghuniView extends javax.swing.JFrame {
         setComponent(true);
         setEditDeleteBtn(false);
         idPenghuniText.setText("Auto_increment");
-        searchText.setText("Cari Berdasarkan Nama");
         action = "add";
 
     }//GEN-LAST:event_addBtnActionPerformed
@@ -849,7 +847,6 @@ public class PenghuniView extends javax.swing.JFrame {
             showPenghuni();
             setComponent(false);
             setEditDeleteBtn(false);
-            searchText.setText("Cari Berdasarkan Nama");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "EROR");
@@ -874,8 +871,6 @@ public class PenghuniView extends javax.swing.JFrame {
                 showPenghuni();
                 setComponent(false);
                 setEditDeleteBtn(false);
-                searchText.setText("Cari Berdasarkan Nama");
-
                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
             } catch (Exception e) {
                 System.out.println("Error : " + e.getMessage());
@@ -934,7 +929,6 @@ public class PenghuniView extends javax.swing.JFrame {
 
     private void searchTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTextMouseClicked
         // TODO add your handling code here:
-        searchText.setText("");
     }//GEN-LAST:event_searchTextMouseClicked
 
     private void searchTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyTyped
