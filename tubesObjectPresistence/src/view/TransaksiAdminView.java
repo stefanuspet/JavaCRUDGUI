@@ -14,7 +14,7 @@ import table.PenghuniTable;
  *
  * @author nayal
  */
-public class PenghuniView extends javax.swing.JFrame {
+public class TransaksiAdminView extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminView
@@ -23,7 +23,7 @@ public class PenghuniView extends javax.swing.JFrame {
     int selectedId = 0;
     String action = " ";
 
-    public PenghuniView() {
+    public TransaksiAdminView() {
         initComponents();
         setComponent(false);
         setEditDeleteBtn(false);
@@ -126,7 +126,6 @@ public class PenghuniView extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -613,11 +612,6 @@ public class PenghuniView extends javax.swing.JFrame {
 
         NavTransaksi.setBackground(new java.awt.Color(21, 108, 165));
         NavTransaksi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        NavTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NavTransaksiMouseClicked(evt);
-            }
-        });
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -969,13 +963,6 @@ public class PenghuniView extends javax.swing.JFrame {
         pv.setVisible(true);
     }//GEN-LAST:event_NavPelanggaranMouseClicked
 
-    private void NavTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavTransaksiMouseClicked
-        // TODO add your handling code here:
-        TransaksiAdminView tv = new TransaksiAdminView();
-        this.dispose();
-        tv.setVisible(true);
-    }//GEN-LAST:event_NavTransaksiMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -993,14 +980,18 @@ public class PenghuniView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PenghuniView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransaksiAdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PenghuniView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransaksiAdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PenghuniView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransaksiAdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PenghuniView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransaksiAdminView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1009,7 +1000,7 @@ public class PenghuniView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PenghuniView().setVisible(true);
+                new TransaksiAdminView().setVisible(true);
             }
         });
     }

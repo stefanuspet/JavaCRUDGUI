@@ -3,18 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import component.RoundedPanel;
 /**
  *
  * @author stefa
  */
 public class AduanAdminView extends javax.swing.JFrame {
-    private RoundedPanel roundedPanel;
     /**
      * Creates new form AdminView
      */
     public AduanAdminView() {
-        roundedPanel = new RoundedPanel();
         initComponents();
     }
 
@@ -204,6 +201,7 @@ public class AduanAdminView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(13, 82, 128));
         jPanel2.setAlignmentX(0.0F);
         jPanel2.setAlignmentY(0.0F);
+        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));

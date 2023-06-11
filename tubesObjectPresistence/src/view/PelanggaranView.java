@@ -3,18 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import component.RoundedPanel;
 /**
  *
  * @author stefa
  */
 public class PelanggaranView extends javax.swing.JFrame {
-    private RoundedPanel roundedPanel;
     /**
      * Creates new form AdminView
      */
     public PelanggaranView() {
-        roundedPanel = new RoundedPanel();
         initComponents();
     }
 

@@ -3,18 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import component.RoundedPanel;
 /**
  *
  * @author stefa
  */
 public class KamarView extends javax.swing.JFrame {
-    private RoundedPanel roundedPanel;
     /**
      * Creates new form AdminView
      */
     public KamarView() {
-        roundedPanel = new RoundedPanel();
         initComponents();
     }
 

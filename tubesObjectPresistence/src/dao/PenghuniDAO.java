@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dao;
+
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,18 +12,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Penghuni;
+
 /**
  *
  * @author stefa
  */
 public class PenghuniDAO {
+
     private DbConnection dbCon = new DbConnection();
     private Connection con;
-    
-    public void insertPenghuni(Penghuni p){
+
+    public void insertPenghuni(Penghuni p) {
         con = dbCon.makeConnection();
-        String sql ="INSERT INTO penghuni(username, password, nama, alamat, no_telp) "
-                + "VALUES ('"+p.getUsername()+"','"+p.getPassword()+"','"+p.getNama()+"','"+p.getAlamat()+"','"+p.getNo_telp()+"')";
+        String sql = "INSERT INTO penghuni(username, password, nama, alamat, no_telp) "
+                + "VALUES ('" + p.getUsername() + "','" + p.getPassword() + "','" + p.getNama() + "','" + p.getAlamat() + "','" + p.getNo_telp() + "')";
         System.out.println("Adding Penghuni....");
         try {
             Statement statement = con.createStatement();
@@ -35,8 +38,8 @@ public class PenghuniDAO {
         }
         dbCon.closeConnection();
     }
-    
-    public List<Penghuni> showPenghuni(){
+
+    public List<Penghuni> showPenghuni() {
         con = dbCon.makeConnection();
         String sql = "SELECT * FROM penghuni";
         System.out.println("Mengambil Data Dosen ...");
@@ -70,15 +73,15 @@ public class PenghuniDAO {
 
         return list;
     }
-    
-    public void UpdatePenghuni(Penghuni p, int id){
+
+    public void UpdatePenghuni(Penghuni p, int id) {
         con = dbCon.makeConnection();
 
-        String sql = "UPDATE penghuni SET username='"+p.getUsername()+"',"
-                + "password='"+p.getPassword()+"',"
-                + "nama='"+p.getNama()+"',"
-                + "alamat='"+p.getAlamat()+"',"
-                + "no_telp='"+p.getNo_telp()+"'"
+        String sql = "UPDATE penghuni SET username='" + p.getUsername() + "',"
+                + "password='" + p.getPassword() + "',"
+                + "nama='" + p.getNama() + "',"
+                + "alamat='" + p.getAlamat() + "',"
+                + "no_telp='" + p.getNo_telp() + "'"
                 + "WHERE id_penghuni = '" + id + "'";
         System.out.println("Editing Penghuni ...");
 
@@ -93,17 +96,17 @@ public class PenghuniDAO {
         }
         dbCon.closeConnection();
     }
-    
-    public void DeletePenghuni(String nama){
+
+    public void DeletePenghuni(int id) {
         con = dbCon.makeConnection();
 
-        String sql = "DELETE FROM penghuni WHERE id_penghuni = '"+nama+"'";
+        String sql = "DELETE FROM penghuni WHERE id_penghuni = '" + id + "'";
         System.out.println("DELETING Penghuni ...");
 
         try {
             Statement statement = con.createStatement();
             int result = statement.executeUpdate(sql);
-            System.out.println("Delete " + result + "Penghuni " + nama);
+            System.out.println("Delete " + result + "Penghuni " + id);
             statement.close();
         } catch (Exception e) {
             System.out.println("Error deleting Database...");
@@ -141,5 +144,37 @@ public class PenghuniDAO {
             dbCon.closeConnection();
         }
         return penghuni;
+    }
+
+    public List<Penghuni> searchPenghuniTable(String nama) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT * FROM penghuni WHERE nama LIKE '" + nama + "%'";
+        System.out.println("Mengambil Data Penghuni ...");
+        List<Penghuni> list = new ArrayList();
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    Penghuni p = new Penghuni(
+                            rs.getInt("id_penghuni"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("nama"),
+                            rs.getString("alamat"),
+                            rs.getString("no_telp")
+                    );
+                    
+                    list.add(p);
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        }
+        dbCon.closeConnection();
+        return list;
     }
 }

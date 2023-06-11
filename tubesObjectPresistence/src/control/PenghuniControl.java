@@ -4,6 +4,7 @@ package control;
 import dao.PenghuniDAO;
 import java.util.List;
 import model.Penghuni;
+import table.PenghuniTable;
 
 public class PenghuniControl {
     private PenghuniDAO pDao = new PenghuniDAO();
@@ -25,16 +26,29 @@ public class PenghuniControl {
         pDao.UpdatePenghuni(p, id);
     }
 
-    public void deleteDataPenghuni(String nama) {
-        pDao.DeletePenghuni(nama);
+    public void deleteDataPenghuni(int id) {
+        pDao.DeletePenghuni(id);
     }
     
     public List<Penghuni> showListPenghuni(){
         List<Penghuni> dataPenghuni = pDao.showPenghuni();
         return dataPenghuni;
     }
+    
+    public PenghuniTable showTablePenghuni() {
+        List<Penghuni> dataPenghuni = pDao.showPenghuni();
+        PenghuniTable penghuniTable = new PenghuniTable(dataPenghuni);
+        
+        return penghuniTable;
+    }
 
     public Penghuni searchPenghuni (int id){
         return pDao.searchPenghuni(id);
+    }
+    
+    public PenghuniTable searchPenghuniTable (String nama){
+        List<Penghuni> dataPenghunis = pDao.searchPenghuniTable(nama);
+        PenghuniTable penghuniTable = new PenghuniTable(dataPenghunis);
+        return penghuniTable;
     }
 }
