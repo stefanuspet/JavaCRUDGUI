@@ -72,5 +72,8 @@ public class Penghuni {
     public String showPenghuni(){
         return this.username +"|"+ this.password +"|"+ this.nama +"|"+ this.alamat +"|"+ this.no_telp;
     }
-    
+
+    public String toString(){
+        return this.nama;
+    }
 }

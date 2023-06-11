@@ -35,19 +35,27 @@ public class PemesananTable extends AbstractTableModel {
             case 0:
                 return list.get(rowIndex).getId_pemesanan();
             case 1:
-                return list.get(rowIndex).getId_penghuni();
+                return list.get(rowIndex).getPenghuni().getNama();
             case 2:
-                return list.get(rowIndex).getId_kamar();
+                return list.get(rowIndex).getKamar().getNamaKamar();
             case 3:
                 return list.get(rowIndex).getTanggal_masuk();
             case 4:
                 return list.get(rowIndex).getTanggal_keluar();
             case 5:
-                return list.get(rowIndex).getPelanggaran();
-//            case 6:
-//                return list.get(rowIndex).getTotal();
+                return list.get(rowIndex).getPelanggaran().getJenis_pelanggaran();
+            case 6:
+                return list.get(rowIndex).getPelanggaran().getDenda();
             case 7:
+                return list.get(rowIndex).getTotal();
+            case 8:
                 return list.get(rowIndex).getStatus();
+            case 9:
+                return list.get(rowIndex).getId_penghuni();
+            case 10:
+                return list.get(rowIndex).getId_kamar();
+            case 11:
+                return list.get(rowIndex).getId_pelanggaran();
             default:
                 return null;
         }
@@ -59,18 +67,20 @@ public class PemesananTable extends AbstractTableModel {
             case 0:
                 return "ID Pemesanan";
             case 1:
-                return "ID Penghuni";
+                return "Nama Penghuni";
             case 2:
-                return "ID Kamar";
+                return "Nama Kamar";
             case 3:
                 return "Tanggal Masuk";
             case 4:
                 return "Tanggal Keluar";
             case 5:
-                return "ID Pelanggaran";
+                return "Pelanggaran";
             case 6:
-                return "Total";
+                return "Denda";
             case 7:
+                return "Total";
+            case 8:
                 return "Status";
             default:
                 return null;

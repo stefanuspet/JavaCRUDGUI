@@ -35,11 +35,13 @@ public class AduanAdminTable extends AbstractTableModel{
             case 0:
                 return list.get(rowIndex).getId_aduan();
             case 1:
-                return list.get(rowIndex).getId_penghuni();
+                return list.get(rowIndex).getPenghuni().getNama();
             case 2:
                 return list.get(rowIndex).getTanggal();
             case 3:
                 return list.get(rowIndex).getDeskripsi_aduan();
+            case 4:
+                return list.get(rowIndex).getId_penghuni();
             default:
                 return null;
         }
@@ -51,14 +53,11 @@ public class AduanAdminTable extends AbstractTableModel{
             case 0:
                 return "ID Aduan";
             case 1:
-                return "ID Penghuni";
+                return "Nama Penghuni";
             case 2:
                 return "Tanggal";
             case 3:
-                return "Deskripsi";
-            case 4:
                 return "Deskripsi Aduan";
-
             default:
                 return null;
         }

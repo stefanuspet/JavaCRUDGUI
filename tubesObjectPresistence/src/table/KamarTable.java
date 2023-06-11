@@ -33,12 +33,14 @@ public class KamarTable extends AbstractTableModel{
             case 0:
                 return list.get(rowIndex).getId_kamar();
             case 1:
-                return list.get(rowIndex).getFasilitas();
+                return list.get(rowIndex).getNamaKamar();
             case 2:
-                return list.get(rowIndex).getHarga_sewa();
+                return list.get(rowIndex).getFasilitas();
             case 3:
-                return list.get(rowIndex).getDeskripsi();
+                return list.get(rowIndex).getHarga_sewa();
             case 4:
+                return list.get(rowIndex).getDeskripsi();
+            case 5:
                 return list.get(rowIndex).getStatus();
             default:
                 return null;
@@ -51,14 +53,15 @@ public class KamarTable extends AbstractTableModel{
             case 0:
                 return "ID Kamar";
             case 1:
-                return "Fasilitas";
+                return "Nama Kamar";
             case 2:
-                return "Harga Sewa";
+                return "Fasilitas";
             case 3:
-                return "Deskripsi";
+                return "Harga Sewa";
             case 4:
+                return "Deskripsi";
+            case 5:
                 return "Status";
-
             default:
                 return null;
         }
