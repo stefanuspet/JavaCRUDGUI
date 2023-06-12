@@ -67,6 +67,22 @@ public class PemesananDAO {
         }
         dbConnection.closeConnection();
     }
+     
+    public void updateStatus(Pemesanan p, int id_pemesanan){
+        con = dbConnection.makeConnection();
+        String sql ="UPDATE pemesanan SET status='"+p.getStatus()+"' WHERE id_pemesanan='"+id_pemesanan+"'";
+        System.out.println("Updating Pemesanan....");
+        try {
+            Statement statement = con.createStatement();
+            int result = statement.executeUpdate(sql);
+            System.out.println("Updated " + result + "Pemesanan");
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("Error updating Pemesanan...");
+            System.out.println(e);
+        }
+        dbConnection.closeConnection();
+    }
 
     //kurang select all
     public List<Pemesanan> showAllPemesanan(String query){

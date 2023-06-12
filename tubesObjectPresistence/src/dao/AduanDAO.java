@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Aduan;
 import control.PenghuniControl;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.Kamar;
 public class AduanDAO {
+    
     private DbConnection dbConnection = new DbConnection();
     private Connection con;
 
@@ -90,15 +94,14 @@ public class AduanDAO {
     public ArrayList<Aduan> showAduanByPenghuni(String id_penghuni, String query){
         con = dbConnection.makeConnection();
         ArrayList<Aduan> aduanList = new ArrayList<>();
-        String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE " +
-                "p.id_penghuni LIKE '%"+id_penghuni+"%' OR a.id_aduan LIKE '%"+query+"%' OR p.nama_penghuni LIKE '%"+query+"%' OR a.tanggal LIKE '%"+query+"%' OR a.deskripsi_aduan LIKE '%"+query+"%'";
+        String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE p.id_penghuni = '"+id_penghuni+"'";
         System.out.println("Showing Aduan....");
         try {
             Statement statement = con.createStatement();
             statement.executeQuery(sql);
             var result = statement.getResultSet();
             while (result.next()) {
-                Aduan aduan = new Aduan(result.getInt("id"),
+                Aduan aduan = new Aduan(result.getInt("id_aduan"),
                         pc.searchPenghuni(result.getInt("id_penghuni")),
                         result.getString("tanggal"),
                         result.getString("deskripsi_aduan"));
@@ -110,5 +113,36 @@ public class AduanDAO {
             System.out.println(e);
         }
         return aduanList;
+    }
+    
+    public List<Aduan> searchAduanTable(String query,String id_penghuni) {
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM aduan WHERE (id_penghuni = '"+id_penghuni+"') OR (id_aduan LIKE '%"+query+"%'  OR tanggal LIKE '%"+query+"%' OR deskripsi_aduan LIKE '%"+query+"%')";
+        System.out.println("Mengambil Data Penghuni ...");
+        List<Aduan> list = new ArrayList();
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    Aduan a = new Aduan(
+                            rs.getInt("id_aduan"),
+                            rs.getInt("id_penghuni"),
+                            rs.getString("tanggal"),
+                            rs.getString("deskripsi_aduan")
+                            
+                    );
+
+                    list.add(a);
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        }
+        dbConnection.closeConnection();
+        return list;
     }
 }

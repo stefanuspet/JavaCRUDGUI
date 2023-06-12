@@ -3,6 +3,7 @@ package control;
 import dao.AduanDAO;
 import java.util.List;
 import model.Aduan;
+import table.AduanUserTable;
 
 public class AduanControl {
     private AduanDAO aDao = new AduanDAO();
@@ -24,8 +25,15 @@ public class AduanControl {
         return dataAduan;
     }
 
-    public List<Aduan> showAduanByPenghuni(String id_penghuni, String query){
+    public AduanUserTable showAduanByPenghuni(String id_penghuni, String query){
         List<Aduan> dataAduan = aDao.showAduanByPenghuni(id_penghuni, query);
-        return dataAduan;
+        AduanUserTable aduanUserTable = new AduanUserTable(dataAduan);
+        return aduanUserTable;
+    }
+    
+    public AduanUserTable searchAduan(String id, String query){
+        List<Aduan> dataAduan = aDao.searchAduanTable(id,query);
+        AduanUserTable aduanUserTable = new AduanUserTable(dataAduan);
+        return aduanUserTable;
     }
 }

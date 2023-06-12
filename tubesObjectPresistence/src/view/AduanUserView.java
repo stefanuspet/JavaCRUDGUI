@@ -4,12 +4,20 @@
  */
 package view;
 
+import control.AduanControl;
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.Pelanggaran;
+import model.Aduan;
+import model.Penghuni;
+import table.KamarTable;
+import table.AduanUserTable;
 
 /**
  *
@@ -24,6 +32,8 @@ public class AduanUserView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
+    private AduanControl ACtrl;
+    int selectedId = 0;
     private DbConnection dbCon = new DbConnection();
     private Connection con;
     String action = null;
@@ -31,14 +41,20 @@ public class AduanUserView extends javax.swing.JFrame {
     public AduanUserView(String usr) {
         initComponents();
         cekLoginName(usr);
+        ACtrl = new AduanControl();
         this.user = usr;
+        AduanShow();
         setComponent(false);
-        setEditDeleteBtn(false);
+        setEditDeletebtn(false);
         idAduanText.setEnabled(false);
-//        idPenghuniText.setEnabled(false);
+//        idAduanText.setEnabled(false);
         tanggalText.setEnabled(false);
 
     }
+    public void AduanShow(){
+        TableAduanShow.setModel(ACtrl.showAduanByPenghuni(cekIdUser(user), ""));
+    }
+    
 
     public void cekLoginName(String usr) {
         con = dbCon.makeConnection();
@@ -85,7 +101,7 @@ public class AduanUserView extends javax.swing.JFrame {
         cancelbtn.setEnabled(value);
     }
 
-    public void setEditDeleteBtn(boolean value) {
+    public void setEditDeletebtn(boolean value) {
         editBtn.setEnabled(value);
         deleteBtn.setEnabled(value);
     }
@@ -133,9 +149,9 @@ public class AduanUserView extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePelanggaranShow = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        TableAduanShow = new javax.swing.JTable();
+        SearchButon = new javax.swing.JButton();
+        SearchText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -213,7 +229,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -266,10 +282,20 @@ public class AduanUserView extends javax.swing.JFrame {
         editBtn.setBackground(new java.awt.Color(255, 204, 0));
         editBtn.setForeground(new java.awt.Color(255, 255, 255));
         editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
         deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("Hapus");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jPanel9.setOpaque(false);
 
@@ -277,6 +303,12 @@ public class AduanUserView extends javax.swing.JFrame {
         jPanel10.setOpaque(false);
 
         jPanel13.setOpaque(false);
+
+        idAduanText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idAduanTextActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("ID Aduan");
 
@@ -335,10 +367,21 @@ public class AduanUserView extends javax.swing.JFrame {
         );
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         cancelbtn.setText("Cancel");
 
         jPanel15.setOpaque(false);
+
+        tanggalText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tanggalTextActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Tanggal ");
 
@@ -404,7 +447,7 @@ public class AduanUserView extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(242, 20, 255));
         jPanel11.setOpaque(false);
 
-        tablePelanggaranShow.setModel(new javax.swing.table.DefaultTableModel(
+        TableAduanShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -415,7 +458,12 @@ public class AduanUserView extends javax.swing.JFrame {
                 "ID Aduan", "ID Penghuni", "Tanggal", "Deskripsi Aduan"
             }
         ));
-        jScrollPane1.setViewportView(tablePelanggaranShow);
+        TableAduanShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableAduanShowMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TableAduanShow);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -451,7 +499,18 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cari");
+        SearchButon.setText("Cari");
+        SearchButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchButonActionPerformed(evt);
+            }
+        });
+
+        SearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchTextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
@@ -472,9 +531,9 @@ public class AduanUserView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(deleteBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addComponent(SearchButon)
                         .addGap(16, 16, 16))))
         );
         BodyPanelLayout.setVerticalGroup(
@@ -487,11 +546,11 @@ public class AduanUserView extends javax.swing.JFrame {
                     .addComponent(addButton)
                     .addComponent(editBtn)
                     .addComponent(deleteBtn)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SearchButon)
+                    .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -519,10 +578,9 @@ public class AduanUserView extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        setEditDeleteBtn(false);
+        setEditDeletebtn(false);
         setComponent(true);
         action = "add";
-//        idPenghuniText.setText(cekIdUser(user));
         idAduanText.setText("Auto Increment");
         tanggalText.setText(formattedDateTime);
     }//GEN-LAST:event_addButtonActionPerformed
@@ -533,6 +591,122 @@ public class AduanUserView extends javax.swing.JFrame {
         start.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_transaksiNavMouseClicked
+
+    private void idAduanTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idAduanTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idAduanTextActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+        action= "edit";
+        setComponent(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Apakah yakin ingin menghapus data ?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION);
+        switch (getAnswer) {
+            case 0:
+                try {
+                ACtrl.deleteDataAduan(selectedId);
+                clearText();
+                AduanShow();
+                setComponent(false);
+                setEditDeletebtn(false);
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+            } catch (Exception e) {
+                System.out.println("Error : " + e.getMessage());
+            }
+                break;
+                
+                case 1:
+                JOptionPane.showMessageDialog(null, "Data tidak jadi dihapus!");
+                break;
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void tanggalTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tanggalTextActionPerformed
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+       try {
+            if (action.equals("add")) {
+                Aduan a = new Aduan(0, Integer.parseInt(cekIdUser(user)), tanggalText.getText(), deskripsiText.getText());
+                ACtrl.insertDataAduan(a);
+            } else if (action.equals("edit")) {
+                Aduan a = new Aduan (selectedId, Integer.parseInt(cekIdUser(user)), tanggalText.getText(), deskripsiText.getText());
+                ACtrl.updateDataAduan(a, selectedId);
+            }
+
+            clearText();
+            AduanShow();
+            setComponent(false);
+            setEditDeletebtn(false);
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void TableAduanShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableAduanShowMouseClicked
+        // TODO add your handling code here:
+        int indexAduanUser = -1;
+        setEditDeletebtn(true);
+        setComponent(false);
+
+        int clickedRow = TableAduanShow.getSelectedRow();
+        TableModel tableModel = TableAduanShow.getModel();
+
+        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idAduanText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        tanggalText.setText(tableModel.getValueAt(clickedRow, 2).toString());
+        deskripsiText.setText(tableModel.getValueAt(clickedRow, 3).toString());
+    }//GEN-LAST:event_TableAduanShowMouseClicked
+
+    private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            AduanUserTable aut = ACtrl.searchAduan(cekIdUser(user),SearchText.getText());
+            if (aut.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                TableAduanShow.setModel(aut);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_SearchTextActionPerformed
+
+    private void SearchButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButonActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            AduanUserTable aut = ACtrl.searchAduan(cekIdUser(user),SearchText.getText());
+            if (aut.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                TableAduanShow.setModel(aut);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_SearchButonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -581,14 +755,16 @@ public class AduanUserView extends javax.swing.JFrame {
     private javax.swing.JPanel BodyPanel;
     private javax.swing.JPanel NavPanel;
     private javax.swing.JButton Savebtn;
+    private javax.swing.JButton SearchButon;
+    private javax.swing.JTextField SearchText;
     private javax.swing.JLabel StatusLocation;
+    private javax.swing.JTable TableAduanShow;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelbtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField deskripsiText;
     private javax.swing.JButton editBtn;
     private javax.swing.JTextField idAduanText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -605,8 +781,6 @@ public class AduanUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTable tablePelanggaranShow;
     private javax.swing.JTextField tanggalText;
     private javax.swing.JPanel transaksiNav;
     private javax.swing.JLabel welcomeText;

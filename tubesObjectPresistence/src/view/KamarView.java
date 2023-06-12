@@ -132,7 +132,6 @@ public class KamarView extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -226,6 +225,12 @@ public class KamarView extends javax.swing.JFrame {
         );
 
         jPanel13.setOpaque(false);
+
+        idKamarText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idKamarTextActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("ID Kamar");
 
@@ -779,7 +784,7 @@ public class KamarView extends javax.swing.JFrame {
         NavPanel1Layout.setVerticalGroup(
             NavPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(NavAduan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(NavAduan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                 .addComponent(NavPenghuni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, NavPanel1Layout.createSequentialGroup()
                     .addGap(24, 24, 24)
@@ -1065,6 +1070,10 @@ public class KamarView extends javax.swing.JFrame {
             System.out.println("Error: " + e.getMessage());
         }
     }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void idKamarTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idKamarTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idKamarTextActionPerformed
 
     /**
      * @param args the command line arguments
