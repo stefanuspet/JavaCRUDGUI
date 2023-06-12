@@ -321,7 +321,7 @@ public class KamarView extends javax.swing.JFrame {
 
         jPanel15.setOpaque(false);
 
-        jLabel11.setText("Deskripsi Pesanan");
+        jLabel11.setText("Deskripsi Kamar");
 
         deskripsiText.setColumns(10);
         deskripsiText.setRows(5);
@@ -501,18 +501,21 @@ public class KamarView extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BodyPanelLayout.createSequentialGroup()
+                        .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(StatusLocation)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
                         .addComponent(editBtn)
                         .addGap(18, 18, 18)
                         .addComponent(deleteBtn)
-                        .addGap(225, 225, 225)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(searchBtn))
-                    .addComponent(StatusLocation)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(searchBtn)
+                        .addGap(18, 18, 18))))
         );
         BodyPanelLayout.setVerticalGroup(
             BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
