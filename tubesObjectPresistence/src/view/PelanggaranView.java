@@ -3,16 +3,57 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import control.PelanggaranControl;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.Pelanggaran;
+import table.PelanggaranTable;
+
 /**
  *
  * @author stefa
  */
 public class PelanggaranView extends javax.swing.JFrame {
+
+    private PelanggaranControl pelanggaranctrl;
+    String action = "";
+    int selectedId;
+
     /**
      * Creates new form AdminView
      */
     public PelanggaranView() {
+        pelanggaranctrl = new PelanggaranControl();
         initComponents();
+        idText.setEnabled(false);
+        setComponent(false);
+        setEditDeleteBtn(false);
+        clearText();
+        showPelanggaran();
+    }
+
+    public void setComponent(boolean value) {
+        jenisPelText.setEnabled(value);
+        dendaText.setEnabled(value);
+
+        Savebtn.setEnabled(value);
+        cancelbtn.setEnabled(value);
+    }
+
+    public void setEditDeleteBtn(boolean value) {
+        editBtn.setEnabled(value);
+        deleteBtn.setEnabled(value);
+    }
+
+    public void clearText() {
+        idText.setText("");
+        jenisPelText.setText("");
+        dendaText.setText("");
+    }
+
+    public void showPelanggaran() {
+        tablePelanggaranShow.setModel(pelanggaranctrl.showTable());
     }
 
     /**
@@ -47,8 +88,8 @@ public class PelanggaranView extends javax.swing.JFrame {
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -56,15 +97,17 @@ public class PelanggaranView extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        dendaText = new javax.swing.JTextField();
+        jenisPelText = new javax.swing.JTextField();
         Savebtn = new javax.swing.JButton();
         cancelbtn = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
-        tanggalMasukText1 = new javax.swing.JTextField();
+        dendaText = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePelanggaranShow = new javax.swing.JTable();
+        searchText = new javax.swing.JTextField();
+        searchbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -307,14 +350,29 @@ public class PelanggaranView extends javax.swing.JFrame {
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Tambah");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ubah");
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(139, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Hapus");
+        deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Hapus");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jPanel9.setOpaque(false);
 
@@ -358,7 +416,7 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jenisPelText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -367,15 +425,26 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jenisPelText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         cancelbtn.setText("Cancel");
 
         jPanel15.setOpaque(false);
+
+        dendaText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dendaTextActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Denda");
 
@@ -387,7 +456,7 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -396,7 +465,7 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -452,6 +521,11 @@ public class PelanggaranView extends javax.swing.JFrame {
                 "ID Pelanggaran", "Jenis Pelanggaran", "Denda"
             }
         ));
+        tablePelanggaranShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePelanggaranShowMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablePelanggaranShow);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -488,6 +562,19 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        searchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextActionPerformed(evt);
+            }
+        });
+
+        searchbtn.setText("Cari");
+        searchbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
         BodyPanelLayout.setHorizontalGroup(
@@ -498,9 +585,13 @@ public class PelanggaranView extends javax.swing.JFrame {
                     .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(deleteBtn)
+                        .addGap(216, 216, 216)
+                        .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchbtn))
                     .addComponent(StatusLocation)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -513,8 +604,10 @@ public class PelanggaranView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn)
+                    .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchbtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(10, Short.MAX_VALUE))
@@ -538,6 +631,128 @@ public class PelanggaranView extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void dendaTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dendaTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dendaTextActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        action = "add";
+        clearText();
+        setComponent(true);
+        setEditDeleteBtn(false);
+        idText.setText("Auto Increment");
+
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (action.equals("add")) {
+                Pelanggaran p = new Pelanggaran(0, Integer.parseInt(dendaText.getText()), jenisPelText.getText());
+                pelanggaranctrl.insertDataPelanggaran(p);
+            } else if (action.equals("edit")) {
+                Pelanggaran p = new Pelanggaran(selectedId, Integer.parseInt(dendaText.getText()), jenisPelText.getText());
+                pelanggaranctrl.updateDataPelanggaran(p, selectedId);
+            }
+
+            clearText();
+            showPelanggaran();
+            setComponent(false);
+            setEditDeleteBtn(false);
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void tablePelanggaranShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePelanggaranShowMouseClicked
+        // TODO add your handling code here:
+        int indexPelanggaran = -1;
+        setEditDeleteBtn(true);
+        setComponent(false);
+
+        int clickedRow = tablePelanggaranShow.getSelectedRow();
+        TableModel tableModel = tablePelanggaranShow.getModel();
+
+        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        jenisPelText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+        dendaText.setText(tableModel.getValueAt(clickedRow, 2).toString());
+    }//GEN-LAST:event_tablePelanggaranShowMouseClicked
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+        action = "edit";
+        setComponent(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Apakah yakin ingin menghapus data ?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION);
+        switch (getAnswer) {
+            case 0:
+                try {
+                pelanggaranctrl.deleteDataPelanggaran(selectedId);
+                clearText();
+                showPelanggaran();
+                setComponent(false);
+                setEditDeleteBtn(false);
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+            } catch (Exception e) {
+                System.out.println("Error : " + e.getMessage());
+            }
+            break;
+
+            case 1:
+                JOptionPane.showMessageDialog(null, "Data tidak jadi dihapus!");
+                break;
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void searchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextActionPerformed
+        // TODO add your handling code here:
+        setEditDeleteBtn(false);
+        setComponent(false);
+        try {
+            PelanggaranTable pt = pelanggaranctrl.searchTable(searchText.getText());
+            if (pt.getRowCount() == 0) {
+                clearText();
+                setEditDeleteBtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePelanggaranShow.setModel(pt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchTextActionPerformed
+
+    private void searchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtnActionPerformed
+        // TODO add your handling code here:
+        setEditDeleteBtn(false);
+        setComponent(false);
+        try {
+            PelanggaranTable pt = pelanggaranctrl.searchTable(searchText.getText());
+            if (pt.getRowCount() == 0) {
+                clearText();
+                setEditDeleteBtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePelanggaranShow.setModel(pt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -584,10 +799,10 @@ public class PelanggaranView extends javax.swing.JFrame {
     private javax.swing.JLabel StatusLocation;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelbtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField dendaText;
+    private javax.swing.JButton editBtn;
     private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -617,7 +832,9 @@ public class PelanggaranView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jenisPelText;
+    private javax.swing.JTextField searchText;
+    private javax.swing.JButton searchbtn;
     private javax.swing.JTable tablePelanggaranShow;
-    private javax.swing.JTextField tanggalMasukText1;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,20 +2,25 @@ package dao;
 
 import connection.DbConnection;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.Kamar;
 import model.Pelanggaran;
+import table.PelanggaranTable;
 
 public class PelanggaranDAO {
+
     private DbConnection dbConnection = new DbConnection();
 
     private Connection con;
 
-    public void insertPelanggaran(Pelanggaran p){
+    public void insertPelanggaran(Pelanggaran p) {
         con = dbConnection.makeConnection();
-        String sql ="INSERT INTO pelanggaran(jenis_pelanggaran, denda) "
-                + "VALUES ('"+p.getJenis_pelanggaran()+"','"+p.getDenda()+"')";
+        String sql = "INSERT INTO pelanggaran(jenis_pelanggaran, denda) "
+                + "VALUES ('" + p.getJenis_pelanggaran() + "','" + p.getDenda() + "')";
         System.out.println("Adding Pelanggaran....");
         try {
             Statement statement = con.createStatement();
@@ -29,9 +34,9 @@ public class PelanggaranDAO {
         dbConnection.closeConnection();
     }
 
-    public void deletePelanggaran(int id_pelanggaran){
+    public void deletePelanggaran(int id_pelanggaran) {
         con = dbConnection.makeConnection();
-        String sql ="DELETE FROM pelanggaran WHERE id_pelanggaran='"+id_pelanggaran+"'";
+        String sql = "DELETE FROM pelanggaran WHERE id_pelanggaran='" + id_pelanggaran + "'";
         System.out.println("Deleting Pelanggaran....");
         try {
             Statement statement = con.createStatement();
@@ -45,9 +50,9 @@ public class PelanggaranDAO {
         dbConnection.closeConnection();
     }
 
-    public void updatePelanggaran(Pelanggaran p, int id_pelanggaran){
+    public void updatePelanggaran(Pelanggaran p, int id_pelanggaran) {
         con = dbConnection.makeConnection();
-        String sql ="UPDATE pelanggaran SET jenis_pelanggaran='"+p.getJenis_pelanggaran()+"', denda='"+p.getDenda()+"' WHERE id_pelanggaran='"+id_pelanggaran+"'";
+        String sql = "UPDATE pelanggaran SET jenis_pelanggaran='" + p.getJenis_pelanggaran() + "', denda='" + p.getDenda() + "' WHERE id_pelanggaran='" + id_pelanggaran + "'";
         System.out.println("Updating Pelanggaran....");
         try {
             Statement statement = con.createStatement();
@@ -61,7 +66,7 @@ public class PelanggaranDAO {
         dbConnection.closeConnection();
     }
 
-    public ArrayList<Pelanggaran> showPelanggaran(){
+    public ArrayList<Pelanggaran> showPelanggaran() {
         con = dbConnection.makeConnection();
         ArrayList<Pelanggaran> listPelanggaran = new ArrayList<>();
         String sql = "SELECT * FROM pelanggaran";
@@ -70,7 +75,7 @@ public class PelanggaranDAO {
             Statement statement = con.createStatement();
             java.sql.ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
-                Pelanggaran p = new Pelanggaran(result.getInt("id_pelanggaran"),  result.getInt("denda"), result.getString("jenis_pelanggaran"));
+                Pelanggaran p = new Pelanggaran(result.getInt("id_pelanggaran"), result.getInt("denda"), result.getString("jenis_pelanggaran"));
                 listPelanggaran.add(p);
             }
             System.out.println("Show " + listPelanggaran.size() + " Pelanggaran");
@@ -83,17 +88,17 @@ public class PelanggaranDAO {
         return listPelanggaran;
     }
 
-    public Pelanggaran getPelanggaran(int id_pelanggaran){
+    public Pelanggaran getPelanggaran(int id_pelanggaran) {
         con = dbConnection.makeConnection();
         Pelanggaran p = null;
-        String sql = "SELECT * FROM pelanggaran WHERE id_pelanggaran='"+id_pelanggaran+"'";
+        String sql = "SELECT * FROM pelanggaran WHERE id_pelanggaran='" + id_pelanggaran + "'";
         System.out.println("Getting Pelanggaran....");
         try {
             Statement statement = con.createStatement();
             statement.executeQuery(sql);
             var result = statement.getResultSet();
             while (result.next()) {
-                p = new Pelanggaran(result.getInt("id_pelanggaran"),  result.getInt("denda"), result.getString("jenis_pelanggaran"));
+                p = new Pelanggaran(result.getInt("id_pelanggaran"), result.getInt("denda"), result.getString("jenis_pelanggaran"));
             }
             System.out.println("Get " + p.getJenis_pelanggaran() + " Pelanggaran");
             statement.close();
@@ -104,4 +109,34 @@ public class PelanggaranDAO {
         dbConnection.closeConnection();
         return p;
     }
+
+    public List<Pelanggaran> searchPelanggaran(String query) {
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM pelanggaran WHERE id_pelanggaran LIKE '%" + query + "%' OR jenis_pelanggaran LIKE '%" + query + "%'"
+                + "OR denda LIKE '%" + query + "%'";
+        System.out.println("Mengambil Data Pelanggaran ...");
+        List<Pelanggaran> list = new ArrayList();
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    Pelanggaran p = new Pelanggaran(rs.getInt("id_pelanggaran"),
+                            rs.getInt("denda"),
+                            rs.getString("jenis_pelanggaran")
+                    );
+
+                    list.add(p);
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        }
+        dbConnection.closeConnection();
+        return list;
+    }
+
 }
