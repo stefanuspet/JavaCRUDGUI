@@ -3,16 +3,96 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import connection.DbConnection;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author stefa
  */
 public class AduanUserView extends javax.swing.JFrame {
+
+    String user = null;
+    LocalDateTime localDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    String formattedDateTime = localDateTime.format(formatter);
     /**
      * Creates new form AdminView
      */
-    public AduanUserView() {
+    private DbConnection dbCon = new DbConnection();
+    private Connection con;
+    String action = null;
+
+    public AduanUserView(String usr) {
         initComponents();
+        cekLoginName(usr);
+        this.user = usr;
+        setComponent(false);
+        setEditDeleteBtn(false);
+        idAduanText.setEnabled(false);
+        idPenghuniText.setEnabled(false);
+        tanggalText.setEnabled(false);
+
+    }
+
+    public void cekLoginName(String usr) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT nama FROM penghuni WHERE username='" + usr + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("nama");
+                    welcomeText.setText("Selamat Datang " + usr);
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+    }
+
+    public String cekIdUser(String usr) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT id_penghuni FROM penghuni WHERE username='" + usr + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("id_penghuni");
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+
+        return usr;
+    }
+
+    public void setComponent(boolean value) {
+        deskripsiText.setEnabled(value);
+        Savebtn.setEnabled(value);
+        cancelbtn.setEnabled(value);
+    }
+
+    public void setEditDeleteBtn(boolean value) {
+        editBtn.setEnabled(value);
+        deleteBtn.setEnabled(value);
+    }
+
+    public void clearText() {
+        deskripsiText.setText("");
+        tanggalText.setText("");
     }
 
     /**
@@ -26,32 +106,33 @@ public class AduanUserView extends javax.swing.JFrame {
 
         NavPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel24 = new javax.swing.JPanel();
+        transaksiNav = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        welcomeText = new javax.swing.JLabel();
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        idText = new javax.swing.JTextField();
+        idAduanText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        deskripsiText = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        dendaText = new javax.swing.JTextField();
+        idPenghuniText = new javax.swing.JTextField();
         Savebtn = new javax.swing.JButton();
         cancelbtn = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
-        tanggalMasukText1 = new javax.swing.JTextField();
+        tanggalText = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -65,8 +146,13 @@ public class AduanUserView extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Atma Jaya Kost");
 
-        jPanel24.setBackground(new java.awt.Color(21, 108, 165));
-        jPanel24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        transaksiNav.setBackground(new java.awt.Color(21, 108, 165));
+        transaksiNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        transaksiNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transaksiNavMouseClicked(evt);
+            }
+        });
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -75,19 +161,19 @@ public class AduanUserView extends javax.swing.JFrame {
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pemesanan.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout transaksiNavLayout = new javax.swing.GroupLayout(transaksiNav);
+        transaksiNav.setLayout(transaksiNavLayout);
+        transaksiNavLayout.setHorizontalGroup(
+            transaksiNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transaksiNavLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+        transaksiNavLayout.setVerticalGroup(
+            transaksiNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transaksiNavLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabel33)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -131,15 +217,21 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        welcomeText.setForeground(new java.awt.Color(255, 255, 255));
+        welcomeText.setText("Welcome");
+
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
         NavPanel.setLayout(NavPanelLayout);
         NavPanelLayout.setHorizontalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel1)
-                .addGap(204, 204, 204)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(welcomeText)
+                    .addComponent(jLabel1))
+                .addGap(198, 198, 198)
+                .addComponent(transaksiNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -149,10 +241,12 @@ public class AduanUserView extends javax.swing.JFrame {
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(NavPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1))
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(welcomeText))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(transaksiNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -164,14 +258,19 @@ public class AduanUserView extends javax.swing.JFrame {
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Tambah");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ubah");
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
 
-        jButton3.setBackground(new java.awt.Color(139, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Hapus");
+        deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Hapus");
 
         jPanel9.setOpaque(false);
 
@@ -189,7 +288,7 @@ public class AduanUserView extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idAduanText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addContainerGap())
         );
@@ -199,7 +298,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idAduanText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -207,9 +306,9 @@ public class AduanUserView extends javax.swing.JFrame {
 
         jLabel10.setText("Deskripsi Aduan");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        deskripsiText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                deskripsiTextActionPerformed(evt);
             }
         });
 
@@ -221,7 +320,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deskripsiText, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -230,7 +329,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                .addComponent(deskripsiText, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
@@ -246,7 +345,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -255,7 +354,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -275,7 +374,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -284,7 +383,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tanggalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -389,9 +488,9 @@ public class AduanUserView extends javax.swing.JFrame {
                     .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(deleteBtn))
                     .addComponent(StatusLocation)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -404,8 +503,8 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(10, Short.MAX_VALUE))
@@ -430,9 +529,26 @@ public class AduanUserView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void deskripsiTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deskripsiTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_deskripsiTextActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        setEditDeleteBtn(false);
+        setComponent(true);
+        action = "add";
+        idPenghuniText.setText(cekIdUser(user));
+        idAduanText.setText("Auto Increment");
+        tanggalText.setText(formattedDateTime);
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void transaksiNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiNavMouseClicked
+        // TODO add your handling code here:
+        TransaksiUserView start = new TransaksiUserView(user);
+        start.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_transaksiNavMouseClicked
 
     /**
      * @param args the command line arguments
@@ -471,7 +587,8 @@ public class AduanUserView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AduanUserView().setVisible(true);
+                String usr = null;
+                new AduanUserView(usr).setVisible(true);
             }
         });
     }
@@ -483,10 +600,11 @@ public class AduanUserView extends javax.swing.JFrame {
     private javax.swing.JLabel StatusLocation;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelbtn;
-    private javax.swing.JTextField dendaText;
-    private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JTextField deskripsiText;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField idAduanText;
+    private javax.swing.JTextField idPenghuniText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -503,11 +621,11 @@ public class AduanUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tablePelanggaranShow;
-    private javax.swing.JTextField tanggalMasukText1;
+    private javax.swing.JTextField tanggalText;
+    private javax.swing.JPanel transaksiNav;
+    private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
 }

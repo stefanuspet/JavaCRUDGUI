@@ -3,23 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import control.PenghuniControl;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Fidelis Vendriko G
  */
 public class Login extends javax.swing.JFrame {
+
     private PenghuniControl penghuniControl;
     DbConnection dbCon = new DbConnection();
     Connection conn = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
     Object set = null;
+
     /**
      * Creates new form Login
      */
@@ -236,6 +240,36 @@ public class Login extends javax.swing.JFrame {
 
     private void PasswordtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordtextActionPerformed
         // TODO add your handling code here:
+        String usr = "";
+        String pwd = new String(Passwordtext.getPassword());
+        if (UsernameText.getText().equals("Admin") && pwd.equals("Admin")) {
+            JOptionPane.showMessageDialog(null, "Berhasil Login Sebagai Admin");
+            PemesananView adm = new PemesananView();
+            adm.setVisible(true);
+            this.dispose();
+        } else {
+            conn = dbCon.makeConnection();
+            String sql = "SELECT * FROM penghuni WHERE username=? AND password=?";
+
+            try {
+                usr = UsernameText.getText();
+                pst = (PreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, UsernameText.getText());
+                pst.setString(2, pwd);
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Berhasil Login");
+                    TransaksiUserView start = new TransaksiUserView(usr);
+                    start.setVisible(true);
+                    this.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Username / Passowrd salah", "pesan", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                System.out.println("eror");
+            }
+        }
     }//GEN-LAST:event_PasswordtextActionPerformed
 
     /**
