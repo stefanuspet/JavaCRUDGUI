@@ -7,13 +7,105 @@ package view;
  *
  * @author stefa
  */
+import control.AduanControl;
+import connection.DbConnection;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.Pelanggaran;
+import model.Aduan;
+import model.Penghuni;
+import table.KamarTable;
+import table.AduanAdminTable;
+
 public class AduanAdminView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
+    String admin = null;
+    LocalDateTime localDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    String formattedDateTime = localDateTime.format(formatter);
+    
+    private AduanControl ACtrl;
+    int selectedId = 0;
+    private DbConnection dbCon = new DbConnection();
+    private Connection con;
+    String action = null;
+    
     public AduanAdminView() {
         initComponents();
+//        cekLoginName(adm);
+        ACtrl = new AduanControl();
+//        this.admin = adm;
+        AduanShow();
+        setComponent(false);
+//        setEditDeletebtn(false);
+        idAduanText.setEnabled(false);
+//        idAduanText.setEnabled(false);
+
     }
+    
+    public void AduanShow(){
+        TableAduanShow.setModel(ACtrl.showAduanAdmin(""));
+    }
+    
+    public void cekLoginName(String adm) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT nama FROM penghuni WHERE username='" + adm + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    adm = rs.getString("Admin");
+                    welcomeText.setText("Selamat Datang " + adm);
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+    }
+    
+    public String cekIdAdmin(String adm) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT id_penghuni FROM penghuni WHERE username='" + adm + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    adm = rs.getString("id_penghuni");
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror");
+        }
+
+        return adm;
+    }
+
+    public void setComponent(boolean value) {
+        deskripsiText.setEnabled(value);
+        namaPenghuniText.setEnabled(false);
+        tanggalText.setEnabled(value);
+    }
+
+    public void clearText() {
+        deskripsiText.setText("");
+        tanggalText.setText("");
+        namaPenghuniText.setText("");
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,29 +136,28 @@ public class AduanAdminView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        welcomeText = new javax.swing.JLabel();
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        idText = new javax.swing.JTextField();
+        idAduanText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        deskripsiText = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        dendaText = new javax.swing.JTextField();
-        Savebtn = new javax.swing.JButton();
-        cancelbtn = new javax.swing.JButton();
+        namaPenghuniText = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
-        tanggalMasukText1 = new javax.swing.JTextField();
+        tanggalText = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePelanggaranShow = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        TableAduanShow = new javax.swing.JTable();
+        SearchButon = new javax.swing.JButton();
+        SearchText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -251,9 +342,12 @@ public class AduanAdminView extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,8 +356,12 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
+
+        welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        welcomeText.setForeground(new java.awt.Color(255, 255, 255));
+        welcomeText.setText("Welcome");
 
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
         NavPanel.setLayout(NavPanelLayout);
@@ -271,7 +369,9 @@ public class AduanAdminView extends javax.swing.JFrame {
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addComponent(jLabel1)
+                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(welcomeText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -292,9 +392,11 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(NavPanelLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(welcomeText))
                     .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                     .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -323,7 +425,7 @@ public class AduanAdminView extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idAduanText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addContainerGap())
         );
@@ -333,7 +435,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idAduanText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -341,9 +443,9 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jLabel10.setText("Deskripsi Aduan");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        deskripsiText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                deskripsiTextActionPerformed(evt);
             }
         });
 
@@ -357,7 +459,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextField1))
+                    .addComponent(deskripsiText))
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
@@ -366,7 +468,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                .addComponent(deskripsiText, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
@@ -382,7 +484,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(namaPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -391,17 +493,13 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(namaPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        Savebtn.setText("Save");
-
-        cancelbtn.setText("Cancel");
-
         jPanel15.setOpaque(false);
 
-        jLabel11.setText("Tanggal Masuk");
+        jLabel11.setText("Tanggal");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -411,7 +509,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -420,7 +518,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tanggalMasukText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tanggalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -440,13 +538,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                             .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 232, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(Savebtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cancelbtn)))
+                        .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(56, 56, 56))))
         );
         jPanel10Layout.setVerticalGroup(
@@ -460,17 +552,13 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Savebtn)
-                    .addComponent(cancelbtn))
-                .addContainerGap())
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         jPanel11.setBackground(new java.awt.Color(242, 20, 255));
         jPanel11.setOpaque(false);
 
-        tablePelanggaranShow.setModel(new javax.swing.table.DefaultTableModel(
+        TableAduanShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -481,7 +569,12 @@ public class AduanAdminView extends javax.swing.JFrame {
                 "ID Aduan", "Nama Penghuni", "Tanggal", "Deskripsi Aduan"
             }
         ));
-        jScrollPane1.setViewportView(tablePelanggaranShow);
+        TableAduanShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableAduanShowMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TableAduanShow);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -517,7 +610,18 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cari");
+        SearchButon.setText("Cari");
+        SearchButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchButonActionPerformed(evt);
+            }
+        });
+
+        SearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchTextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
@@ -526,17 +630,14 @@ public class AduanAdminView extends javax.swing.JFrame {
             .addGroup(BodyPanelLayout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BodyPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(BodyPanelLayout.createSequentialGroup()
-                        .addComponent(StatusLocation)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StatusLocation))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(SearchButon)
                 .addGap(14, 14, 14))
         );
         BodyPanelLayout.setVerticalGroup(
@@ -546,11 +647,11 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addComponent(StatusLocation)
                 .addGap(12, 12, 12)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SearchButon)
+                    .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -572,9 +673,64 @@ public class AduanAdminView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void deskripsiTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deskripsiTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_deskripsiTextActionPerformed
+
+    private void SearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextActionPerformed
+        // TODO add your handling code here:
+//        setEditDeletebtn(false);
+//        setComponent(false);
+//        try {
+//            AduanAdminTable aut = ACtrl.searchAduan(cekIdUser(admin),SearchText.getText());
+//            if (aut.getRowCount() == 0) {
+//                clearText();
+//                setEditDeletebtn(false);
+//                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+//                        JOptionPane.DEFAULT_OPTION);
+//            } else {
+//                TableAduanShow.setModel(aut);
+//            }
+//            clearText();
+//
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e.getMessage());
+//        }
+    }//GEN-LAST:event_SearchTextActionPerformed
+
+    private void SearchButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButonActionPerformed
+        // TODO add your handling code here:
+        setComponent(false);
+        try {
+            AduanAdminTable aut = ACtrl.showAduanAdmin(SearchText.getText());
+            if (aut.getRowCount() == 0) {
+                clearText();
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                TableAduanShow.setModel(aut);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_SearchButonActionPerformed
+
+    private void TableAduanShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableAduanShowMouseClicked
+        // TODO add your handling code here:
+        setComponent(false);
+
+        int clickedRow = TableAduanShow.getSelectedRow();
+        TableModel tableModel = TableAduanShow.getModel();
+
+        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idAduanText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        namaPenghuniText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+        tanggalText.setText(tableModel.getValueAt(clickedRow, 2).toString());
+        deskripsiText.setText(tableModel.getValueAt(clickedRow, 3).toString());
+    }//GEN-LAST:event_TableAduanShowMouseClicked
 
     /**
      * @param args the command line arguments
@@ -617,12 +773,12 @@ public class AduanAdminView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
     private javax.swing.JPanel NavPanel;
-    private javax.swing.JButton Savebtn;
+    private javax.swing.JButton SearchButon;
+    private javax.swing.JTextField SearchText;
     private javax.swing.JLabel StatusLocation;
-    private javax.swing.JButton cancelbtn;
-    private javax.swing.JTextField dendaText;
-    private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTable TableAduanShow;
+    private javax.swing.JTextField deskripsiText;
+    private javax.swing.JTextField idAduanText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -654,9 +810,12 @@ public class AduanAdminView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTable tablePelanggaranShow;
-    private javax.swing.JTextField tanggalMasukText1;
+    private javax.swing.JTextField namaPenghuniText;
+    private javax.swing.JTextField tanggalText;
+    private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
+
+    private String cekIdUser(String user) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

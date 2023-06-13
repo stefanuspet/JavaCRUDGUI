@@ -2,37 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/AduanUserView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/dao/KamarDAO.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/KamarView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/model/Aduan.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/table/AduanUserTable.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/AduanAdminView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/model/Pelanggaran.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/control/PenghuniControl.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/table/KamarTable.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/PemesananView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/control/KamarControl.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/TransaksiUserView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/dao/AduanDAO.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/PenghuniView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/control/AduanControl.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/dao/PemesananDAO.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/view/PelanggaranView.java</file>
-            <file>file:/C:/Kuliah/Semester%204/PBO/TEORI/JavaCRUDGUI/tubesObjectPresistence/src/dao/PenghuniDAO.java</file>
-=======
-            <file>file:/C:/Users/nayal/Downloads/TUBES%20PBO/JavaCRUDGUI/tubesObjectPresistence/src/view/KamarView.java</file>
->>>>>>> nayaBranch
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/Login.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/control/PelanggaranControl.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/AduanAdminView.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/PemesananView.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/AduanUserView.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/control/PenghuniControl.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/table/AduanUserTable.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/table/PemesananTable.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/control/AduanControl.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/control/KamarControl.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/dao/KamarDAO.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/view/PelanggaranView.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/dao/AduanDAO.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/model/Pemesanan.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/table/KamarTable.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/table/AduanAdminTable.java</file>
+            <file>file:/C:/Users/Fidelis%20Vendriko%20G/Documents/GITHUB/JavaCRUDGUI/tubesObjectPresistence/src/model/Penghuni.java</file>
         </group>
-=======
-        <group/>
->>>>>>> Stashed changes
-=======
-        <group/>
->>>>>>> Stashed changes
     </open-files>
 </project-private>

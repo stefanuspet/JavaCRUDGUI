@@ -76,7 +76,7 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="pelanggaranNav" alignment="0" max="32767" attributes="0"/>
-                      <Component id="aduanNav" alignment="0" pref="127" max="32767" attributes="0"/>
+                      <Component id="aduanNav" alignment="0" pref="128" max="32767" attributes="0"/>
                       <Component id="penghuniNav" alignment="0" max="32767" attributes="0"/>
                       <Component id="pemesananNav" alignment="0" max="32767" attributes="0"/>
                       <Component id="kamarNav" alignment="0" max="32767" attributes="0"/>
@@ -500,7 +500,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

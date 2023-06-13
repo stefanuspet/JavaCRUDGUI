@@ -70,14 +70,14 @@ public class AduanDAO {
         con = dbConnection.makeConnection();
         ArrayList<Aduan> aduanList = new ArrayList<>();
         String sql = "SELECT * FROM aduan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE " +
-                "a.id_aduan LIKE '%"+query+"p.nama_penghuni LIKE '%"+query+"%' OR a.tanggal LIKE '%"+query+"%' OR a.deskripsi_aduan LIKE '%"+query+"%'";
+                "a.id_aduan LIKE '%"+query+"%' OR p.nama LIKE '%"+query+"%' OR a.tanggal LIKE '%"+query+"%' OR a.deskripsi_aduan LIKE '%"+query+"%'";
         System.out.println("Showing Aduan....");
         try {
             Statement statement = con.createStatement();
             statement.executeQuery(sql);
             var result = statement.getResultSet();
             while (result.next()) {
-                Aduan aduan = new Aduan(result.getInt("id"),
+                Aduan aduan = new Aduan(result.getInt("id_aduan"),
                         pc.searchPenghuni(result.getInt("id_penghuni")),
                         result.getString("tanggal"),
                         result.getString("deskripsi_aduan"));

@@ -3,16 +3,149 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
 /**
  *
  * @author stefa
  */
+import exception.InputKosongException;
+import control.PemesananControl;
+import control.PenghuniControl;
+import control.KamarControl;
+import control.PelanggaranControl;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.Kamar;
+import model.Pelanggaran;
+import model.Pemesanan;
+import model.Penghuni;
+import table.PemesananTable;
+
 public class PemesananView extends javax.swing.JFrame {
+
     /**
      * Creates new form AdminView
      */
+    private PemesananControl psnCtrl;
+    private PenghuniControl penghuniCtrl;
+    private KamarControl kmarCtrl;
+    private PelanggaranControl pelanggaranCtrl;
+    int selectedId = 0;
+    String action = "";
+    private String pemesanan;
+    private List<Penghuni> listPenghuni;
+    private List<Kamar> listKamar;
+    private List<Pelanggaran> listPelanggaran;
+    int totalBayar = 0;
+    int getIndexKamar = 0;
+    int getIndexPelanggaran = 0;
+
     public PemesananView() {
         initComponents();
+        idPemesananText.setEnabled(false);
+        setComponent(false);
+        setEditDeletebtn(false);
+        clearText();
+        psnCtrl = new PemesananControl();
+        penghuniCtrl = new PenghuniControl();
+        kmarCtrl = new KamarControl();
+        pelanggaranCtrl = new PelanggaranControl();
+        tanggalMasukText.setEnabled(false);
+        setPenghuniToDropdown();
+        setKamarToDropdown();
+        setPelanggaranToDropdown();
+        getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+//        setTotalBayar();
+        setDenda(getIndexPelanggaran);
+//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+
+    }
+
+    public void showPemesanan() {
+        tablePemesananShow.setModel((TableModel) psnCtrl.showListPemesanan(pemesanan));
+    }
+
+    public void setPenghuniToDropdown() {
+        listPenghuni = penghuniCtrl.showListPenghuni();
+        for (int i = 0; i < listPenghuni.size(); i++) {
+            penghuniComboBox.addItem(listPenghuni.get(i));
+        }
+    }
+
+    public void setKamarToDropdown() {
+        listKamar = kmarCtrl.showListKamar();
+        for (int i = 0; i < listKamar.size(); i++) {
+            kamarComboBox.addItem(listKamar.get(i));
+        }
+    }
+
+    public void setPelanggaranToDropdown() {
+        listPelanggaran = pelanggaranCtrl.showListPelanggaran();
+        for (int i = 0; i < listPelanggaran.size(); i++) {
+            pelanggaranComboBox.addItem(listPelanggaran.get(i));
+        }
+    }
+
+    public void setDenda(int index) {
+        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
+        
+    }
+
+    public int setHargaKamar() {
+        int hargaKamar = 0;
+        getIndexKamar = kamarComboBox.getSelectedIndex();
+        hargaKamar = listKamar.get(getIndexKamar).getHarga_sewa();
+
+        return hargaKamar;
+    }
+
+//    public int setTotalBayar(int index) {
+//        int total = 0;
+//        total = setHargaKamar() + setDenda(index);
+//        return total;
+//    }
+
+    public void setComponent(boolean value) {
+        penghuniComboBox.setEnabled(value);
+        pelanggaranComboBox.setEnabled(value);
+        tanggalMasukText.setEnabled(value);
+        totalBayarText.setEnabled(value);
+        statusComboBox.setEnabled(value);
+        kamarComboBox.setEnabled(value);
+        dendaText.setEnabled(value);
+        tanggalKeluarText.setEnabled(value);
+
+        Savebtn.setEnabled(value);
+        cancelbtn.setEnabled(value);
+    }
+
+    public void setEditDeletebtn(boolean value) {
+        editBtn.setEnabled(value);
+        deleteBtn.setEnabled(value);
+    }
+
+    public void clearText() {
+        idPemesananText.setText("");
+        tanggalMasukText.setText("");
+        totalBayarText.setText("");
+        dendaText.setText("");
+        tanggalKeluarText.setText("");
+
+        penghuniComboBox.setSelectedItem(false);
+        pelanggaranComboBox.setSelectedItem(false);
+        statusComboBox.setSelectedItem(false);
+        kamarComboBox.setSelectedItem(false);
+    }
+
+    public void InputKosongException() throws InputKosongException {
+        if (idPemesananText.getText().isEmpty() || tanggalMasukText.getText().isEmpty()
+                || totalBayarText.getText().isEmpty() || dendaText.getText().isEmpty()
+                || tanggalKeluarText.getText().isEmpty()) {
+            throw new InputKosongException();
+        }
     }
 
     /**
@@ -27,17 +160,17 @@ public class PemesananView extends javax.swing.JFrame {
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
+        namaPenghuniText = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        penghuniComboBox = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
-        idText = new javax.swing.JTextField();
+        idPemesananText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
+        masukText = new javax.swing.JPanel();
         tanggalMasukText = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
@@ -45,24 +178,26 @@ public class PemesananView extends javax.swing.JFrame {
         dendaText = new javax.swing.JTextField();
         jPanel18 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        kamarComboBox = new javax.swing.JComboBox<>();
         jPanel15 = new javax.swing.JPanel();
-        totalBayar = new javax.swing.JTextField();
+        tanggalKeluarText = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        statusComboBox = new javax.swing.JComboBox<>();
         Savebtn = new javax.swing.JButton();
         cancelbtn = new javax.swing.JButton();
-        jPanel20 = new javax.swing.JPanel();
+        jenisPelanggaranText = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        pelanggaranComboBox = new javax.swing.JComboBox<>();
         jPanel22 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        dendaText1 = new javax.swing.JTextField();
+        totalBayarText = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePelanggaranShow = new javax.swing.JTable();
+        tablePemesananShow = new javax.swing.JTable();
+        cariBtn = new javax.swing.JButton();
+        cariText = new javax.swing.JTextField();
         NavPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         kamarNav = new javax.swing.JPanel();
@@ -94,51 +229,59 @@ public class PemesananView extends javax.swing.JFrame {
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Tambah");
-
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ubah");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(139, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Hapus");
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Hapus");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jPanel9.setOpaque(false);
 
         jPanel10.setBackground(new java.awt.Color(242, 242, 0));
         jPanel10.setOpaque(false);
 
-        jPanel12.setOpaque(false);
+        namaPenghuniText.setOpaque(false);
 
         jLabel9.setText("Nama Penghuni");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout namaPenghuniTextLayout = new javax.swing.GroupLayout(namaPenghuniText);
+        namaPenghuniText.setLayout(namaPenghuniTextLayout);
+        namaPenghuniTextLayout.setHorizontalGroup(
+            namaPenghuniTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(namaPenghuniTextLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(namaPenghuniTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(namaPenghuniTextLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(0, 116, Short.MAX_VALUE))
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(penghuniComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        namaPenghuniTextLayout.setVerticalGroup(
+            namaPenghuniTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(namaPenghuniTextLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(penghuniComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -153,7 +296,7 @@ public class PemesananView extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addContainerGap())
         );
@@ -163,28 +306,34 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel14.setOpaque(false);
+        masukText.setOpaque(false);
+
+        tanggalMasukText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tanggalMasukTextActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Tanggal Masuk");
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout masukTextLayout = new javax.swing.GroupLayout(masukText);
+        masukText.setLayout(masukTextLayout);
+        masukTextLayout.setHorizontalGroup(
+            masukTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masukTextLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(masukTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(tanggalMasukText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        masukTextLayout.setVerticalGroup(
+            masukTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masukTextLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,7 +370,11 @@ public class PemesananView extends javax.swing.JFrame {
 
         jLabel14.setText("Kamar");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        kamarComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kamarComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -233,7 +386,7 @@ public class PemesananView extends javax.swing.JFrame {
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jComboBox3, 0, 200, Short.MAX_VALUE))
+                    .addComponent(kamarComboBox, 0, 200, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -242,7 +395,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(kamarComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -258,7 +411,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(totalBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalKeluarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
@@ -267,7 +420,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tanggalKeluarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -275,10 +428,10 @@ public class PemesananView extends javax.swing.JFrame {
 
         jLabel15.setText("Status");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Dipesan", "Pesan" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Dipesan", "Pesan" }));
+        statusComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                statusComboBoxActionPerformed(evt);
             }
         });
 
@@ -290,7 +443,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
@@ -299,40 +452,49 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         cancelbtn.setText("Cancel");
 
-        jPanel20.setOpaque(false);
+        jenisPelanggaranText.setOpaque(false);
 
         jLabel16.setText("Jenis Pelanggaran");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pelanggaranComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pelanggaranComboBoxActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
+        javax.swing.GroupLayout jenisPelanggaranTextLayout = new javax.swing.GroupLayout(jenisPelanggaranText);
+        jenisPelanggaranText.setLayout(jenisPelanggaranTextLayout);
+        jenisPelanggaranTextLayout.setHorizontalGroup(
+            jenisPelanggaranTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jenisPelanggaranTextLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGroup(jenisPelanggaranTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jenisPelanggaranTextLayout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addGap(0, 107, Short.MAX_VALUE))
-                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pelanggaranComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
+        jenisPelanggaranTextLayout.setVerticalGroup(
+            jenisPelanggaranTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jenisPelanggaranTextLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pelanggaranComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -348,7 +510,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
-                    .addComponent(dendaText1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalBayarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel22Layout.setVerticalGroup(
@@ -357,7 +519,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(totalBayarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -382,8 +544,8 @@ public class PemesananView extends javax.swing.JFrame {
                                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(namaPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(masukText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,7 +554,7 @@ public class PemesananView extends javax.swing.JFrame {
                         .addContainerGap(13, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jenisPelanggaranText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -405,18 +567,18 @@ public class PemesananView extends javax.swing.JFrame {
                     .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jenisPelanggaranText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(masukText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -432,7 +594,7 @@ public class PemesananView extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(242, 20, 255));
         jPanel11.setOpaque(false);
 
-        tablePelanggaranShow.setModel(new javax.swing.table.DefaultTableModel(
+        tablePemesananShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -443,7 +605,7 @@ public class PemesananView extends javax.swing.JFrame {
                 "ID Pemesanan", "ID Penghuni", "ID Kamar", "Tgl Masuk", "Tgl Keluar", "ID Pelanggaran", "Total", "Status"
             }
         ));
-        jScrollPane1.setViewportView(tablePelanggaranShow);
+        jScrollPane1.setViewportView(tablePemesananShow);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -483,6 +645,8 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        cariBtn.setText("Cari");
+
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
         BodyPanelLayout.setHorizontalGroup(
@@ -491,14 +655,21 @@ public class PemesananView extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BodyPanelLayout.createSequentialGroup()
+                        .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(StatusLocation)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(StatusLocation)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(deleteBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cariText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cariBtn)
+                        .addGap(38, 38, 38))))
         );
         BodyPanelLayout.setVerticalGroup(
             BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,8 +679,10 @@ public class PemesananView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn)
+                    .addComponent(cariBtn)
+                    .addComponent(cariText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -554,7 +727,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         penghuniNav.setBackground(new java.awt.Color(21, 108, 165));
@@ -679,6 +852,11 @@ public class PemesananView extends javax.swing.JFrame {
 
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout aduanAdminNavLayout = new javax.swing.GroupLayout(aduanAdminNav);
         aduanAdminNav.setLayout(aduanAdminNavLayout);
@@ -791,13 +969,79 @@ public class PemesananView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void statusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_statusComboBoxActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        action = "edit";
+        setComponent(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void pelanggaranComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pelanggaranComboBoxActionPerformed
+        // TODO add your handling code here:
+//       dendaText.setText(Integer.toString(setDenda(getIndexPelanggaran)));
+//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+    }//GEN-LAST:event_pelanggaranComboBoxActionPerformed
+
+    private void tanggalMasukTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalMasukTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tanggalMasukTextActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Apakah yakin ingin menghapus data ?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION);
+        switch (getAnswer) {
+            case 0:
+                try {
+                psnCtrl.deleteDataPemesanan(selectedId);
+                clearText();
+                showPemesanan();
+                setComponent(false);
+                setEditDeletebtn(false);
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+            } catch (Exception e) {
+                System.out.println("Error : " + e.getMessage());
+            }
+            break;
+
+            case 1:
+                JOptionPane.showMessageDialog(null, "Data tidak jadi dihapus!");
+                break;
+        }
+
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        // TODO add your handling code here:
+        AduanAdminView aav = new AduanAdminView();
+        aav.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        setComponent(true);
+        dendaText.setEnabled(false);
+        dendaText.setEditable(false);
+        totalBayarText.setEnabled(false);
+        totalBayarText.setEditable(false);
+//        dendaText.setText(Integer.toString(setDenda()));
+//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void kamarComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kamarComboBoxActionPerformed
+        // TODO add your handling code here:
+//        dendaText.setText(Integer.toString(setDenda()));
+//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+    }//GEN-LAST:event_kamarComboBoxActionPerformed
 
     private void kamarNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kamarNavMouseClicked
         // TODO add your handling code here:
@@ -878,15 +1122,12 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JPanel aduanAdminNav;
     private javax.swing.JButton cancelbtn;
+    private javax.swing.JButton cariBtn;
+    private javax.swing.JTextField cariText;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField dendaText;
-    private javax.swing.JTextField dendaText1;
-    private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField idPemesananText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -911,18 +1152,22 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
+<<<<<<< Updated upstream
     private javax.swing.JPanel jPanel20;
+=======
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel21;
+>>>>>>> Stashed changes
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+<<<<<<< Updated upstream
     private javax.swing.JPanel kamarNav;
     private javax.swing.JPanel pelanggaranNav;
     private javax.swing.JPanel penghuniNav;
@@ -930,5 +1175,18 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JTextField tanggalMasukText;
     private javax.swing.JTextField totalBayar;
     private javax.swing.JPanel transaksiNav;
+=======
+    private javax.swing.JPanel jenisPelanggaranText;
+    private javax.swing.JComboBox<Kamar> kamarComboBox;
+    private javax.swing.JPanel masukText;
+    private javax.swing.JPanel namaPenghuniText;
+    private javax.swing.JComboBox<Pelanggaran> pelanggaranComboBox;
+    private javax.swing.JComboBox<Penghuni> penghuniComboBox;
+    private javax.swing.JComboBox<String> statusComboBox;
+    private javax.swing.JTable tablePemesananShow;
+    private javax.swing.JTextField tanggalKeluarText;
+    private javax.swing.JTextField tanggalMasukText;
+    private javax.swing.JTextField totalBayarText;
+>>>>>>> Stashed changes
     // End of variables declaration//GEN-END:variables
 }
