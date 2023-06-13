@@ -1157,25 +1157,16 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-<<<<<<< Updated upstream
     private javax.swing.JPanel jPanel20;
-=======
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel21;
->>>>>>> Stashed changes
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-<<<<<<< Updated upstream
     private javax.swing.JPanel kamarNav;
     private javax.swing.JPanel pelanggaranNav;
     private javax.swing.JPanel penghuniNav;
     private javax.swing.JTable tablePelanggaranShow;
-    private javax.swing.JTextField tanggalMasukText;
-    private javax.swing.JTextField totalBayar;
     private javax.swing.JPanel transaksiNav;
-=======
     private javax.swing.JPanel jenisPelanggaranText;
     private javax.swing.JComboBox<Kamar> kamarComboBox;
     private javax.swing.JPanel masukText;
@@ -1187,6 +1178,5 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JTextField tanggalKeluarText;
     private javax.swing.JTextField tanggalMasukText;
     private javax.swing.JTextField totalBayarText;
->>>>>>> Stashed changes
     // End of variables declaration//GEN-END:variables
 }
