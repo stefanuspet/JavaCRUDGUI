@@ -9,7 +9,7 @@ import model.Aduan;
 import control.PenghuniControl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.Kamar;
+import model.Penghuni;
 public class AduanDAO {
     
     private DbConnection dbConnection = new DbConnection();
@@ -115,19 +115,20 @@ public class AduanDAO {
         return aduanList;
     }
     
-    public List<Aduan> searchAduanTable(String query,String id_penghuni) {
+    public List<Aduan> searchAduanTable(String id_penghuni, String query) {
         con = dbConnection.makeConnection();
-        String sql = "SELECT * FROM aduan WHERE (id_penghuni = '"+id_penghuni+"') OR (id_aduan LIKE '%"+query+"%'  OR tanggal LIKE '%"+query+"%' OR deskripsi_aduan LIKE '%"+query+"%')";
+        String sql = "SELECT * FROM aduan WHERE (id_penghuni = '"+id_penghuni+"') AND (id_aduan LIKE '%"+query+"%'  OR tanggal LIKE '%"+query+"%' OR deskripsi_aduan LIKE '%"+query+"%')";
         System.out.println("Mengambil Data Penghuni ...");
         List<Aduan> list = new ArrayList();
         try {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
+            var result = statement.getResultSet();
             if (rs != null) {
                 while (rs.next()) {
                     Aduan a = new Aduan(
                             rs.getInt("id_aduan"),
-                            rs.getInt("id_penghuni"),
+                            pc.searchPenghuni(result.getInt("id_penghuni")),
                             rs.getString("tanggal"),
                             rs.getString("deskripsi_aduan")
                             
@@ -136,6 +137,7 @@ public class AduanDAO {
                     list.add(a);
                 }
             }
+            System.out.println(id_penghuni);
             rs.close();
             statement.close();
         } catch (SQLException e) {
