@@ -815,15 +815,15 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="kamarNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel21" min="-2" max="-2" attributes="0"/>
+                  <Component id="penghuniNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel2" min="-2" pref="106" max="-2" attributes="0"/>
+                  <Component id="aduanAdminNav" min="-2" pref="106" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel23" min="-2" max="-2" attributes="0"/>
+                  <Component id="pelanggaranNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel24" min="-2" max="-2" attributes="0"/>
+                  <Component id="transaksiNav" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -836,12 +836,12 @@
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel23" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel2" alignment="0" pref="130" max="32767" attributes="0"/>
-                      <Component id="jPanel21" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pelanggaranNav" alignment="0" max="32767" attributes="0"/>
+                      <Component id="aduanAdminNav" alignment="0" pref="130" max="32767" attributes="0"/>
+                      <Component id="penghuniNav" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel24" alignment="0" max="32767" attributes="0"/>
+                      <Component id="kamarNav" alignment="0" max="32767" attributes="0"/>
+                      <Component id="transaksiNav" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -860,7 +860,7 @@
             <Property name="text" type="java.lang.String" value="Atma Jaya Kost"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JPanel" name="jPanel4">
+        <Container class="javax.swing.JPanel" name="kamarNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="6c" red="15" type="rgb"/>
@@ -869,6 +869,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="kamarNavMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -915,7 +918,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel21">
+        <Container class="javax.swing.JPanel" name="penghuniNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="6c" red="15" type="rgb"/>
@@ -924,6 +927,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="penghuniNavMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -968,7 +974,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel23">
+        <Container class="javax.swing.JPanel" name="pelanggaranNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="6c" red="15" type="rgb"/>
@@ -977,6 +983,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pelanggaranNavMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -1021,7 +1030,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel24">
+        <Container class="javax.swing.JPanel" name="transaksiNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="6c" red="15" type="rgb"/>
@@ -1030,6 +1039,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="transaksiNavMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -1074,7 +1086,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel2">
+        <Container class="javax.swing.JPanel" name="aduanAdminNav">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="a5" green="6c" red="15" type="rgb"/>
@@ -1085,6 +1097,9 @@
               <Dimension value="[100, 100]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="aduanAdminNavMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">

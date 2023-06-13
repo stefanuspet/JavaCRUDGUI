@@ -11,7 +11,6 @@ import javax.swing.table.TableModel;
 import model.Kamar;
 import table.KamarTable;
 
-
 /**
  *
  * @author stefa
@@ -21,12 +20,10 @@ public class KamarView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
-    
     private KamarControl kmrCtrl;
     int selectedId = 0;
     String action = "";
-    private int hargaDasar = 800000; 
-    
+    private int hargaDasar = 800000;
 
     public KamarView() {
         initComponents();
@@ -70,10 +67,10 @@ public class KamarView extends javax.swing.JFrame {
         WIFICheckBox1.setSelected(false);
         ACCheckBox.setSelected(false);
     }
-    
+
     public void InputKosongException() throws InputKosongException {
-        if(namaKamarText.getText().isEmpty() || hargaKamarText.getText().isEmpty()  
-                || deskripsiText.getText().isEmpty()  ) {
+        if (namaKamarText.getText().isEmpty() || hargaKamarText.getText().isEmpty()
+                || deskripsiText.getText().isEmpty()) {
             throw new InputKosongException();
         }
     }
@@ -375,6 +372,12 @@ public class KamarView extends javax.swing.JFrame {
         jPanel18.setOpaque(false);
 
         harga.setText("Harga Kamar");
+
+        hargaKamarText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hargaKamarTextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -839,10 +842,28 @@ public class KamarView extends javax.swing.JFrame {
 
     private void KamarMandiCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KamarMandiCheckBoxActionPerformed
         // TODO add your handling code here:
+        if(KamarMandiCheckBox.isSelected()){
+            hargaDasar = hargaDasar + 100000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
+        
+        if(!KamarMandiCheckBox.isSelected()){
+            hargaDasar -= 100000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
     }//GEN-LAST:event_KamarMandiCheckBoxActionPerformed
 
     private void ACCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACCheckBoxActionPerformed
         // TODO add your handling code here:
+        if(ACCheckBox.isSelected()){
+            hargaDasar = hargaDasar + 150000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
+        
+        if(!ACCheckBox.isSelected()){
+            hargaDasar -= 150000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
     }//GEN-LAST:event_ACCheckBoxActionPerformed
 
     private void NavPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPemesananMouseClicked
@@ -890,8 +911,10 @@ public class KamarView extends javax.swing.JFrame {
         hargaKamarText.setEnabled(false);
         idKamarText.setText("Auto_increment");
         idKamarText.setEnabled(false);
+        hargaDasar = 800000;
 //        searchText.setText("Cari Berdasarkan Nama");
         action = "add";
+        
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
@@ -919,51 +942,50 @@ public class KamarView extends javax.swing.JFrame {
 
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
-     
-    try {
-         InputKosongException();
-         
-          String fasilitas = "";
- 
-    
-        if (KamarMandiCheckBox.isSelected()) {
-            fasilitas = "Kamar Mandi Dalam, ";
-            if (ACCheckBox.isSelected()) {
-                fasilitas = fasilitas + "AC, ";
-                if (WIFICheckBox1.isSelected()) {
-                    fasilitas = fasilitas + "Wifi";
-                }
-            } else {
-                if (WIFICheckBox1.isSelected()) {
-                    fasilitas = fasilitas + "Wifi";
-                }
-            }
-        } else {
-            if (ACCheckBox.isSelected()) {
-                fasilitas = fasilitas + "AC, ";
-                if (WIFICheckBox1.isSelected()) {
-                    fasilitas = fasilitas + "Wifi";
-                }
-            } else {
-                if (WIFICheckBox1.isSelected()) {
-                    fasilitas = fasilitas + "Wifi";
-                }
-            }
-        }
-        
-        int harga = hargaDasar;
 
-        if (KamarMandiCheckBox.isSelected()) {
-            harga += 100000;
-        }
-        if (WIFICheckBox1.isSelected()) {
-            harga += 50000;
-        }
-        if (ACCheckBox.isSelected()) {
-            harga += 150000;
-        }
-        
-        hargaKamarText.setText(Integer.toString(harga));
+        try {
+            InputKosongException();
+
+            String fasilitas = "";
+
+            if (KamarMandiCheckBox.isSelected()) {
+                fasilitas = "Kamar Mandi Dalam, ";
+                if (ACCheckBox.isSelected()) {
+                    fasilitas = fasilitas + "AC, ";
+                    if (WIFICheckBox1.isSelected()) {
+                        fasilitas = fasilitas + "Wifi";
+                    }
+                } else {
+                    if (WIFICheckBox1.isSelected()) {
+                        fasilitas = fasilitas + "Wifi";
+                    }
+                }
+            } else {
+                if (ACCheckBox.isSelected()) {
+                    fasilitas = fasilitas + "AC, ";
+                    if (WIFICheckBox1.isSelected()) {
+                        fasilitas = fasilitas + "Wifi";
+                    }
+                } else {
+                    if (WIFICheckBox1.isSelected()) {
+                        fasilitas = fasilitas + "Wifi";
+                    }
+                }
+            }
+
+//            int harga = hargaDasar;
+//
+//            if (KamarMandiCheckBox.isSelected()) {
+//                harga += 100000;
+//            }
+//            if (WIFICheckBox1.isSelected()) {
+//                harga += 50000;
+//            }
+//            if (ACCheckBox.isSelected()) {
+//                harga += 150000;
+//            }
+
+            hargaKamarText.setText(Integer.toString(hargaDasar));
 
             if (action.equals("add")) {
                 Kamar k = new Kamar(0, namaKamarText.getText(), fasilitas, Integer.parseInt(hargaKamarText.getText()), deskripsiText.getText(), (String) StatusCombo.getSelectedItem());
@@ -981,10 +1003,10 @@ public class KamarView extends javax.swing.JFrame {
             setEditDeletebtn(false);
 //            searchText.setText("Cari Berdasarkan Nama");
 
-      }  catch(InputKosongException e){ 
-          JOptionPane.showMessageDialog(this, e.message()); 
-      }
-    
+        } catch (InputKosongException e) {
+            JOptionPane.showMessageDialog(this, e.message());
+        }
+
     }//GEN-LAST:event_SavebtnActionPerformed
 
     private void tableShowKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowKamarMouseClicked
@@ -1051,6 +1073,9 @@ public class KamarView extends javax.swing.JFrame {
         // TODO add your handling code here:
         action = "edit";
         setComponent(true);
+        hargaKamarText.setEnabled(false);
+        hargaKamarText.setEditable(false);
+        hargaDasar = Integer.parseInt(hargaKamarText.getText());
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -1125,11 +1150,24 @@ public class KamarView extends javax.swing.JFrame {
 
     private void WIFICheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WIFICheckBox1ActionPerformed
         // TODO add your handling code here:
+        if(WIFICheckBox1.isSelected()){
+            hargaDasar = hargaDasar + 50000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
+        
+        if(!WIFICheckBox1.isSelected()){
+            hargaDasar -= 50000;
+            hargaKamarText.setText(Integer.toString(hargaDasar));
+        }
     }//GEN-LAST:event_WIFICheckBox1ActionPerformed
 
     private void KamarNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KamarNavMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_KamarNavMouseClicked
+
+    private void hargaKamarTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hargaKamarTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hargaKamarTextActionPerformed
     /**
      * @param args the command line arguments
      */

@@ -4,15 +4,19 @@
  */
 package view;
 
-
+import connection.DbConnection;
 import exception.InputKosongException;
 import exception.InputUsernameException;
 import model.Penghuni;
 import control.PenghuniControl;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import table.PenghuniTable;
+
 /**
  *
  * @author nayal
@@ -25,6 +29,10 @@ public class PenghuniView extends javax.swing.JFrame {
     private PenghuniControl penghunictrl;
     int selectedId = 0;
     String action = "";
+    private DbConnection dbCon = new DbConnection();
+    private Connection con;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     public PenghuniView() {
         initComponents();
@@ -33,7 +41,7 @@ public class PenghuniView extends javax.swing.JFrame {
         penghunictrl = new PenghuniControl();
         idPenghuniText.setEnabled(false);
         clearText();
-        
+
         showPenghuni();
     }
 
@@ -66,16 +74,16 @@ public class PenghuniView extends javax.swing.JFrame {
     public void showPenghuni() {
         tablePenghunishow.setModel(penghunictrl.showTablePenghuni());
     }
-    
+
     public void InputKosongException() throws InputKosongException {
-        if(userText.getText().isEmpty() || passwordText.getText().isEmpty() || namaText.getText().isEmpty() 
-                || alamatText.getText().isEmpty() || telpText.getText().isEmpty()  ) {
+        if (userText.getText().isEmpty() || passwordText.getText().isEmpty() || namaText.getText().isEmpty()
+                || alamatText.getText().isEmpty() || telpText.getText().isEmpty()) {
             throw new InputKosongException();
         }
     }
-    
+
     public void InputUsernameException() throws InputUsernameException {
-        if(namaText.getText().isEmpty()) {
+        if (namaText.getText().isEmpty()) {
             throw new InputUsernameException();
         }
     }
@@ -849,14 +857,53 @@ public class PenghuniView extends javax.swing.JFrame {
 
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
+        List<Penghuni> listp = penghunictrl.showDataPenghuni();
+        System.out.println(listp.size());
+        boolean isUniq;
         try {
+            Penghuni pnew = null;
             if (action.equals("add")) {
-                Penghuni p = new Penghuni(0, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
-                penghunictrl.insertDataPenghuni(p);
-            } else if (action.equals("edit")) {
+                if (userText.getText().equalsIgnoreCase("Admin")) {
+                    JOptionPane.showMessageDialog(null, "Username telah digunakan!");
+                }else{
+                    if (listp.size() == 0) {
+                        pnew = new Penghuni(userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
+                        penghunictrl.insertDataPenghuni(pnew);
+                    } else {
+                        isUniq = true;
+                        for (int i=0;i<listp.size();i++) {
+                            if (userText.getText().equalsIgnoreCase(listp.get(i).getUsername())) {
+                                JOptionPane.showMessageDialog(null, "Username telah digunakan!");
+                                isUniq = false;
+                                break;
+                            } 
+                        }
+                        if(isUniq == true){
+                            pnew = new Penghuni(userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
+                            penghunictrl.insertDataPenghuni(pnew);
+                        }
+                    }
 
-                Penghuni p = new Penghuni(selectedId, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
-                penghunictrl.updateDataPenghuni(p, selectedId);
+                }
+            } else if (action.equals("edit")) {
+                if (userText.getText().equalsIgnoreCase("Admin")) {
+                    JOptionPane.showMessageDialog(null, "Username telah digunakan!");
+                }else{
+                    isUniq = true;
+                    for (int i=0;i<listp.size();i++) {
+                        if (userText.getText().equalsIgnoreCase(userText.getText())){
+                            isUniq = true;
+                        }else if (userText.getText().equalsIgnoreCase(listp.get(i).getUsername())) {
+                            JOptionPane.showMessageDialog(null, "Username telah digunakan!");
+                            isUniq = false;
+                            break;
+                        }
+                    }
+                    if(isUniq == true ){
+                        Penghuni pedit = new Penghuni(selectedId, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
+                        penghunictrl.updateDataPenghuni(pedit, selectedId);
+                    }
+                }
             }
 
             clearText();
@@ -865,7 +912,7 @@ public class PenghuniView extends javax.swing.JFrame {
             setEditDeleteBtn(false);
 
         } catch (Exception e) {
-        System.out.println("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }//GEN-LAST:event_SavebtnActionPerformed
 
@@ -940,7 +987,7 @@ public class PenghuniView extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        
+
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void searchTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTextMouseClicked

@@ -42,7 +42,7 @@ public class PenghuniDAO {
     public List<Penghuni> showPenghuni() {
         con = dbCon.makeConnection();
         String sql = "SELECT * FROM penghuni";
-        System.out.println("Mengambil Data Dosen ...");
+        System.out.println("Mengambil Data Penghuni ...");
         List<Penghuni> list = new ArrayList();
 
         try {
@@ -63,7 +63,6 @@ public class PenghuniDAO {
                     list.add(p);
                 }
             }
-            rs.close();
             statement.close();
         } catch (Exception e) {
             System.out.println("Error Reading Database...");

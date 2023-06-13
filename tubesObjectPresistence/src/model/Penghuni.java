@@ -20,6 +20,14 @@ public class Penghuni {
         this.alamat = alamat;
         this.no_telp = no_telp;
     }
+    
+    public Penghuni(String username, String password, String nama, String alamat, String no_telp) {
+        this.username = username;
+        this.password = password;
+        this.nama = nama;
+        this.alamat = alamat;
+        this.no_telp = no_telp;
+    }
 
     public int getId_penghuni() {
         return id_penghuni;

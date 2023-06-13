@@ -13,13 +13,18 @@ public class PenghuniControl {
         pDao.insertPenghuni(p);
     }
     
-    public String showDataPenghuni(){
-        List<Penghuni> dataPenghuni = pDao.showPenghuni();
-        String PenghuniString = "";
-        for (int i = 0; i < dataPenghuni.size(); i++) {
-            PenghuniString = PenghuniString + dataPenghuni.get(i).showPenghuni()+ "\n";
-        }
-        return PenghuniString;
+//    public String showDataPenghuni(){
+//        List<Penghuni> dataPenghuni = pDao.showPenghuni();
+//        String PenghuniString = "";
+//        for (int i = 0; i < dataPenghuni.size(); i++) {
+//            PenghuniString = PenghuniString + dataPenghuni.get(i).showPenghuni()+ "\n";
+//        }
+//        return PenghuniString;
+//    }
+    
+    public List<Penghuni> showDataPenghuni(){
+        List<Penghuni> listPenghuni = pDao.showPenghuni();
+        return listPenghuni;
     }
     
     public void updateDataPenghuni(Penghuni p, int id) {
