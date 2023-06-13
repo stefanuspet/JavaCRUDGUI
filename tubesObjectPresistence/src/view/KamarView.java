@@ -4,11 +4,13 @@
  */
 package view;
 
+import exception.InputKosongException;
 import control.KamarControl;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import model.Kamar;
 import table.KamarTable;
+
 
 /**
  *
@@ -19,9 +21,12 @@ public class KamarView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
+    
     private KamarControl kmrCtrl;
     int selectedId = 0;
     String action = "";
+    private int hargaDasar = 800000; 
+    
 
     public KamarView() {
         initComponents();
@@ -65,6 +70,13 @@ public class KamarView extends javax.swing.JFrame {
         WIFICheckBox1.setSelected(false);
         ACCheckBox.setSelected(false);
     }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(namaKamarText.getText().isEmpty() || hargaKamarText.getText().isEmpty()  
+                || deskripsiText.getText().isEmpty()  ) {
+            throw new InputKosongException();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,7 +115,7 @@ public class KamarView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         deskripsiText = new javax.swing.JTextArea();
         jPanel18 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        harga = new javax.swing.JLabel();
         hargaKamarText = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -196,6 +208,11 @@ public class KamarView extends javax.swing.JFrame {
         WIFICheckBox1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         WIFICheckBox1.setForeground(new java.awt.Color(51, 51, 0));
         WIFICheckBox1.setText("WIFI");
+        WIFICheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WIFICheckBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -357,7 +374,7 @@ public class KamarView extends javax.swing.JFrame {
 
         jPanel18.setOpaque(false);
 
-        jLabel14.setText("Harga Kamar");
+        harga.setText("Harga Kamar");
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -366,7 +383,7 @@ public class KamarView extends javax.swing.JFrame {
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
+                    .addComponent(harga)
                     .addComponent(hargaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -374,7 +391,7 @@ public class KamarView extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel14)
+                .addComponent(harga)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(hargaKamarText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -548,6 +565,11 @@ public class KamarView extends javax.swing.JFrame {
         KamarNav.setBackground(new java.awt.Color(13, 82, 128));
         KamarNav.setForeground(new java.awt.Color(13, 82, 128));
         KamarNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        KamarNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                KamarNavMouseClicked(evt);
+            }
+        });
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -861,8 +883,11 @@ public class KamarView extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         clearText();
+        hargaKamarText.setText(Integer.toString(hargaDasar));
         setComponent(true);
         setEditDeletebtn(false);
+        idKamarText.setEditable(false);
+        hargaKamarText.setEnabled(false);
         idKamarText.setText("Auto_increment");
         idKamarText.setEnabled(false);
 //        searchText.setText("Cari Berdasarkan Nama");
@@ -894,7 +919,13 @@ public class KamarView extends javax.swing.JFrame {
 
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
-        String fasilitas = "";
+     
+    try {
+         InputKosongException();
+         
+          String fasilitas = "";
+ 
+    
         if (KamarMandiCheckBox.isSelected()) {
             fasilitas = "Kamar Mandi Dalam, ";
             if (ACCheckBox.isSelected()) {
@@ -919,13 +950,29 @@ public class KamarView extends javax.swing.JFrame {
                 }
             }
         }
-        try {
+        
+        int harga = hargaDasar;
+
+        if (KamarMandiCheckBox.isSelected()) {
+            harga += 100000;
+        }
+        if (WIFICheckBox1.isSelected()) {
+            harga += 50000;
+        }
+        if (ACCheckBox.isSelected()) {
+            harga += 150000;
+        }
+        
+        hargaKamarText.setText(Integer.toString(harga));
+
             if (action.equals("add")) {
                 Kamar k = new Kamar(0, namaKamarText.getText(), fasilitas, Integer.parseInt(hargaKamarText.getText()), deskripsiText.getText(), (String) StatusCombo.getSelectedItem());
                 kmrCtrl.insertDataKamar(k);
+                JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan!");
             } else if (action.equals("edit")) {
                 Kamar k = new Kamar(selectedId, namaKamarText.getText(), fasilitas, Integer.parseInt(hargaKamarText.getText()), deskripsiText.getText(), (String) StatusCombo.getSelectedItem());
                 kmrCtrl.updateDataKamar(k, selectedId);
+                JOptionPane.showMessageDialog(null, "Data Berhasil Diubah!");
             }
 
             clearText();
@@ -934,9 +981,10 @@ public class KamarView extends javax.swing.JFrame {
             setEditDeletebtn(false);
 //            searchText.setText("Cari Berdasarkan Nama");
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "EROR");
-        }
+      }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
+      }
+    
     }//GEN-LAST:event_SavebtnActionPerformed
 
     private void tableShowKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableShowKamarMouseClicked
@@ -1075,6 +1123,13 @@ public class KamarView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_idKamarTextActionPerformed
 
+    private void WIFICheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WIFICheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_WIFICheckBox1ActionPerformed
+
+    private void KamarNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KamarNavMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KamarNavMouseClicked
     /**
      * @param args the command line arguments
      */
@@ -1131,11 +1186,11 @@ public class KamarView extends javax.swing.JFrame {
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextArea deskripsiText;
     private javax.swing.JButton editBtn;
+    private javax.swing.JLabel harga;
     private javax.swing.JTextField hargaKamarText;
     private javax.swing.JTextField idKamarText;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;

@@ -4,6 +4,9 @@
  */
 package view;
 
+
+import exception.InputKosongException;
+import exception.InputUsernameException;
 import model.Penghuni;
 import control.PenghuniControl;
 import java.util.List;
@@ -62,6 +65,19 @@ public class PenghuniView extends javax.swing.JFrame {
 
     public void showPenghuni() {
         tablePenghunishow.setModel(penghunictrl.showTablePenghuni());
+    }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(userText.getText().isEmpty() || passwordText.getText().isEmpty() || namaText.getText().isEmpty() 
+                || alamatText.getText().isEmpty() || telpText.getText().isEmpty()  ) {
+            throw new InputKosongException();
+        }
+    }
+    
+    public void InputUsernameException() throws InputUsernameException {
+        if(namaText.getText().isEmpty()) {
+            throw new InputUsernameException();
+        }
     }
 
     /**
@@ -849,7 +865,7 @@ public class PenghuniView extends javax.swing.JFrame {
             setEditDeleteBtn(false);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "EROR");
+        System.out.println("Error: " + e.getMessage());
         }
     }//GEN-LAST:event_SavebtnActionPerformed
 
