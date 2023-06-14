@@ -21,22 +21,31 @@ public class TransaksiControl {
         tDao.deleteTransaksi(id_transaksi);
     }
     
-    public List<Transaksi> showTransaksiByPenghuni(String id_penghuni, String query){
-        List<Transaksi>dataTransaksi = tDao.showTransaksiByPenghuni(id_penghuni, query);
-        return dataTransaksi;
-    }
+//    public List<Transaksi> showTransaksiByPenghuni(String id_penghuni, String query){
+//        List<Transaksi>dataTransaksi = tDao.showTransaksiByPenghuni(id_penghuni, query);
+//        return dataTransaksi;
+//    }
 
-    public List<Transaksi> showAllTransaksi(String query){
-        List<Transaksi>dataTransaksi = tDao.showAllTransaksi(query);
-        return dataTransaksi;
-    }
+//    public List<Transaksi> showAllTransaksi(String query){
+//        List<Transaksi>dataTransaksi = tDao.showAllTransaksi(query);
+//        return dataTransaksi;
+//    }
     
-    public TransaksiUserTable showDataMenu(String query){
-        List<Transaksi> dataTransaksi = tDao.showAllTransaksi(query);
+    public TransaksiUserTable showDataMenu(String query, String user){
+        List<Transaksi> dataTransaksi = tDao.showTransakasiByUser(query,user);
         TransaksiUserTable transaksiUserTable = new TransaksiUserTable(dataTransaksi);
         
         return transaksiUserTable;
     }
+    
+    public TransaksiUserTable showDataMenuAdmin (String query){
+        List<Transaksi> dataTransaksi = tDao.TransaksiAdmin(query);
+        TransaksiUserTable transaksiUserTable = new TransaksiUserTable(dataTransaksi);
+        
+        return transaksiUserTable;
+    }
+    
+    
     
 //    public Transaksi searchTransaksi (int id){
 //        return tDao.searchTransaksi(id);

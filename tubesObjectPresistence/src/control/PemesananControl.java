@@ -44,6 +44,20 @@ public class PemesananControl {
         return pemesananTable;
     }
     
+    public PemesananTable showDataMenu(String query){
+        List<Pemesanan> dataPemesan = pDao.showAllPemesanan(query);
+        PemesananTable pemesananTable = new PemesananTable(dataPemesan);
+        
+        return pemesananTable;
+    }
+    
+    public PemesananTable showPemesananByUser(String query, String id){
+        List<Pemesanan> dataPemesan = pDao.showAllPemesananByUser(query,id);
+        PemesananTable pemesananTable = new PemesananTable(dataPemesan);
+        
+        return pemesananTable;
+    }
+    
 //    public PemesananTable showDataMenu(String query){
 //        List<Pemesanan> dataPemesanan = pDao.showAllPemesanan(query);
 //        PemesananTable pemesananTable = new PemesananTable(dataPemesanan);

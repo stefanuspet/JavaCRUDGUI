@@ -102,6 +102,35 @@ public class PemesananDAO {
         }
         return listPemesanan;
     }
+    public List<Pemesanan> showAllPemesananByUser(String query, String id){
+        List<Pemesanan> listPemesanan = new ArrayList<>();
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM pemesanan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE p.username = '"+id+"'";
+        
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while (result.next()){
+                Pemesanan p = new Pemesanan(
+                        result.getInt("id_pemesanan"),
+                        pc.searchPenghuni(result.getInt("id_penghuni")),
+                        kc.getKamar(result.getInt("id_kamar")),
+                        result.getString("tanggal_masuk"),
+                        result.getString("tanggal_keluar"),
+                        plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                        result.getInt("total"),
+                        result.getString("status")
+                );
+                listPemesanan.add(p);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting Pemesanan...");
+            throw new RuntimeException(e);
+        }
+        return listPemesanan;
+    }
 
     public Pemesanan getPemesanan(int id_pemesanan){
         Pemesanan p = null;

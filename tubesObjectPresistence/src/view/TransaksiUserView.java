@@ -29,9 +29,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
     
     private TransaksiControl transCtrl;
     private PemesananControl pemesananCtrl;
-    int selectedIdAdaun = 0;
+    int selectedIdTransaksi = 0;
     int selectedIdPesan = 0;
     String action = " ";
+    String tb = "Transfer Bank";
+    String kk = "Kartu Kredit";
+    String or = "Outlet Ritel";
+    String ew = "E-Wallet";
+    String d = "Debit";
     
     String user = null;
     private DbConnection dbCon = new DbConnection();
@@ -40,10 +45,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
     public TransaksiUserView(String usr) {
         initComponents();
         cekLoginName(usr);
+        setComponent(false);
+        setEditDeleteBtn(false);
         this.user = usr;
         transCtrl = new TransaksiControl();
         pemesananCtrl = new PemesananControl();
         showMenu();
+        tablePemesananShow.setEnabled(false);
+        tableTransaksiShow.setEnabled(true);
     }
     
     public void cekLoginName(String usr){
@@ -61,41 +70,49 @@ public class TransaksiUserView extends javax.swing.JFrame {
             rs.close();
             statement.close();
         }catch(Exception e){
-            System.out.println("eror");
+            System.out.println("Eror login" + e);
         }  
 }
     public String cekIdUser(String usr) {
         con = dbCon.makeConnection();
-        String sql = "SELECT id_transaksi FROM penghuni WHERE username='" + usr + "'";
+        String sql = "SELECT username FROM penghuni WHERE username='" + usr + "'";
         try {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             if (rs != null) {
                 while (rs.next()) {
-                    usr = rs.getString("id_transaksi");
+                    usr = rs.getString("username");
                 }
             }
             rs.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println("eror");
+            System.out.println("eror"+ e);
         }
 
         return usr;
     }
     
     public void showTransaksiUserView() {
-        //tablePemesananShow.setModel(transCtrl.showAllTransaksi(user));
+        tablePemesananShow.setModel(transCtrl.showDataMenu("", cekIdUser(user)));
+        tableTransaksiShow.setModel(pemesananCtrl.showTablePemesanan(""));
     }
 
     public void setComponent(boolean value) {
         idText.setEnabled(value);
         idPemesananText.setEnabled(value);
+        
         bankRadioButton.setEnabled(value);
         kreditRadioButton.setEnabled(value);
         outletRadioButton.setEnabled(value);
         walletRadioButton.setEnabled(value);
         debitRadioButton.setEnabled(value);
+        
+//        bankCombo.setEnabled(value);
+//        kreditCombo.setEnabled(value);
+//        ritelCombo.setEnabled(value);
+//        walletCombo.setEnabled(value);
+//        debitCombo.setEnabled(value);
 
         Savebtn.setEnabled(value);
         cancelbtn.setEnabled(value);
@@ -107,8 +124,8 @@ public class TransaksiUserView extends javax.swing.JFrame {
     }
   
     public void showMenu(){
-        //tablePemesananShow.setModel(pemesananCtrl.showDataMenu(""));
-        tableTransaksiShow.setModel(transCtrl.showDataMenu(""));
+        tablePemesananShow.setModel(pemesananCtrl.showPemesananByUser("", cekIdUser(user)));
+        tableTransaksiShow.setModel(transCtrl.showDataMenu("", cekIdUser(user)));
     }
 
     public void clearText() {
@@ -161,8 +178,6 @@ public void InputKosongException() throws InputKosongException {
         idPemesananText = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jenisPemesananLabel = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         bankRadioButton = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
@@ -173,9 +188,6 @@ public void InputKosongException() throws InputKosongException {
         debitRadioButton = new javax.swing.JRadioButton();
         kreditRadioButton = new javax.swing.JRadioButton();
         walletRadioButton = new javax.swing.JRadioButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         cancelbtn = new javax.swing.JButton();
         Savebtn = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
@@ -188,7 +200,7 @@ public void InputKosongException() throws InputKosongException {
         searchPemesananText = new javax.swing.JTextField();
         searchPemesanTable = new javax.swing.JButton();
         searchTransaksiTable = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        searchTransaksiText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -399,20 +411,6 @@ public void InputKosongException() throws InputKosongException {
 
         jenisPemesananLabel.setText("Jenis Pemesanan");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VISA ", "JCB" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BNI", "BCA", "MANDIRI", "BRI", "BSI", "CIMB" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/creditcard.png"))); // NOI18N
 
         buttonGroup1.add(bankRadioButton);
@@ -463,27 +461,6 @@ public void InputKosongException() throws InputKosongException {
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALFAMART", "INDOMARET", " " }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BRI Direct Debit", "BCA KlikPay", " " }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DANA", "ShoppePay", "OVO", "LinkAja", " " }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
-            }
-        });
-
         cancelbtn.setText("Cancel");
         cancelbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -505,7 +482,7 @@ public void InputKosongException() throws InputKosongException {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 178, Short.MAX_VALUE)
                         .addComponent(Savebtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cancelbtn))
@@ -536,13 +513,7 @@ public void InputKosongException() throws InputKosongException {
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(debitRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(75, 75, 75))
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
@@ -552,40 +523,29 @@ public void InputKosongException() throws InputKosongException {
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jenisPemesananLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jenisPemesananLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(bankRadioButton))))
-                .addGap(20, 20, 20)
+                    .addComponent(jLabel3)
+                    .addComponent(bankRadioButton))
+                .addGap(22, 22, 22)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(kreditRadioButton)
                     .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(outletRadioButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
-                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(walletRadioButton)))
+                    .addComponent(walletRadioButton))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(debitRadioButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                    .addComponent(debitRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Savebtn)
                     .addComponent(cancelbtn)))
@@ -657,6 +617,9 @@ public void InputKosongException() throws InputKosongException {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablePemesananShowMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablePemesananShowMouseEntered(evt);
+            }
         });
         jScrollPane2.setViewportView(tablePemesananShow);
 
@@ -696,7 +659,7 @@ public void InputKosongException() throws InputKosongException {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchTransaksiText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(searchTransaksiTable))
                     .addGroup(jPanel11Layout.createSequentialGroup()
@@ -710,19 +673,19 @@ public void InputKosongException() throws InputKosongException {
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(searchPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchPemesanTable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(searchTransaksiTable)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchTransaksiText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -800,14 +763,6 @@ public void InputKosongException() throws InputKosongException {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
     private void bankRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bankRadioButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bankRadioButtonActionPerformed
@@ -828,18 +783,6 @@ public void InputKosongException() throws InputKosongException {
         // TODO add your handling code here:
     }//GEN-LAST:event_walletRadioButtonActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
-
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
     private void NavAduanUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAduanUserMouseClicked
         // TODO add your handling code here:
         AduanUserView start = new AduanUserView(user);
@@ -851,42 +794,37 @@ public void InputKosongException() throws InputKosongException {
         // TODO add your handling code here:
         
         try {
-            
+       
         InputKosongException();
         
         String jenisPemesanan = "";
             
-        String tb = "Transfer Bank";
-        String kk = "Kartu Kredit,";
-        String or = "Outlet Ritel,";
-        String ew = "E-Wallet,";
-        String d = "Debit";
-            
         if (bankRadioButton.isSelected()) {
-            jenisPemesanan  = tb;
-        } else if (jenisPemesanan.contains(kk)){
-            kreditRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(or)){
-            outletRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(ew)){
-            walletRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(d)){
-            debitRadioButton.isSelected();
+            jenisPemesanan = tb;
+        } else if (kreditRadioButton.isSelected()){
+            jenisPemesanan = kk;
+        } else if (outletRadioButton.isSelected()){
+            jenisPemesanan = or;
+        } else if (walletRadioButton.isSelected()){
+            jenisPemesanan = ew;
+        } else{
+            jenisPemesanan = d;
         }
      
        
             if (action.equals("add")) {
-                Transaksi t = new Transaksi(0, 0, jenisPemesanan);
+                Transaksi t = new Transaksi(0, Integer.parseInt(idPemesananText.getText()), jenisPemesanan);
                 transCtrl.insertDataTransaksi(t);
             } else if (action.equals("edit")) {
-                Transaksi t = new Transaksi(selectedIdAdaun, selectedIdPesan, jenisPemesanan);
-                transCtrl.updateDataTransaksi(t, selectedIdAdaun);
+                Transaksi t = new Transaksi(selectedIdTransaksi, Integer.parseInt(idPemesananText.getText()), jenisPemesanan);
+                transCtrl.updateDataTransaksi(t, selectedIdTransaksi);
             }
 
             clearText();
-            showTransaksiUserView();
+            showMenu();
             setComponent(false);
             setEditDeleteBtn(false);
+            tablePemesananShow.setEnabled(false);
         }  catch(InputKosongException e){ 
           JOptionPane.showMessageDialog(this, e.message()); 
         }
@@ -905,7 +843,7 @@ public void InputKosongException() throws InputKosongException {
             int clickedRow = tablePemesananShow.getSelectedRow();
             TableModel tableModel = tablePemesananShow.getModel();
 
-            selectedIdAdaun = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+            selectedIdTransaksi = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
             idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
             idPemesananText.setText(tableModel.getValueAt(clickedRow, 1).toString());
 
@@ -918,8 +856,12 @@ public void InputKosongException() throws InputKosongException {
         clearText();
         setEditDeleteBtn(false);
         setComponent(true);
+        tablePemesananShow.setEnabled(true);
         action = "add";
         idText.setText("auto_Increment");
+        idText.setEnabled(false);
+        idPemesananText.setEnabled(false);
+        
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void searchPemesanTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPemesanTableActionPerformed
@@ -928,6 +870,7 @@ public void InputKosongException() throws InputKosongException {
         setComponent(false);
      
         //showListPemesanan(searchPemesananText.getText());
+        
         try {
             
 //            .showDataMenu(searchPemesananText.getText())
@@ -953,15 +896,15 @@ public void InputKosongException() throws InputKosongException {
      
         //showListPemesanan(searchPemesananText.getText());
         try {
-           
-            TransaksiUserTable tut = transCtrl.showDataMenu(searchPemesananText.getText());
+            System.out.println("masuk");
+            TransaksiUserTable tut = transCtrl.showDataMenu(searchTransaksiText.getText(), cekIdUser(user));
             if (tut.getRowCount() == 0) {
                 clearText();
                 setEditDeleteBtn(false);
                 JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
                         JOptionPane.DEFAULT_OPTION);
             } else {
-                tablePemesananShow.setModel(tut);
+                tableTransaksiShow.setModel(tut);
             }
             clearText();
         } catch (Exception e) {
@@ -977,12 +920,33 @@ public void InputKosongException() throws InputKosongException {
         // TODO add your handling code here:
         action = "edit";
         setComponent(true);
+        idText.setEnabled(false);
+        idPemesananText.setEnabled(false);
+        tablePemesananShow.setEnabled(true);
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        action = "edit";
-        setComponent(true);
+        int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Apakah yakin ingin menghapus data ?", "Konfirmasi",
+                JOptionPane.YES_NO_OPTION);
+        switch (getAnswer) {
+            case 0:
+                try {
+                transCtrl.deleteDataTransaki(selectedIdTransaksi);
+                clearText();
+                showMenu();
+                setComponent(false);
+                setEditDeleteBtn(false);
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+            } catch (Exception e) {
+                System.out.println("Error : " + e.getMessage());
+            }
+            break;
+
+            case 1:
+                JOptionPane.showMessageDialog(null, "Data tidak jadi dihapus!");
+                break;
+        }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void NavTransaksiUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavTransaksiUserMouseClicked
@@ -994,43 +958,55 @@ public void InputKosongException() throws InputKosongException {
 
     private void tablePemesananShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseClicked
         // TODO add your handling code here:
-        int indexpenghuni = -1;
-        setEditDeleteBtn(true);
-        setComponent(false);
+//        int indexpenghuni = -1;
 
-        int clickedRow = tableTransaksiShow.getSelectedRow();
-        TableModel tableModel = tableTransaksiShow.getModel();
+        int clickedRow = tablePemesananShow.getSelectedRow();
+        TableModel tableModel = tablePemesananShow.getModel();
 
-        selectedIdAdaun = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
-
-        idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
-        idPemesananText.setText(tableModel.getValueAt(clickedRow, 1).toString());
-
-        String tb = "Transfer Bank";
-        String kk = "Kartu Kredit,";
-        String or = "Outlet Ritel,";
-        String ew = "E-Wallet,";
-        String d = "Debit";
-        String jenisPemesanan = tableModel.getValueAt(clickedRow, 2).toString();
-        
-        if (jenisPemesanan.contains(tb)) {
-            bankRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(kk)){
-            kreditRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(or)){
-            outletRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(ew)){
-            walletRadioButton.isSelected();
-        } else if (jenisPemesanan.contains(d)){
-            debitRadioButton.isSelected();
-        }
+        idPemesananText.setText(tableModel.getValueAt(clickedRow, 0).toString());        
   
     }//GEN-LAST:event_tablePemesananShowMouseClicked
 
     private void tableTransaksiShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTransaksiShowMouseClicked
         // TODO add your handling code here:
+        setEditDeleteBtn(true);
+        int clickedRow = tableTransaksiShow.getSelectedRow();
+
+        
+        String tb = "Transfer Bank";
+        String kk = "Kartu Kredit";
+        String or = "Outlet Ritel";
+        String ew = "E-Wallet";
+        String d = "Debit";
+        
+        
+        TableModel tableModel = tableTransaksiShow.getModel();
+
+        selectedIdTransaksi = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+        int idPemesanan= Integer.parseInt(tableModel.getValueAt(clickedRow, 1).toString());
+        String jenisPemesanan = tableModel.getValueAt(clickedRow, 2).toString();
+
+        
+        if (jenisPemesanan.contains(tb)) {
+            bankRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(kk)){
+            kreditRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(or)){
+            outletRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(ew)){
+            walletRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(d)){
+            debitRadioButton.setSelected(true);
+        }
+        
+        idText.setText(Integer.toString(selectedIdTransaksi));
+        idPemesananText.setText(Integer.toString(idPemesanan));
         
     }//GEN-LAST:event_tableTransaksiShowMouseClicked
+
+    private void tablePemesananShowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablePemesananShowMouseEntered
 
     /**
      * @param args the command line arguments
@@ -1098,11 +1074,6 @@ public void InputKosongException() throws InputKosongException {
     private javax.swing.JButton editBtn;
     private javax.swing.JTextField idPemesananText;
     private javax.swing.JTextField idText;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -1125,13 +1096,13 @@ public void InputKosongException() throws InputKosongException {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel jenisPemesananLabel;
     private javax.swing.JRadioButton kreditRadioButton;
     private javax.swing.JRadioButton outletRadioButton;
     private javax.swing.JButton searchPemesanTable;
     private javax.swing.JTextField searchPemesananText;
     private javax.swing.JButton searchTransaksiTable;
+    private javax.swing.JTextField searchTransaksiText;
     private javax.swing.JTable tablePemesananShow;
     private javax.swing.JTable tableTransaksiShow;
     private javax.swing.JRadioButton walletRadioButton;

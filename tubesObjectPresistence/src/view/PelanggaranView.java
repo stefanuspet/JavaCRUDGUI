@@ -822,9 +822,9 @@ public class PelanggaranView extends javax.swing.JFrame {
 
     private void transaksinavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksinavMouseClicked
         // TODO add your handling code here:
-        TransaksiAdminView tav = new TransaksiAdminView();
-        this.dispose();
-        tav.setVisible(true);
+//        TransaksiAdminView tav = new TransaksiAdminView();
+//        this.dispose();
+//        tav.setVisible(true);
     }//GEN-LAST:event_transaksinavMouseClicked
 
     /**

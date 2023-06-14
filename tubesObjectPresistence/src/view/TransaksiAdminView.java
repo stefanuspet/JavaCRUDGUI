@@ -4,73 +4,146 @@
  */
 package view;
 
-import model.Penghuni;
-import control.PenghuniControl;
-import java.util.List;
+import model.Transaksi;
+import control.TransaksiControl;
+import control.PemesananControl;
+import table.TransaksiUserTable;
+import table.PemesananTable;
+
+import connection.DbConnection;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import exception.InputKosongException;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
-import table.PenghuniTable;
-import exception.InputKosongException;
+
 /**
  *
- * @author nayal
+ * @author stefa
  */
 public class TransaksiAdminView extends javax.swing.JFrame {
-
     /**
      * Creates new form AdminView
      */
-    private PenghuniControl penghunictrl;
-    int selectedId = 0;
+    
+    private TransaksiControl transCtrl;
+    private PemesananControl pemesananCtrl;
+    int selectedIdTransaksi = 0;
+    int selectedIdPesan = 0;
     String action = " ";
-
-    public TransaksiAdminView() {
+    String tb = "Transfer Bank";
+    String kk = "Kartu Kredit";
+    String or = "Outlet Ritel";
+    String ew = "E-Wallet";
+    String d = "Debit";
+    
+    String user = null;
+    private DbConnection dbCon = new DbConnection();
+    private Connection con;
+    
+    public TransaksiAdminView(String usr) {
         initComponents();
+        cekLoginName(usr);
         setComponent(false);
         setEditDeleteBtn(false);
-        penghunictrl = new PenghuniControl();
-        idPenghuniText.setEnabled(false);
-        clearText();
-        searchText.setText("Cari Berdasarkan Nama");
-        showPenghuni();
+        this.user = usr;
+        transCtrl = new TransaksiControl();
+        pemesananCtrl = new PemesananControl();
+        showMenu();
+        tablePemesananShow.setEnabled(false);
+        tableTransaksiShow.setEnabled(true);
+    }
+    
+    public void cekLoginName(String usr){
+        con = dbCon.makeConnection();
+        String sql ="SELECT nama FROM penghuni WHERE username='"+usr+"'";
+        try{
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("nama");
+//                    welcomeText.setText("Selamat Datang "+usr);
+                }
+            }
+            rs.close();
+            statement.close();
+        }catch(Exception e){
+            System.out.println("Eror login" + e);
+        }  
+}
+    public String cekIdUser(String usr) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT username FROM penghuni WHERE username='" + usr + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("username");
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror"+ e);
+        }
+
+        return usr;
+    }
+    
+    public void showTransaksiUserView() {
+        tablePemesananShow.setModel(transCtrl.showDataMenu("", cekIdUser(user)));
+        tableTransaksiShow.setModel(pemesananCtrl.showTablePemesanan(""));
     }
 
     public void setComponent(boolean value) {
-        namaText.setEnabled(value);
-        userText.setEnabled(value);
-        passwordText.setEnabled(value);
-        telpText.setEnabled(value);
-        alamatText.setEnabled(value);
+        idText.setEnabled(value);
+        idPemesananText.setEnabled(value);
+        
+        bankRadioButton.setEnabled(value);
+        kreditRadioButton.setEnabled(value);
+        outletRadioButton.setEnabled(value);
+        walletRadioButton.setEnabled(value);
+        debitRadioButton.setEnabled(value);
+        
+//        bankCombo.setEnabled(value);
+//        kreditCombo.setEnabled(value);
+//        ritelCombo.setEnabled(value);
+//        walletCombo.setEnabled(value);
+//        debitCombo.setEnabled(value);
 
         Savebtn.setEnabled(value);
         cancelbtn.setEnabled(value);
     }
 
     public void setEditDeleteBtn(boolean value) {
-        EditBtn.setEnabled(value);
+        editBtn.setEnabled(value);
         deleteBtn.setEnabled(value);
+    }
+  
+    public void showMenu(){
+        tablePemesananShow.setModel(pemesananCtrl.showTablePemesanan(""));
+        tableTransaksiShow.setModel(transCtrl.showDataMenuAdmin(""));
     }
 
     public void clearText() {
-        idPenghuniText.setText("");
-        namaText.setText("");
-        userText.setText("");
-        passwordText.setText("");
-        telpText.setText("");
-        alamatText.setText("");
-    }
+        idText.setText("");
+        idPemesananText.setText("");
 
-    public void showPenghuni() {
-        tablePenghunishow.setModel(penghunictrl.showTablePenghuni());
+        bankRadioButton.setEnabled(false);
+        kreditRadioButton.setEnabled(false);
+        outletRadioButton.setEnabled(false);
+        walletRadioButton.setEnabled(false);
+        debitRadioButton.setEnabled(false);
     }
     
-    public void InputKosongException() throws InputKosongException {
-        if(namaText.getText().isEmpty() || userText.getText().isEmpty() || telpText.getText().isEmpty() 
-                || passwordText.getText().isEmpty() || alamatText.getText().isEmpty()  ) {
+public void InputKosongException() throws InputKosongException {
+        if(!buttonGroup1.getSelection().isSelected()) {
             throw new InputKosongException();
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,82 +153,88 @@ public class TransaksiAdminView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
-        addBtn = new javax.swing.JButton();
-        EditBtn = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
-        InputPanel = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        userText = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
+        idText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        idPenghuniText = new javax.swing.JTextField();
-        jPanel14 = new javax.swing.JPanel();
-        namaText = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        passwordText = new javax.swing.JTextField();
-        jPanel22 = new javax.swing.JPanel();
-        alamatText = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        idPemesananText = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
-        telpText = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        Savebtn = new javax.swing.JButton();
+        jenisPemesananLabel = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        bankRadioButton = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        outletRadioButton = new javax.swing.JRadioButton();
+        debitRadioButton = new javax.swing.JRadioButton();
+        kreditRadioButton = new javax.swing.JRadioButton();
+        walletRadioButton = new javax.swing.JRadioButton();
         cancelbtn = new javax.swing.JButton();
-        tablePanel = new javax.swing.JPanel();
+        Savebtn = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePenghunishow = new javax.swing.JTable();
-        searchText = new javax.swing.JTextField();
-        searchBtn = new javax.swing.JButton();
+        tableTransaksiShow = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablePemesananShow = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        searchPemesananText = new javax.swing.JTextField();
+        searchPemesanTable = new javax.swing.JButton();
+        searchTransaksiTable = new javax.swing.JButton();
+        searchTransaksiText = new javax.swing.JTextField();
         NavPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        NavKamar = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        NavPenghuni = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        NavPelanggaran = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        NavTransaksi = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        NavAduan = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        NavPemesanan = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         StatusLocation.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        StatusLocation.setText("Penghuni");
+        StatusLocation.setText("Transaksi");
 
-        addBtn.setBackground(new java.awt.Color(0, 102, 0));
-        addBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addBtn.setText("Tambah");
-        addBtn.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setBackground(new java.awt.Color(0, 102, 0));
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("Tambah");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtnActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
-        EditBtn.setBackground(new java.awt.Color(255, 204, 0));
-        EditBtn.setForeground(new java.awt.Color(255, 255, 255));
-        EditBtn.setText("Ubah");
-        EditBtn.addActionListener(new java.awt.event.ActionListener() {
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditBtnActionPerformed(evt);
+                editBtnActionPerformed(evt);
             }
         });
 
@@ -170,39 +249,12 @@ public class TransaksiAdminView extends javax.swing.JFrame {
 
         jPanel9.setOpaque(false);
 
-        InputPanel.setBackground(new java.awt.Color(242, 242, 0));
-        InputPanel.setOpaque(false);
-
-        jPanel12.setOpaque(false);
-
-        jLabel9.setText("Username");
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel10.setBackground(new java.awt.Color(242, 242, 0));
+        jPanel10.setOpaque(false);
 
         jPanel13.setOpaque(false);
 
-        jLabel8.setText("ID Penghuni");
+        jLabel8.setText("ID Transaksi");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -211,12 +263,9 @@ public class TransaksiAdminView extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(idPenghuniText)
-                        .addContainerGap())
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,116 +273,87 @@ public class TransaksiAdminView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idPenghuniText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel14.setOpaque(false);
+        jPanel17.setOpaque(false);
 
-        jLabel10.setText("Nama");
+        jLabel13.setText("ID Pemesanan");
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(namaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(namaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel18.setOpaque(false);
-
-        jLabel14.setText("Password");
-
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel22.setOpaque(false);
-
-        jLabel18.setText("Alamat");
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18)
-                    .addComponent(alamatText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(alamatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
+        jPanel15.setBackground(new java.awt.Color(0, 0, 0));
         jPanel15.setOpaque(false);
 
-        jLabel11.setText("No Telepon");
+        jenisPemesananLabel.setText("Jenis Pemesanan");
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(telpText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(telpText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/creditcard.png"))); // NOI18N
 
-        Savebtn.setText("Save");
-        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(bankRadioButton);
+        bankRadioButton.setText("Transfer Bank");
+        bankRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SavebtnActionPerformed(evt);
+                bankRadioButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/bank.png"))); // NOI18N
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/mart.png"))); // NOI18N
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/e-wallet.png"))); // NOI18N
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/debit.png"))); // NOI18N
+
+        buttonGroup1.add(outletRadioButton);
+        outletRadioButton.setText("Outlet Ritel");
+        outletRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outletRadioButtonActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(debitRadioButton);
+        debitRadioButton.setText("Debit");
+        debitRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                debitRadioButtonActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(kreditRadioButton);
+        kreditRadioButton.setText("Kartu Kredit / Debit");
+        kreditRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kreditRadioButtonActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(walletRadioButton);
+        walletRadioButton.setText("E-wallet ");
+        walletRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                walletRadioButtonActionPerformed(evt);
             }
         });
 
@@ -344,88 +364,227 @@ public class TransaksiAdminView extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout InputPanelLayout = new javax.swing.GroupLayout(InputPanel);
-        InputPanel.setLayout(InputPanelLayout);
-        InputPanelLayout.setHorizontalGroup(
-            InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(InputPanelLayout.createSequentialGroup()
-                .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(InputPanelLayout.createSequentialGroup()
-                        .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Savebtn)
-                            .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cancelbtn)))
-                    .addGroup(InputPanelLayout.createSequentialGroup()
-                        .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(InputPanelLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InputPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 19, Short.MAX_VALUE))
-        );
-        InputPanelLayout.setVerticalGroup(
-            InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(InputPanelLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(56, 56, 56)
-                .addGroup(InputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Savebtn)
-                    .addComponent(cancelbtn))
-                .addGap(151, 151, 151))
-        );
-
-        tablePanel.setBackground(new java.awt.Color(242, 20, 255));
-        tablePanel.setOpaque(false);
-
-        tablePenghunishow.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID penghuni", "Username", "Password", "Nama", "No Telepon", "Alamat"
-            }
-        ));
-        tablePenghunishow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablePenghunishowMouseClicked(evt);
+        Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(tablePenghunishow);
 
-        javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
-        tablePanel.setLayout(tablePanelLayout);
-        tablePanelLayout.setHorizontalGroup(
-            tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
-        );
-        tablePanelLayout.setVerticalGroup(
-            tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tablePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(0, 178, Short.MAX_VALUE)
+                        .addComponent(Savebtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cancelbtn))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(kreditRadioButton))
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bankRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(outletRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(walletRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(debitRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(75, 75, 75))
+            .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jenisPemesananLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jenisPemesananLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(bankRadioButton))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kreditRadioButton)
+                    .addComponent(jLabel6))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(outletRadioButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(walletRadioButton))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(debitRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 20, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Savebtn)
+                    .addComponent(cancelbtn)))
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 203, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel11.setBackground(new java.awt.Color(242, 20, 255));
+        jPanel11.setOpaque(false);
+
+        tableTransaksiShow.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID Transaksi", "ID Pemesanan", "Jenis Pemesanan"
+            }
+        ));
+        tableTransaksiShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableTransaksiShowMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableTransaksiShow);
+
+        tablePemesananShow.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tablePemesananShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePemesananShowMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tablePemesananShowMouseEntered(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tablePemesananShow);
+
+        jLabel2.setText("Pemesanan yang Tersedia");
+
+        jLabel5.setText("Daftar Riwayat Transaksi");
+
+        searchPemesananText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchPemesananTextActionPerformed(evt);
+            }
+        });
+
+        searchPemesanTable.setText("Cari");
+        searchPemesanTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchPemesanTableActionPerformed(evt);
+            }
+        });
+
+        searchTransaksiTable.setText("Cari");
+        searchTransaksiTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTransaksiTableActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchTransaksiText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchTransaksiTable))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchPemesanTable)))
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(searchPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchPemesanTable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchTransaksiTable)
+                        .addComponent(searchTransaksiText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -433,46 +592,21 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(InputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(InputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        searchText.setForeground(new java.awt.Color(204, 204, 204));
-        searchText.setText("Cari Berdasarkan Nama");
-        searchText.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchTextMouseClicked(evt);
-            }
-        });
-        searchText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTextActionPerformed(evt);
-            }
-        });
-        searchText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                searchTextKeyTyped(evt);
-            }
-        });
-
-        searchBtn.setText("Cari");
-        searchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
@@ -481,19 +615,15 @@ public class TransaksiAdminView extends javax.swing.JFrame {
             .addGroup(BodyPanelLayout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StatusLocation)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(BodyPanelLayout.createSequentialGroup()
-                        .addComponent(addBtn)
+                        .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(EditBtn)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(deleteBtn)
-                        .addGap(251, 251, 251)
-                        .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchBtn)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                        .addComponent(deleteBtn))
+                    .addComponent(StatusLocation)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         BodyPanelLayout.setVerticalGroup(
             BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,11 +632,9 @@ public class TransaksiAdminView extends javax.swing.JFrame {
                 .addComponent(StatusLocation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addBtn)
-                    .addComponent(EditBtn)
-                    .addComponent(deleteBtn)
-                    .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
+                    .addComponent(addButton)
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -518,44 +646,39 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Atma Jaya Kost");
 
-        NavKamar.setBackground(new java.awt.Color(21, 108, 165));
-        NavKamar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        NavKamar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NavKamarMouseClicked(evt);
-            }
-        });
+        jPanel4.setBackground(new java.awt.Color(21, 108, 165));
+        jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Kamar");
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Kamar");
 
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Room.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavKamarLayout = new javax.swing.GroupLayout(NavKamar);
-        NavKamar.setLayout(NavKamarLayout);
-        NavKamarLayout.setHorizontalGroup(
-            NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavKamarLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        NavKamarLayout.setVerticalGroup(
-            NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavKamarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addGap(8, 8, 8))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavPenghuni.setBackground(new java.awt.Color(13, 82, 128));
-        NavPenghuni.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel21.setBackground(new java.awt.Color(21, 108, 165));
+        jPanel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -564,32 +687,28 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Penghuni.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavPenghuniLayout = new javax.swing.GroupLayout(NavPenghuni);
-        NavPenghuni.setLayout(NavPenghuniLayout);
-        NavPenghuniLayout.setHorizontalGroup(
-            NavPenghuniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPenghuniLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        NavPenghuniLayout.setVerticalGroup(
-            NavPenghuniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPenghuniLayout.createSequentialGroup()
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel27)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel26)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavPelanggaran.setBackground(new java.awt.Color(21, 108, 165));
-        NavPelanggaran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        NavPelanggaran.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NavPelanggaranMouseClicked(evt);
-            }
-        });
+        jPanel23.setBackground(new java.awt.Color(21, 108, 165));
+        jPanel23.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -598,28 +717,28 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pelanggaran.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavPelanggaranLayout = new javax.swing.GroupLayout(NavPelanggaran);
-        NavPelanggaran.setLayout(NavPelanggaranLayout);
-        NavPelanggaranLayout.setHorizontalGroup(
-            NavPelanggaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPelanggaranLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        NavPelanggaranLayout.setVerticalGroup(
-            NavPelanggaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPelanggaranLayout.createSequentialGroup()
-                .addContainerGap()
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel30)
-                .addGap(8, 8, 8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavTransaksi.setBackground(new java.awt.Color(21, 108, 165));
-        NavTransaksi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel24.setBackground(new java.awt.Color(13, 82, 128));
+        jPanel24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -628,35 +747,30 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pemesanan.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavTransaksiLayout = new javax.swing.GroupLayout(NavTransaksi);
-        NavTransaksi.setLayout(NavTransaksiLayout);
-        NavTransaksiLayout.setHorizontalGroup(
-            NavTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavTransaksiLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        NavTransaksiLayout.setVerticalGroup(
-            NavTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavTransaksiLayout.createSequentialGroup()
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(jLabel33)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel32)
-                .addGap(8, 8, 8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavAduan.setBackground(new java.awt.Color(21, 108, 165));
-        NavAduan.setAlignmentX(0.0F);
-        NavAduan.setAlignmentY(0.0F);
-        NavAduan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        NavAduan.setPreferredSize(new java.awt.Dimension(100, 100));
-        NavAduan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NavAduanMouseClicked(evt);
-            }
-        });
+        jPanel2.setBackground(new java.awt.Color(21, 108, 165));
+        jPanel2.setAlignmentX(0.0F);
+        jPanel2.setAlignmentY(0.0F);
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -666,63 +780,58 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavAduanLayout = new javax.swing.GroupLayout(NavAduan);
-        NavAduan.setLayout(NavAduanLayout);
-        NavAduanLayout.setHorizontalGroup(
-            NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavAduanLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NavAduanLayout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        NavAduanLayout.setVerticalGroup(
-            NavAduanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavAduanLayout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        NavPemesanan.setBackground(new java.awt.Color(21, 108, 165));
-        NavPemesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        NavPemesanan.setPreferredSize(new java.awt.Dimension(100, 100));
-        NavPemesanan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                NavPemesananMouseClicked(evt);
-            }
-        });
+        jPanel5.setBackground(new java.awt.Color(21, 108, 165));
+        jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Pemesanan");
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Pemesanan");
 
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Transaksi.png"))); // NOI18N
 
-        javax.swing.GroupLayout NavPemesananLayout = new javax.swing.GroupLayout(NavPemesanan);
-        NavPemesanan.setLayout(NavPemesananLayout);
-        NavPemesananLayout.setHorizontalGroup(
-            NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavPemesananLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        NavPemesananLayout.setVerticalGroup(
-            NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavPemesananLayout.createSequentialGroup()
-                .addContainerGap()
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
@@ -733,33 +842,32 @@ public class TransaksiAdminView extends javax.swing.JFrame {
                 .addGap(62, 62, 62)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(NavPemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NavKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NavPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NavAduan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NavPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NavTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
         NavPanelLayout.setVerticalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
-                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(NavPanelLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jLabel1))
-                    .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(NavPelanggaran, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(NavAduan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NavPenghuni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NavKamar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NavPemesanan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(NavTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -773,103 +881,169 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(NavPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(NavPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BodyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextActionPerformed
+    private void bankRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bankRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bankRadioButtonActionPerformed
+
+    private void outletRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outletRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_outletRadioButtonActionPerformed
+
+    private void debitRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debitRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_debitRadioButtonActionPerformed
+
+    private void kreditRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreditRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kreditRadioButtonActionPerformed
+
+    private void walletRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_walletRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_walletRadioButtonActionPerformed
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+       
+        InputKosongException();
+        
+        String jenisPemesanan = "";
+            
+        if (bankRadioButton.isSelected()) {
+            jenisPemesanan = tb;
+        } else if (kreditRadioButton.isSelected()){
+            jenisPemesanan = kk;
+        } else if (outletRadioButton.isSelected()){
+            jenisPemesanan = or;
+        } else if (walletRadioButton.isSelected()){
+            jenisPemesanan = ew;
+        } else{
+            jenisPemesanan = d;
+        }
+     
+       
+            if (action.equals("add")) {
+                Transaksi t = new Transaksi(0, Integer.parseInt(idPemesananText.getText()), jenisPemesanan);
+                transCtrl.insertDataTransaksi(t);
+            } else if (action.equals("edit")) {
+                Transaksi t = new Transaksi(selectedIdTransaksi, Integer.parseInt(idPemesananText.getText()), jenisPemesanan);
+                transCtrl.updateDataTransaksi(t, selectedIdTransaksi);
+            }
+
+            clearText();
+            showMenu();
+            setComponent(false);
+            setEditDeleteBtn(false);
+            tablePemesananShow.setEnabled(false);
+        }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
+        }
+        
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
+        // TODO add your handling code here:
+        if (action.equals("add")) {
+            clearText();
+            setEditDeleteBtn(false);
+            setComponent(false);
+        } else if (action.equals("edit")) {
+            clearText();
+            setComponent(false);
+            int clickedRow = tablePemesananShow.getSelectedRow();
+            TableModel tableModel = tablePemesananShow.getModel();
+
+            selectedIdTransaksi = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+            idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+            idPemesananText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+
+        }
+        
+    }//GEN-LAST:event_cancelbtnActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        clearText();
+        setEditDeleteBtn(false);
+        setComponent(true);
+        tablePemesananShow.setEnabled(true);
+        action = "add";
+        idText.setText("auto_Increment");
+        idText.setEnabled(false);
+        idPemesananText.setEnabled(false);
+        
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void searchPemesanTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPemesanTableActionPerformed
         // TODO add your handling code here:
         setEditDeleteBtn(false);
         setComponent(false);
+     
+        //showListPemesanan(searchPemesananText.getText());
+        
         try {
-            PenghuniTable pt = penghunictrl.searchPenghuniTable(searchText.getText());
+            
+//            .showDataMenu(searchPemesananText.getText())
+            PemesananTable pt = pemesananCtrl.searchTablePemesanan(searchPemesananText.getText());
             if (pt.getRowCount() == 0) {
                 clearText();
                 setEditDeleteBtn(false);
                 JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
                         JOptionPane.DEFAULT_OPTION);
             } else {
-                tablePenghunishow.setModel(pt);
+                tablePemesananShow.setModel(pt);
             }
             clearText();
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }//GEN-LAST:event_searchTextActionPerformed
+    }//GEN-LAST:event_searchPemesanTableActionPerformed
 
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+    private void searchTransaksiTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTransaksiTableActionPerformed
         // TODO add your handling code here:
-        clearText();
-        
-        setComponent(true);
         setEditDeleteBtn(false);
-        namaText.setEditable(false);
-        userText.setEnabled(false);
-        idPenghuniText.setText("Auto_increment");
-        passwordText.setEnabled(false);
-        alamatText.setEnabled(false);
-        telpText.setEnabled(false);
-//        searchText.setText("Cari Berdasarkan Nama");
-        action = "add";
-
-    }//GEN-LAST:event_addBtnActionPerformed
-
-    private void tablePenghunishowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePenghunishowMouseClicked
-        // TODO add your handling code here:
-
-        int indexpenghuni = -1;
-        setEditDeleteBtn(true);
-
         setComponent(false);
-
-        int clickedRow = tablePenghunishow.getSelectedRow();
-        TableModel tableModel = tablePenghunishow.getModel();
-
-        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
-        idPenghuniText.setText(tableModel.getValueAt(clickedRow, 0).toString());
-        userText.setText(tableModel.getValueAt(clickedRow, 1).toString());
-        passwordText.setText(tableModel.getValueAt(clickedRow, 2).toString());
-        namaText.setText(tableModel.getValueAt(clickedRow, 3).toString());
-        telpText.setText(tableModel.getValueAt(clickedRow, 4).toString());
-        alamatText.setText(tableModel.getValueAt(clickedRow, 5).toString());
-    }//GEN-LAST:event_tablePenghunishowMouseClicked
-
-    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
-        // TODO add your handling code here:
+     
+        //showListPemesanan(searchPemesananText.getText());
         try {
-            InputKosongException();
-            if (action.equals("add")) {
-                Penghuni p = new Penghuni(0, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
-                penghunictrl.insertDataPenghuni(p);
-            } else if (action.equals("edit")) {
-
-                Penghuni p = new Penghuni(selectedId, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
-                penghunictrl.updateDataPenghuni(p, selectedId);
+            System.out.println("masuk");
+            TransaksiUserTable tut = transCtrl.showDataMenuAdmin(searchTransaksiText.getText());
+            if (tut.getRowCount() == 0) {
+                clearText();
+                setEditDeleteBtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tableTransaksiShow.setModel(tut);
             }
-
             clearText();
-            showPenghuni();
-            setComponent(false);
-            setEditDeleteBtn(false);
-            searchText.setText("Cari Berdasarkan Nama");
-
-        }  catch(InputKosongException e){ 
-          JOptionPane.showMessageDialog(this, e.message()); 
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-    }//GEN-LAST:event_SavebtnActionPerformed
+    }//GEN-LAST:event_searchTransaksiTableActionPerformed
 
-    private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
+    private void searchPemesananTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPemesananTextActionPerformed
         // TODO add your handling code here:
-        setComponent(true);
+    }//GEN-LAST:event_searchPemesananTextActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
         action = "edit";
-    }//GEN-LAST:event_EditBtnActionPerformed
+        setComponent(true);
+        idText.setEnabled(false);
+        idPemesananText.setEnabled(false);
+        tablePemesananShow.setEnabled(true);
+    }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
@@ -878,13 +1052,11 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         switch (getAnswer) {
             case 0:
                 try {
-                penghunictrl.deleteDataPenghuni(selectedId);
+                transCtrl.deleteDataTransaki(selectedIdTransaksi);
                 clearText();
-                showPenghuni();
+                showMenu();
                 setComponent(false);
                 setEditDeleteBtn(false);
-                searchText.setText("Cari Berdasarkan Nama");
-
                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
             } catch (Exception e) {
                 System.out.println("Error : " + e.getMessage());
@@ -897,86 +1069,57 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
+    private void tablePemesananShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseClicked
         // TODO add your handling code here:
-        if (action.equals("add")) {
-            clearText();
-            setEditDeleteBtn(false);
-            setComponent(false);
-        } else if (action.equals("edit")) {
-            clearText();
-            setComponent(false);
-            int clickedRow = tablePenghunishow.getSelectedRow();
-            TableModel tableModel = tablePenghunishow.getModel();
+//        int indexpenghuni = -1;
 
-            selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
-            idPenghuniText.setText(tableModel.getValueAt(clickedRow, 0).toString());
-            userText.setText(tableModel.getValueAt(clickedRow, 1).toString());
-            passwordText.setText(tableModel.getValueAt(clickedRow, 2).toString());
-            namaText.setText(tableModel.getValueAt(clickedRow, 3).toString());
-            telpText.setText(tableModel.getValueAt(clickedRow, 4).toString());
-            alamatText.setText(tableModel.getValueAt(clickedRow, 5).toString());
+        int clickedRow = tablePemesananShow.getSelectedRow();
+        TableModel tableModel = tablePemesananShow.getModel();
 
-        }
-    }//GEN-LAST:event_cancelbtnActionPerformed
+        idPemesananText.setText(tableModel.getValueAt(clickedRow, 0).toString());        
+  
+    }//GEN-LAST:event_tablePemesananShowMouseClicked
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+    private void tableTransaksiShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTransaksiShowMouseClicked
         // TODO add your handling code here:
-        setEditDeleteBtn(false);
-        setComponent(false);
-        try {
-            PenghuniTable pt = penghunictrl.searchPenghuniTable(searchText.getText());
-            if (pt.getRowCount() == 0) {
-                clearText();
-                setEditDeleteBtn(false);
-                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
-                        JOptionPane.DEFAULT_OPTION);
-            } else {
-                tablePenghunishow.setModel(pt);
-            }
-            clearText();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        setEditDeleteBtn(true);
+        int clickedRow = tableTransaksiShow.getSelectedRow();
+
+        
+        String tb = "Transfer Bank";
+        String kk = "Kartu Kredit";
+        String or = "Outlet Ritel";
+        String ew = "E-Wallet";
+        String d = "Debit";
+        
+        
+        TableModel tableModel = tableTransaksiShow.getModel();
+
+        selectedIdTransaksi = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+        int idPemesanan= Integer.parseInt(tableModel.getValueAt(clickedRow, 1).toString());
+        String jenisPemesanan = tableModel.getValueAt(clickedRow, 2).toString();
+
+        
+        if (jenisPemesanan.contains(tb)) {
+            bankRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(kk)){
+            kreditRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(or)){
+            outletRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(ew)){
+            walletRadioButton.setSelected(true);
+        } else if (jenisPemesanan.contains(d)){
+            debitRadioButton.setSelected(true);
         }
         
-    }//GEN-LAST:event_searchBtnActionPerformed
+        idText.setText(Integer.toString(selectedIdTransaksi));
+        idPemesananText.setText(Integer.toString(idPemesanan));
+        
+    }//GEN-LAST:event_tableTransaksiShowMouseClicked
 
-    private void searchTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTextMouseClicked
+    private void tablePemesananShowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseEntered
         // TODO add your handling code here:
-        searchText.setText("");
-    }//GEN-LAST:event_searchTextMouseClicked
-
-    private void searchTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyTyped
-
-    }//GEN-LAST:event_searchTextKeyTyped
-
-    private void NavKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavKamarMouseClicked
-        // TODO add your handling code here:
-        KamarView kv = new KamarView();
-        this.dispose();
-        kv.setVisible(true);
-    }//GEN-LAST:event_NavKamarMouseClicked
-
-    private void NavPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPemesananMouseClicked
-        // TODO add your handling code here:
-        PemesananView pv = new PemesananView();
-        this.dispose();
-        pv.setVisible(true);
-    }//GEN-LAST:event_NavPemesananMouseClicked
-
-    private void NavAduanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAduanMouseClicked
-        // TODO add your handling code here:
-        AduanAdminView av = new AduanAdminView();
-        this.dispose();
-        av.setVisible(true);
-    }//GEN-LAST:event_NavAduanMouseClicked
-
-    private void NavPelanggaranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPelanggaranMouseClicked
-        // TODO add your handling code here:
-        PelanggaranView pv = new PelanggaranView();
-        this.dispose();
-        pv.setVisible(true);
-    }//GEN-LAST:event_NavPelanggaranMouseClicked
+    }//GEN-LAST:event_tablePemesananShowMouseEntered
 
     /**
      * @param args the command line arguments
@@ -1011,40 +1154,45 @@ public class TransaksiAdminView extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TransaksiAdminView().setVisible(true);
+                String usr = null;
+                new TransaksiAdminView(usr).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
-    private javax.swing.JButton EditBtn;
-    private javax.swing.JPanel InputPanel;
-    private javax.swing.JPanel NavAduan;
-    private javax.swing.JPanel NavKamar;
     private javax.swing.JPanel NavPanel;
-    private javax.swing.JPanel NavPelanggaran;
-    private javax.swing.JPanel NavPemesanan;
-    private javax.swing.JPanel NavPenghuni;
-    private javax.swing.JPanel NavTransaksi;
     private javax.swing.JButton Savebtn;
     private javax.swing.JLabel StatusLocation;
-    private javax.swing.JButton addBtn;
-    private javax.swing.JTextField alamatText;
+    private javax.swing.JButton addButton;
+    private javax.swing.JRadioButton bankRadioButton;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelbtn;
+    private javax.swing.JRadioButton debitRadioButton;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JTextField idPenghuniText;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField idPemesananText;
+    private javax.swing.JTextField idText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -1055,23 +1203,33 @@ public class TransaksiAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField namaText;
-    private javax.swing.JTextField passwordText;
-    private javax.swing.JButton searchBtn;
-    private javax.swing.JTextField searchText;
-    private javax.swing.JPanel tablePanel;
-    private javax.swing.JTable tablePenghunishow;
-    private javax.swing.JTextField telpText;
-    private javax.swing.JTextField userText;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel jenisPemesananLabel;
+    private javax.swing.JRadioButton kreditRadioButton;
+    private javax.swing.JRadioButton outletRadioButton;
+    private javax.swing.JButton searchPemesanTable;
+    private javax.swing.JTextField searchPemesananText;
+    private javax.swing.JButton searchTransaksiTable;
+    private javax.swing.JTextField searchTransaksiText;
+    private javax.swing.JTable tablePemesananShow;
+    private javax.swing.JTable tableTransaksiShow;
+    private javax.swing.JRadioButton walletRadioButton;
     // End of variables declaration//GEN-END:variables
 }

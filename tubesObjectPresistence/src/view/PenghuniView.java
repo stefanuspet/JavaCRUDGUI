@@ -977,9 +977,9 @@ public class PenghuniView extends javax.swing.JFrame {
 
     private void NavTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavTransaksiMouseClicked
         // TODO add your handling code here:
-        TransaksiAdminView tv = new TransaksiAdminView();
-        this.dispose();
-        tv.setVisible(true);
+//        TransaksiAdminView tv = new TransaksiAdminView();
+//        this.dispose();
+//        tv.setVisible(true);
     }//GEN-LAST:event_NavTransaksiMouseClicked
 
     /**

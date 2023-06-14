@@ -881,9 +881,9 @@ public class KamarView extends javax.swing.JFrame {
 
     private void NavtransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavtransaksiMouseClicked
         // TODO add your handling code here:
-        TransaksiAdminView tav = new TransaksiAdminView();
-        this.dispose();
-        tav.setVisible(true);
+//        TransaksiAdminView tav = new TransaksiAdminView();
+//        this.dispose();
+//        tav.setVisible(true);
     }//GEN-LAST:event_NavtransaksiMouseClicked
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed

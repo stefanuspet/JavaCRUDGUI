@@ -252,7 +252,7 @@
                           <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel15" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="Savebtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cancelbtn" alignment="3" min="-2" max="-2" attributes="0"/>
