@@ -39,7 +39,9 @@ public class PemesananView extends javax.swing.JFrame {
     private List<Penghuni> listPenghuni;
     private List<Kamar> listKamar;
     private List<Pelanggaran> listPelanggaran;
-    int totalBayar = 0;
+    int denda = 0;
+    int hargaKamar = 0;
+    int totalBayar = denda + hargaKamar;
     int getIndexKamar = 0;
     int getIndexPelanggaran = 0;
 
@@ -90,7 +92,7 @@ public class PemesananView extends javax.swing.JFrame {
     }
 
     public void setDenda(int index) {
-        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
+//        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
         
     }
 
@@ -988,6 +990,16 @@ public class PemesananView extends javax.swing.JFrame {
         // TODO add your handling code here:
 //       dendaText.setText(Integer.toString(setDenda(getIndexPelanggaran)));
 //        totalBayarText.setText(Integer.toString(setTotalBayar()));
+        Object obj = evt.getSource();
+        if(obj == pelanggaranComboBox){
+//        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
+//            dendaText.setText(Integer.toString(setDenda(getIndexPelanggaran)));
+        getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+        denda = listPelanggaran.get(getIndexPelanggaran).getDenda();
+        dendaText.setText(Integer.toString(denda));
+        totalBayar = hargaKamar + denda;
+        totalBayarText.setText(Integer.toString(totalBayar));
+        }
     }//GEN-LAST:event_pelanggaranComboBoxActionPerformed
 
     private void tanggalMasukTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalMasukTextActionPerformed
@@ -1033,6 +1045,13 @@ public class PemesananView extends javax.swing.JFrame {
         dendaText.setEditable(false);
         totalBayarText.setEnabled(false);
         totalBayarText.setEditable(false);
+        getIndexKamar = kamarComboBox.getSelectedIndex();
+        getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+        hargaKamar = listKamar.get(getIndexKamar).getHarga_sewa();
+        denda = listPelanggaran.get(getIndexPelanggaran).getDenda();
+        dendaText.setText(Integer.toString(denda));
+        totalBayar = hargaKamar + denda;
+        totalBayarText.setText(Integer.toString(totalBayar));
 //        dendaText.setText(Integer.toString(setDenda()));
 //        totalBayarText.setText(Integer.toString(setTotalBayar()));
     }//GEN-LAST:event_addButtonActionPerformed
@@ -1041,6 +1060,13 @@ public class PemesananView extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        dendaText.setText(Integer.toString(setDenda()));
 //        totalBayarText.setText(Integer.toString(setTotalBayar()));
+        Object obj = evt.getSource();
+        if(obj == kamarComboBox){
+            getIndexKamar = kamarComboBox.getSelectedIndex();
+            hargaKamar = listKamar.get(getIndexKamar).getHarga_sewa();
+            totalBayar = hargaKamar + denda;
+            totalBayarText.setText(Integer.toString(totalBayar));
+        }
     }//GEN-LAST:event_kamarComboBoxActionPerformed
 
     private void kamarNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kamarNavMouseClicked
