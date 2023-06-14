@@ -3,6 +3,7 @@ package control;
 import dao.TransaksiDAO;
 import java.util.List;
 import model.Transaksi;
+import table.TransaksiUserTable;
 
 public class TransaksiControl {
     private TransaksiDAO tDao = new TransaksiDAO();
@@ -29,4 +30,21 @@ public class TransaksiControl {
         List<Transaksi>dataTransaksi = tDao.showAllTransaksi(query);
         return dataTransaksi;
     }
+    
+    public TransaksiUserTable showDataMenu(String query){
+        List<Transaksi> dataTransaksi = tDao.showAllTransaksi(query);
+        TransaksiUserTable transaksiUserTable = new TransaksiUserTable(dataTransaksi);
+        
+        return transaksiUserTable;
+    }
+    
+//    public Transaksi searchTransaksi (int id){
+//        return tDao.searchTransaksi(id);
+//    }
+   
+//    public TransaksiTable searchTransaksiTable (String query){
+//        List<Transaksi> dataTransaksi = tDao.searchTransaksiTable(query);
+//        TransaksiTable transaksiTable = new transaksiTable(dataTransaksi);
+//        return transaksiTable;
+//    }
 }

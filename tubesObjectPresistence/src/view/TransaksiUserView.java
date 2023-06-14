@@ -4,10 +4,19 @@
  */
 package view;
 
+import model.Transaksi;
+import control.TransaksiControl;
+import control.PemesananControl;
+import table.TransaksiUserTable;
+import table.PemesananTable;
+
 import connection.DbConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import exception.InputKosongException;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -17,6 +26,13 @@ public class TransaksiUserView extends javax.swing.JFrame {
     /**
      * Creates new form AdminView
      */
+    
+    private TransaksiControl transCtrl;
+    private PemesananControl pemesananCtrl;
+    int selectedIdAdaun = 0;
+    int selectedIdPesan = 0;
+    String action = " ";
+    
     String user = null;
     private DbConnection dbCon = new DbConnection();
     private Connection con;
@@ -25,6 +41,9 @@ public class TransaksiUserView extends javax.swing.JFrame {
         initComponents();
         cekLoginName(usr);
         this.user = usr;
+        transCtrl = new TransaksiControl();
+        pemesananCtrl = new PemesananControl();
+        showMenu();
     }
     
     public void cekLoginName(String usr){
@@ -43,10 +62,71 @@ public class TransaksiUserView extends javax.swing.JFrame {
             statement.close();
         }catch(Exception e){
             System.out.println("eror");
+        }  
+}
+    public String cekIdUser(String usr) {
+        con = dbCon.makeConnection();
+        String sql = "SELECT id_transaksi FROM penghuni WHERE username='" + usr + "'";
+        try {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    usr = rs.getString("id_transaksi");
+                }
+            }
+            rs.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println("eror");
         }
-        
+
+        return usr;
+    }
+    
+    public void showTransaksiUserView() {
+        //tablePemesananShow.setModel(transCtrl.showAllTransaksi(user));
     }
 
+    public void setComponent(boolean value) {
+        idText.setEnabled(value);
+        idPemesananText.setEnabled(value);
+        bankRadioButton.setEnabled(value);
+        kreditRadioButton.setEnabled(value);
+        outletRadioButton.setEnabled(value);
+        walletRadioButton.setEnabled(value);
+        debitRadioButton.setEnabled(value);
+
+        Savebtn.setEnabled(value);
+        cancelbtn.setEnabled(value);
+    }
+
+    public void setEditDeleteBtn(boolean value) {
+        editBtn.setEnabled(value);
+        deleteBtn.setEnabled(value);
+    }
+  
+    public void showMenu(){
+        //tablePemesananShow.setModel(pemesananCtrl.showDataMenu(""));
+        tableTransaksiShow.setModel(transCtrl.showDataMenu(""));
+    }
+
+    public void clearText() {
+        idText.setText("");
+        idPemesananText.setText("");
+
+        bankRadioButton.setEnabled(false);
+        kreditRadioButton.setEnabled(false);
+        outletRadioButton.setEnabled(false);
+        walletRadioButton.setEnabled(false);
+        debitRadioButton.setEnabled(false);
+    }
+    
+public void InputKosongException() throws InputKosongException {
+        if(!buttonGroup1.getSelection().isSelected()) {
+            throw new InputKosongException();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,18 +139,18 @@ public class TransaksiUserView extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         NavPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel24 = new javax.swing.JPanel();
+        NavTransaksiUser = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        aduanNav = new javax.swing.JPanel();
+        NavAduanUser = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         welcomeText = new javax.swing.JLabel();
         BodyPanel = new javax.swing.JPanel();
         StatusLocation = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -78,21 +158,21 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        dendaText = new javax.swing.JTextField();
+        idPemesananText = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        jenisPemesananLabel = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        bankRadioButton = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
+        outletRadioButton = new javax.swing.JRadioButton();
+        debitRadioButton = new javax.swing.JRadioButton();
+        kreditRadioButton = new javax.swing.JRadioButton();
+        walletRadioButton = new javax.swing.JRadioButton();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
         jComboBox5 = new javax.swing.JComboBox<>();
@@ -100,14 +180,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
         Savebtn = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablePelanggaranShow = new javax.swing.JTable();
+        tableTransaksiShow = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablePemesananShow = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        searchPemesananText = new javax.swing.JTextField();
+        searchPemesanTable = new javax.swing.JButton();
+        searchTransaksiTable = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,8 +198,13 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Atma Jaya Kost");
 
-        jPanel24.setBackground(new java.awt.Color(13, 82, 128));
-        jPanel24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavTransaksiUser.setBackground(new java.awt.Color(13, 82, 128));
+        NavTransaksiUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavTransaksiUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavTransaksiUserMouseClicked(evt);
+            }
+        });
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -128,19 +213,19 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Pemesanan.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout NavTransaksiUserLayout = new javax.swing.GroupLayout(NavTransaksiUser);
+        NavTransaksiUser.setLayout(NavTransaksiUserLayout);
+        NavTransaksiUserLayout.setHorizontalGroup(
+            NavTransaksiUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavTransaksiUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+        NavTransaksiUserLayout.setVerticalGroup(
+            NavTransaksiUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavTransaksiUserLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabel33)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -148,13 +233,13 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        aduanNav.setBackground(new java.awt.Color(21, 108, 165));
-        aduanNav.setAlignmentX(0.0F);
-        aduanNav.setAlignmentY(0.0F);
-        aduanNav.setPreferredSize(new java.awt.Dimension(100, 100));
-        aduanNav.addMouseListener(new java.awt.event.MouseAdapter() {
+        NavAduanUser.setBackground(new java.awt.Color(21, 108, 165));
+        NavAduanUser.setAlignmentX(0.0F);
+        NavAduanUser.setAlignmentY(0.0F);
+        NavAduanUser.setPreferredSize(new java.awt.Dimension(100, 100));
+        NavAduanUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                aduanNavMouseClicked(evt);
+                NavAduanUserMouseClicked(evt);
             }
         });
 
@@ -166,22 +251,22 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
 
-        javax.swing.GroupLayout aduanNavLayout = new javax.swing.GroupLayout(aduanNav);
-        aduanNav.setLayout(aduanNavLayout);
-        aduanNavLayout.setHorizontalGroup(
-            aduanNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(aduanNavLayout.createSequentialGroup()
+        javax.swing.GroupLayout NavAduanUserLayout = new javax.swing.GroupLayout(NavAduanUser);
+        NavAduanUser.setLayout(NavAduanUserLayout);
+        NavAduanUserLayout.setHorizontalGroup(
+            NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanUserLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(aduanNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(aduanNavLayout.createSequentialGroup()
+                    .addGroup(NavAduanUserLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        aduanNavLayout.setVerticalGroup(
-            aduanNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(aduanNavLayout.createSequentialGroup()
+        NavAduanUserLayout.setVerticalGroup(
+            NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -203,17 +288,17 @@ public class TransaksiUserView extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(welcomeText))
                 .addGap(204, 204, 204)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavTransaksiUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(aduanNav, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavAduanUser, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         NavPanelLayout.setVerticalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(aduanNav, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NavAduanUser, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NavTransaksiUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(NavPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
@@ -230,14 +315,29 @@ public class TransaksiUserView extends javax.swing.JFrame {
         addButton.setBackground(new java.awt.Color(0, 102, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("Tambah");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ubah");
+        editBtn.setBackground(new java.awt.Color(255, 204, 0));
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(139, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Hapus");
+        deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("Hapus");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         jPanel9.setOpaque(false);
 
@@ -246,7 +346,7 @@ public class TransaksiUserView extends javax.swing.JFrame {
 
         jPanel13.setOpaque(false);
 
-        jLabel8.setText("ID Aduan");
+        jLabel8.setText("ID Transaksi");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -281,7 +381,7 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -290,14 +390,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dendaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(idPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel15.setBackground(new java.awt.Color(0, 0, 0));
         jPanel15.setOpaque(false);
 
-        jLabel11.setText("Jenis Pemesanan");
+        jenisPemesananLabel.setText("Jenis Pemesanan");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VISA ", "JCB" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -315,11 +415,11 @@ public class TransaksiUserView extends javax.swing.JFrame {
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/creditcard.png"))); // NOI18N
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Transfer Bank");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(bankRadioButton);
+        bankRadioButton.setText("Transfer Bank");
+        bankRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                bankRadioButtonActionPerformed(evt);
             }
         });
 
@@ -331,35 +431,35 @@ public class TransaksiUserView extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/debit.png"))); // NOI18N
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Outlet Ritel");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(outletRadioButton);
+        outletRadioButton.setText("Outlet Ritel");
+        outletRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                outletRadioButtonActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Debit");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(debitRadioButton);
+        debitRadioButton.setText("Debit");
+        debitRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                debitRadioButtonActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Kartu Kredit / Debit");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(kreditRadioButton);
+        kreditRadioButton.setText("Kartu Kredit / Debit");
+        kreditRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
+                kreditRadioButtonActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton5);
-        jRadioButton5.setText("E-wallet ");
-        jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(walletRadioButton);
+        walletRadioButton.setText("E-wallet ");
+        walletRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton5ActionPerformed(evt);
+                walletRadioButtonActionPerformed(evt);
             }
         });
 
@@ -385,8 +485,18 @@ public class TransaksiUserView extends javax.swing.JFrame {
         });
 
         cancelbtn.setText("Cancel");
+        cancelbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelbtnActionPerformed(evt);
+            }
+        });
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -405,33 +515,28 @@ public class TransaksiUserView extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton4))
+                                .addComponent(kreditRadioButton))
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel11)
-                                        .addGap(36, 36, 36))))
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bankRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel15Layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(outletRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel15Layout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(walletRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel15Layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                                        .addComponent(debitRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -439,46 +544,47 @@ public class TransaksiUserView extends javax.swing.JFrame {
                             .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(75, 75, 75))
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jenisPemesananLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel11)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
+                        .addGap(35, 35, 35)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addComponent(jenisPemesananLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jRadioButton1))))
+                            .addComponent(bankRadioButton))))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton4)
+                    .addComponent(kreditRadioButton)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(outletRadioButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
                     .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRadioButton5)))
+                        .addComponent(walletRadioButton)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButton3)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel10)))
+                    .addComponent(jLabel10)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(debitRadioButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Savebtn)
@@ -493,13 +599,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 257, Short.MAX_VALUE))
+                        .addGap(0, 203, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel10Layout.setVerticalGroup(
@@ -517,7 +624,7 @@ public class TransaksiUserView extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(242, 20, 255));
         jPanel11.setOpaque(false);
 
-        tablePelanggaranShow.setModel(new javax.swing.table.DefaultTableModel(
+        tableTransaksiShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -528,9 +635,14 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 "ID Transaksi", "ID Pemesanan", "Jenis Pemesanan"
             }
         ));
-        jScrollPane1.setViewportView(tablePelanggaranShow);
+        tableTransaksiShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableTransaksiShowMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableTransaksiShow);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablePemesananShow.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -541,15 +653,36 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tablePemesananShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePemesananShowMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tablePemesananShow);
 
         jLabel2.setText("Pemesanan yang Anda Lakukan");
 
         jLabel5.setText("Riwayat Transaksi Anda");
 
-        jButton1.setText("Cari");
+        searchPemesananText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchPemesananTextActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Cari");
+        searchPemesanTable.setText("Cari");
+        searchPemesanTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchPemesanTableActionPerformed(evt);
+            }
+        });
+
+        searchTransaksiTable.setText("Cari");
+        searchTransaksiTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTransaksiTableActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -565,30 +698,30 @@ public class TransaksiUserView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
+                        .addComponent(searchTransaksiTable))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(searchPemesanTable)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(searchPemesananText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchPemesanTable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
+                        .addComponent(searchTransaksiTable)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -626,9 +759,9 @@ public class TransaksiUserView extends javax.swing.JFrame {
                     .addGroup(BodyPanelLayout.createSequentialGroup()
                         .addComponent(addButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(editBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(deleteBtn))
                     .addComponent(StatusLocation)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -641,11 +774,11 @@ public class TransaksiUserView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(editBtn)
+                    .addComponent(deleteBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -675,25 +808,25 @@ public class TransaksiUserView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void bankRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bankRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_bankRadioButtonActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void outletRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outletRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_outletRadioButtonActionPerformed
 
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+    private void debitRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debitRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    }//GEN-LAST:event_debitRadioButtonActionPerformed
 
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+    private void kreditRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreditRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
+    }//GEN-LAST:event_kreditRadioButtonActionPerformed
 
-    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
+    private void walletRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_walletRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton5ActionPerformed
+    }//GEN-LAST:event_walletRadioButtonActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
@@ -707,12 +840,197 @@ public class TransaksiUserView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
-    private void aduanNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aduanNavMouseClicked
+    private void NavAduanUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAduanUserMouseClicked
         // TODO add your handling code here:
         AduanUserView start = new AduanUserView(user);
         start.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_aduanNavMouseClicked
+    }//GEN-LAST:event_NavAduanUserMouseClicked
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            
+        InputKosongException();
+        
+        String jenisPemesanan = "";
+            
+        String tb = "Transfer Bank";
+        String kk = "Kartu Kredit,";
+        String or = "Outlet Ritel,";
+        String ew = "E-Wallet,";
+        String d = "Debit";
+            
+        if (bankRadioButton.isSelected()) {
+            jenisPemesanan  = tb;
+        } else if (jenisPemesanan.contains(kk)){
+            kreditRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(or)){
+            outletRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(ew)){
+            walletRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(d)){
+            debitRadioButton.isSelected();
+        }
+     
+       
+            if (action.equals("add")) {
+                Transaksi t = new Transaksi(0, 0, jenisPemesanan);
+                transCtrl.insertDataTransaksi(t);
+            } else if (action.equals("edit")) {
+                Transaksi t = new Transaksi(selectedIdAdaun, selectedIdPesan, jenisPemesanan);
+                transCtrl.updateDataTransaksi(t, selectedIdAdaun);
+            }
+
+            clearText();
+            showTransaksiUserView();
+            setComponent(false);
+            setEditDeleteBtn(false);
+        }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
+        }
+        
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
+        // TODO add your handling code here:
+        if (action.equals("add")) {
+            clearText();
+            setEditDeleteBtn(false);
+            setComponent(false);
+        } else if (action.equals("edit")) {
+            clearText();
+            setComponent(false);
+            int clickedRow = tablePemesananShow.getSelectedRow();
+            TableModel tableModel = tablePemesananShow.getModel();
+
+            selectedIdAdaun = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+            idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+            idPemesananText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+
+        }
+        
+    }//GEN-LAST:event_cancelbtnActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        clearText();
+        setEditDeleteBtn(false);
+        setComponent(true);
+        action = "add";
+        idText.setText("auto_Increment");
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void searchPemesanTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPemesanTableActionPerformed
+        // TODO add your handling code here:
+        setEditDeleteBtn(false);
+        setComponent(false);
+     
+        //showListPemesanan(searchPemesananText.getText());
+        try {
+            
+//            .showDataMenu(searchPemesananText.getText())
+            PemesananTable pt = pemesananCtrl.searchTablePemesanan(searchPemesananText.getText());
+            if (pt.getRowCount() == 0) {
+                clearText();
+                setEditDeleteBtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePemesananShow.setModel(pt);
+            }
+            clearText();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchPemesanTableActionPerformed
+
+    private void searchTransaksiTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTransaksiTableActionPerformed
+        // TODO add your handling code here:
+        setEditDeleteBtn(false);
+        setComponent(false);
+     
+        //showListPemesanan(searchPemesananText.getText());
+        try {
+           
+            TransaksiUserTable tut = transCtrl.showDataMenu(searchPemesananText.getText());
+            if (tut.getRowCount() == 0) {
+                clearText();
+                setEditDeleteBtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePemesananShow.setModel(tut);
+            }
+            clearText();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_searchTransaksiTableActionPerformed
+
+    private void searchPemesananTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPemesananTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchPemesananTextActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+        action = "edit";
+        setComponent(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        action = "edit";
+        setComponent(true);
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void NavTransaksiUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavTransaksiUserMouseClicked
+        // TODO add your handling code here:
+        TransaksiUserView tuv = new TransaksiUserView(user) ;
+        this.dispose();
+        tuv.setVisible(true);
+    }//GEN-LAST:event_NavTransaksiUserMouseClicked
+
+    private void tablePemesananShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseClicked
+        // TODO add your handling code here:
+        int indexpenghuni = -1;
+        setEditDeleteBtn(true);
+        setComponent(false);
+
+        int clickedRow = tableTransaksiShow.getSelectedRow();
+        TableModel tableModel = tableTransaksiShow.getModel();
+
+        selectedIdAdaun = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        idPemesananText.setText(tableModel.getValueAt(clickedRow, 1).toString());
+
+        String tb = "Transfer Bank";
+        String kk = "Kartu Kredit,";
+        String or = "Outlet Ritel,";
+        String ew = "E-Wallet,";
+        String d = "Debit";
+        String jenisPemesanan = tableModel.getValueAt(clickedRow, 2).toString();
+        
+        if (jenisPemesanan.contains(tb)) {
+            bankRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(kk)){
+            kreditRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(or)){
+            outletRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(ew)){
+            walletRadioButton.isSelected();
+        } else if (jenisPemesanan.contains(d)){
+            debitRadioButton.isSelected();
+        }
+  
+    }//GEN-LAST:event_tablePemesananShowMouseClicked
+
+    private void tableTransaksiShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTransaksiShowMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tableTransaksiShowMouseClicked
 
     /**
      * @param args the command line arguments
@@ -766,19 +1084,20 @@ public class TransaksiUserView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
+    private javax.swing.JPanel NavAduanUser;
     private javax.swing.JPanel NavPanel;
+    private javax.swing.JPanel NavTransaksiUser;
     private javax.swing.JButton Savebtn;
     private javax.swing.JLabel StatusLocation;
     private javax.swing.JButton addButton;
-    private javax.swing.JPanel aduanNav;
+    private javax.swing.JRadioButton bankRadioButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelbtn;
-    private javax.swing.JTextField dendaText;
+    private javax.swing.JRadioButton debitRadioButton;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton editBtn;
+    private javax.swing.JTextField idPemesananText;
     private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -786,7 +1105,6 @@ public class TransaksiUserView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -804,19 +1122,19 @@ public class TransaksiUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTable tablePelanggaranShow;
+    private javax.swing.JLabel jenisPemesananLabel;
+    private javax.swing.JRadioButton kreditRadioButton;
+    private javax.swing.JRadioButton outletRadioButton;
+    private javax.swing.JButton searchPemesanTable;
+    private javax.swing.JTextField searchPemesananText;
+    private javax.swing.JButton searchTransaksiTable;
+    private javax.swing.JTable tablePemesananShow;
+    private javax.swing.JTable tableTransaksiShow;
+    private javax.swing.JRadioButton walletRadioButton;
     private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
 }

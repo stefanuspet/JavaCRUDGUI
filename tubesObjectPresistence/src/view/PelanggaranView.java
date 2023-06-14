@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import model.Pelanggaran;
 import table.PelanggaranTable;
-
+import exception.InputKosongException;
 /**
  *
  * @author stefa
@@ -54,6 +54,13 @@ public class PelanggaranView extends javax.swing.JFrame {
 
     public void showPelanggaran() {
         tablePelanggaranShow.setModel(pelanggaranctrl.showTable());
+    }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(jenisPelText.getText().isEmpty() || dendaText.getText().isEmpty()  
+                  ) {
+            throw new InputKosongException();
+        }
     }
 
     /**
@@ -678,6 +685,8 @@ public class PelanggaranView extends javax.swing.JFrame {
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
         try {
+            
+            InputKosongException();
             if (action.equals("add")) {
                 Pelanggaran p = new Pelanggaran(0, Integer.parseInt(dendaText.getText()), jenisPelText.getText());
                 pelanggaranctrl.insertDataPelanggaran(p);
@@ -690,8 +699,8 @@ public class PelanggaranView extends javax.swing.JFrame {
             showPelanggaran();
             setComponent(false);
             setEditDeleteBtn(false);
-        } catch (Exception e) {
-            System.out.println("eror");
+        }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
         }
     }//GEN-LAST:event_SavebtnActionPerformed
 

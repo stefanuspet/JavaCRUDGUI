@@ -481,6 +481,9 @@
                           </StringArray>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StatusComboActionPerformed"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
@@ -711,7 +714,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="NavPemesanan" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="KamarNav" min="-2" max="-2" attributes="0"/>
+                  <Component id="NavKamar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="NavPenghuni" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -734,7 +737,7 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="NavPemesanan" alignment="0" max="32767" attributes="0"/>
-                  <Component id="KamarNav" alignment="0" max="32767" attributes="0"/>
+                  <Component id="NavKamar" alignment="0" max="32767" attributes="0"/>
               </Group>
               <Component id="NavPelanggaran" alignment="0" min="-2" max="-2" attributes="0"/>
               <Component id="Navtransaksi" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -753,7 +756,7 @@
             <Property name="text" type="java.lang.String" value="Atma Jaya Kost"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JPanel" name="KamarNav">
+        <Container class="javax.swing.JPanel" name="NavKamar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="80" green="52" red="d" type="rgb"/>
@@ -766,7 +769,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="KamarNavMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="NavKamarMouseClicked"/>
           </Events>
 
           <Layout>

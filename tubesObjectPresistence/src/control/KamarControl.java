@@ -31,7 +31,7 @@ public class KamarControl {
     public void deleteDataKamar(int id_kamar){
         kDao.deleteKamar(id_kamar);
     }
-    
+        
     public List<Kamar>showListKamar(){
         List<Kamar> dataKamar = kDao.showKamar();
         return dataKamar;

@@ -124,7 +124,7 @@ public class KamarView extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
         NavPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        KamarNav = new javax.swing.JPanel();
+        NavKamar = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         NavPenghuni = new javax.swing.JPanel();
@@ -316,6 +316,11 @@ public class KamarView extends javax.swing.JFrame {
         jLabel16.setText("Status");
 
         StatusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kosong", "Terisi" }));
+        StatusCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -562,12 +567,12 @@ public class KamarView extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Atma Jaya Kost");
 
-        KamarNav.setBackground(new java.awt.Color(13, 82, 128));
-        KamarNav.setForeground(new java.awt.Color(13, 82, 128));
-        KamarNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        KamarNav.addMouseListener(new java.awt.event.MouseAdapter() {
+        NavKamar.setBackground(new java.awt.Color(13, 82, 128));
+        NavKamar.setForeground(new java.awt.Color(13, 82, 128));
+        NavKamar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        NavKamar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                KamarNavMouseClicked(evt);
+                NavKamarMouseClicked(evt);
             }
         });
 
@@ -578,20 +583,20 @@ public class KamarView extends javax.swing.JFrame {
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Room.png"))); // NOI18N
 
-        javax.swing.GroupLayout KamarNavLayout = new javax.swing.GroupLayout(KamarNav);
-        KamarNav.setLayout(KamarNavLayout);
-        KamarNavLayout.setHorizontalGroup(
-            KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(KamarNavLayout.createSequentialGroup()
+        javax.swing.GroupLayout NavKamarLayout = new javax.swing.GroupLayout(NavKamar);
+        NavKamar.setLayout(NavKamarLayout);
+        NavKamarLayout.setHorizontalGroup(
+            NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavKamarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        KamarNavLayout.setVerticalGroup(
-            KamarNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KamarNavLayout.createSequentialGroup()
+        NavKamarLayout.setVerticalGroup(
+            NavKamarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavKamarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -792,7 +797,7 @@ public class KamarView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(NavPemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(KamarNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavKamar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NavPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -812,7 +817,7 @@ public class KamarView extends javax.swing.JFrame {
                     .addGap(24, 24, 24)
                     .addComponent(jLabel2))
                 .addComponent(NavPemesanan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(KamarNav, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(NavKamar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(NavPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(Navtransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -843,6 +848,7 @@ public class KamarView extends javax.swing.JFrame {
 
     private void ACCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACCheckBoxActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_ACCheckBoxActionPerformed
 
     private void NavPemesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavPemesananMouseClicked
@@ -1099,6 +1105,7 @@ public class KamarView extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTextActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+
         // TODO add your handling code here:
         setEditDeletebtn(false);
         setComponent(false);
@@ -1127,9 +1134,13 @@ public class KamarView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_WIFICheckBox1ActionPerformed
 
-    private void KamarNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_KamarNavMouseClicked
+    private void NavKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavKamarMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_KamarNavMouseClicked
+    }//GEN-LAST:event_NavKamarMouseClicked
+
+    private void StatusComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1171,8 +1182,8 @@ public class KamarView extends javax.swing.JFrame {
     private javax.swing.JCheckBox ACCheckBox;
     private javax.swing.JPanel BodyPanel;
     private javax.swing.JCheckBox KamarMandiCheckBox;
-    private javax.swing.JPanel KamarNav;
     private javax.swing.JPanel NavAduan;
+    private javax.swing.JPanel NavKamar;
     private javax.swing.JPanel NavPanel1;
     private javax.swing.JPanel NavPelanggaran;
     private javax.swing.JPanel NavPemesanan;

@@ -10,10 +10,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import exception.InputKosongException;
 
 /**
  *
- * @author stefa
+ * @author nayal
  */
 public class AduanUserView extends javax.swing.JFrame {
 
@@ -94,6 +95,13 @@ public class AduanUserView extends javax.swing.JFrame {
         deskripsiText.setText("");
         tanggalText.setText("");
     }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(tanggalText.getText().isEmpty() || deskripsiText.getText().isEmpty()  
+                  ) {
+            throw new InputKosongException();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,7 +117,7 @@ public class AduanUserView extends javax.swing.JFrame {
         transaksiNav = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        NavAduanUser = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         welcomeText = new javax.swing.JLabel();
@@ -180,10 +188,15 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(13, 82, 128));
-        jPanel2.setAlignmentX(0.0F);
-        jPanel2.setAlignmentY(0.0F);
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        NavAduanUser.setBackground(new java.awt.Color(13, 82, 128));
+        NavAduanUser.setAlignmentX(0.0F);
+        NavAduanUser.setAlignmentY(0.0F);
+        NavAduanUser.setPreferredSize(new java.awt.Dimension(100, 100));
+        NavAduanUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NavAduanUserMouseClicked(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -193,22 +206,22 @@ public class AduanUserView extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aduan.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout NavAduanUserLayout = new javax.swing.GroupLayout(NavAduanUser);
+        NavAduanUser.setLayout(NavAduanUserLayout);
+        NavAduanUserLayout.setHorizontalGroup(
+            NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanUserLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(NavAduanUserLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        NavAduanUserLayout.setVerticalGroup(
+            NavAduanUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NavAduanUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -232,7 +245,7 @@ public class AduanUserView extends javax.swing.JFrame {
                 .addGap(198, 198, 198)
                 .addComponent(transaksiNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavAduanUser, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         NavPanelLayout.setVerticalGroup(
@@ -244,7 +257,7 @@ public class AduanUserView extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(welcomeText))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NavAduanUser, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(transaksiNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -266,6 +279,11 @@ public class AduanUserView extends javax.swing.JFrame {
         editBtn.setBackground(new java.awt.Color(255, 204, 0));
         editBtn.setForeground(new java.awt.Color(255, 255, 255));
         editBtn.setText("Ubah");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
         deleteBtn.setBackground(new java.awt.Color(139, 0, 0));
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -335,6 +353,11 @@ public class AduanUserView extends javax.swing.JFrame {
         );
 
         Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavebtnActionPerformed(evt);
+            }
+        });
 
         cancelbtn.setText("Cancel");
 
@@ -529,10 +552,22 @@ public class AduanUserView extends javax.swing.JFrame {
 
     private void transaksiNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiNavMouseClicked
         // TODO add your handling code here:
-        TransaksiUserView start = new TransaksiUserView(user);
-        start.setVisible(true);
-        this.dispose();
+//        TransaksiUserView tuv = new TransaksiUserView();
+//        this.dispose();
+//        tuv.setVisible(true);
     }//GEN-LAST:event_transaksiNavMouseClicked
+
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SavebtnActionPerformed
+
+    private void NavAduanUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NavAduanUserMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NavAduanUserMouseClicked
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -579,6 +614,7 @@ public class AduanUserView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
+    private javax.swing.JPanel NavAduanUser;
     private javax.swing.JPanel NavPanel;
     private javax.swing.JButton Savebtn;
     private javax.swing.JLabel StatusLocation;
@@ -602,7 +638,6 @@ public class AduanUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

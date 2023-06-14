@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
 import model.Pemesanan;
 import control.KamarControl;
 import control.PenghuniControl;
@@ -34,8 +35,9 @@ public class PemesananDAO {
             System.out.println(e);
         }
         dbConnection.closeConnection();
+       
     }
-
+    
     public void deletePemesanan(int id_pemesanan){
         con = dbConnection.makeConnection();
         String sql ="DELETE FROM pemesanan WHERE id_pemesanan='"+id_pemesanan+"'";
@@ -68,14 +70,14 @@ public class PemesananDAO {
         dbConnection.closeConnection();
     }
 
-    //kurang select all
+   
     public List<Pemesanan> showAllPemesanan(String query){
         List<Pemesanan> listPemesanan = new ArrayList<>();
         con = dbConnection.makeConnection();
         String sql = "SELECT * FROM pemesanan p JOIN penghuni pe ON p.id_penghuni = pe.id_penghuni JOIN " +
                 "kamar k ON p.id_kamar = k.id_kamar JOIN pelanggaran pl ON p.id_pelanggaran = pl.id_pelanggaran " +
-                "WHERE p.id_pemesanan LIKE '%"+query+"%' OR pe.nama LIKE '%"+query+"%' OR k.nama_kamar LIKE '%"+query+"%' OR p.tanggal_masuk LIKE '%"+query+"%' OR p.tanggal_keluar LIKE '%"+query+"%' OR pl.nama_pelanggaran LIKE '%"+query+"%' OR pl.denda LIKE '%"+query+"%' OR p.total LIKE '%"+query+"%' OR p.status LIKE '%"+query+"%'";
-
+                "WHERE p.id_pemesanan LIKE '%"+query+"%' OR p.id_penghuni LIKE '%"+query+"%' OR k.id_kamar LIKE '%"+query+"%' OR p.tanggal_masuk LIKE '%"+query+"%' OR p.tanggal_keluar LIKE '%"+query+"%' OR pl.id_pelanggaran LIKE '%"+query+"%' OR pl.denda LIKE '%"+query+"%' OR p.total LIKE '%"+query+"%' OR p.status LIKE '%"+query+"%'";
+        
         try {
             Statement statement = con.createStatement();
             statement.executeQuery(sql);
@@ -130,5 +132,41 @@ public class PemesananDAO {
             throw new RuntimeException(e);
         }
         return p;
+    }
+
+    public List<Pemesanan> searchPemesanTable(String query) {
+        Pemesanan p = null;
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM pemesanan WHERE id_pemesanan LIKE '%" + query + "%' OR id_penghuni LIKE '%" + query + "%'"
+                + "OR id_kamar LIKE '%" + query + "%' OR tanggal_masuk LIKE '%" + query + "%' OR tanggal_keluar LIKE '%" + query + "%' OR id_pelanggaran LIKE '%" + query + "%'"
+                + query + "%' OR total LIKE '%" + query + "%' OR status LIKE '%";
+        System.out.println("Mengambil Data Pemesanan ...");
+        List<Pemesanan> list = new ArrayList();
+        try {
+            Statement statement = con.createStatement();
+            var result = statement.getResultSet();
+            if (result != null) {
+                while (result.next()) {
+                    p = new Pemesanan(
+                            result.getInt("id_pemesanan"),
+                            pc.searchPenghuni(result.getInt("id_penghuni")),
+                            kc.getKamar(result.getInt("id_kamar")),
+                            result.getString("tanggal_masuk"),
+                            result.getString("tanggal_keluar"),
+                            plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                            result.getInt("total"),
+                            result.getString("status")
+                    );
+
+                }
+            }
+            result.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        }
+        dbConnection.closeConnection();
+        return list;
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import table.PenghuniTable;
+import exception.InputKosongException;
 /**
  *
  * @author nayal
@@ -61,6 +62,13 @@ public class TransaksiAdminView extends javax.swing.JFrame {
 
     public void showPenghuni() {
         tablePenghunishow.setModel(penghunictrl.showTablePenghuni());
+    }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(namaText.getText().isEmpty() || userText.getText().isEmpty() || telpText.getText().isEmpty() 
+                || passwordText.getText().isEmpty() || alamatText.getText().isEmpty()  ) {
+            throw new InputKosongException();
+        }
     }
 
     /**
@@ -799,10 +807,16 @@ public class TransaksiAdminView extends javax.swing.JFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         clearText();
+        
         setComponent(true);
         setEditDeleteBtn(false);
+        namaText.setEditable(false);
+        userText.setEnabled(false);
         idPenghuniText.setText("Auto_increment");
-        searchText.setText("Cari Berdasarkan Nama");
+        passwordText.setEnabled(false);
+        alamatText.setEnabled(false);
+        telpText.setEnabled(false);
+//        searchText.setText("Cari Berdasarkan Nama");
         action = "add";
 
     }//GEN-LAST:event_addBtnActionPerformed
@@ -830,6 +844,7 @@ public class TransaksiAdminView extends javax.swing.JFrame {
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
         try {
+            InputKosongException();
             if (action.equals("add")) {
                 Penghuni p = new Penghuni(0, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
                 penghunictrl.insertDataPenghuni(p);
@@ -845,8 +860,8 @@ public class TransaksiAdminView extends javax.swing.JFrame {
             setEditDeleteBtn(false);
             searchText.setText("Cari Berdasarkan Nama");
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "EROR");
+        }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
         }
     }//GEN-LAST:event_SavebtnActionPerformed
 

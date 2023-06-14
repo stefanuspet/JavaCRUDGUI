@@ -6,7 +6,6 @@ package view;
 
 
 import exception.InputKosongException;
-import exception.InputUsernameException;
 import model.Penghuni;
 import control.PenghuniControl;
 import java.util.List;
@@ -74,11 +73,6 @@ public class PenghuniView extends javax.swing.JFrame {
         }
     }
     
-    public void InputUsernameException() throws InputUsernameException {
-        if(namaText.getText().isEmpty()) {
-            throw new InputUsernameException();
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -850,6 +844,8 @@ public class PenghuniView extends javax.swing.JFrame {
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
         try {
+            InputKosongException();
+            
             if (action.equals("add")) {
                 Penghuni p = new Penghuni(0, userText.getText(), passwordText.getText(), namaText.getText(), alamatText.getText(), telpText.getText());
                 penghunictrl.insertDataPenghuni(p);
@@ -864,8 +860,8 @@ public class PenghuniView extends javax.swing.JFrame {
             setComponent(false);
             setEditDeleteBtn(false);
 
-        } catch (Exception e) {
-        System.out.println("Error: " + e.getMessage());
+        }  catch(InputKosongException e){ 
+          JOptionPane.showMessageDialog(this, e.message()); 
         }
     }//GEN-LAST:event_SavebtnActionPerformed
 

@@ -10,11 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import control.PenghuniControl;
 import javax.swing.JOptionPane;
+import exception.InputKosongException;
 
 /**
  *
  * @author Fidelis Vendriko G
  */
+
+
 public class Login extends javax.swing.JFrame {
 
     private PenghuniControl penghuniControl;
@@ -30,6 +33,13 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         penghuniControl = new PenghuniControl();
+    }
+    
+    public void InputKosongException() throws InputKosongException {
+        if(UsernameText.getText().isEmpty() || Passwordtext.getText().isEmpty()  
+                 ) {
+            throw new InputKosongException();
+        }
     }
 
     /**
