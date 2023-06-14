@@ -26,7 +26,7 @@ public class PemesananTable extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -51,11 +51,11 @@ public class PemesananTable extends AbstractTableModel {
             case 8:
                 return list.get(rowIndex).getStatus();
             case 9:
-                return list.get(rowIndex).getId_penghuni();
+                return list.get(rowIndex).getPenghuni().getId_penghuni();
             case 10:
-                return list.get(rowIndex).getId_kamar();
+                return list.get(rowIndex).getKamar().getId_kamar();
             case 11:
-                return list.get(rowIndex).getId_pelanggaran();
+                return list.get(rowIndex).getPelanggaran().getId_pelanggaran();
             default:
                 return null;
         }

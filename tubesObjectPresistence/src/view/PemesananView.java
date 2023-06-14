@@ -8,7 +8,7 @@ package view;
  *
  * @author stefa
  */
-import exception.InputKosongException;
+import exception.*;
 import control.PemesananControl;
 import control.PenghuniControl;
 import control.KamarControl;
@@ -23,6 +23,12 @@ import model.Pelanggaran;
 import model.Pemesanan;
 import model.Penghuni;
 import table.PemesananTable;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.ParseException;
 
 public class PemesananView extends javax.swing.JFrame {
 
@@ -39,11 +45,16 @@ public class PemesananView extends javax.swing.JFrame {
     private List<Penghuni> listPenghuni;
     private List<Kamar> listKamar;
     private List<Pelanggaran> listPelanggaran;
+    int indexPenghuni = 0;
+    int indexKamar = 0;
+    int indexPelanggaran = 0;
     int denda = 0;
     int hargaKamar = 0;
     int totalBayar = denda + hargaKamar;
     int getIndexKamar = 0;
     int getIndexPelanggaran = 0;
+    int getIndexPenghuni = 0;
+    int getIndexStatus = 0;
 
     public PemesananView() {
         initComponents();
@@ -60,14 +71,39 @@ public class PemesananView extends javax.swing.JFrame {
         setKamarToDropdown();
         setPelanggaranToDropdown();
         getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
-//        setTotalBayar();
-        setDenda(getIndexPelanggaran);
-//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+        showPemesanan();
+    }
 
+    private static boolean isValidDate(String dateString, String dateFormat) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        sdf.setLenient(false);
+
+        try {
+            Date date = sdf.parse(dateString);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1; // Bulan dimulai dari 0
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            if (year == calendar.getActualMinimum(Calendar.YEAR) && year == calendar.getActualMaximum(Calendar.YEAR)
+                    && month == calendar.getActualMinimum(Calendar.MONTH) + 1
+                    && month == calendar.getActualMaximum(Calendar.MONTH) + 1
+                    && day == calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
+                    && day == calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                return false; // Tanggal diluar rentang yang valid
+            }
+
+            return true; // Tanggal valid
+        } catch (ParseException e) {
+            return false; // Format tanggal tidak sesuai
+        }
     }
 
     public void showPemesanan() {
-        tablePemesananShow.setModel((TableModel) psnCtrl.showListPemesanan(pemesanan));
+        tablePemesananShow.setModel(psnCtrl.showPemesanan(""));
     }
 
     public void setPenghuniToDropdown() {
@@ -91,11 +127,6 @@ public class PemesananView extends javax.swing.JFrame {
         }
     }
 
-    public void setDenda(int index) {
-//        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
-        
-    }
-
     public int setHargaKamar() {
         int hargaKamar = 0;
         getIndexKamar = kamarComboBox.getSelectedIndex();
@@ -103,12 +134,6 @@ public class PemesananView extends javax.swing.JFrame {
 
         return hargaKamar;
     }
-
-//    public int setTotalBayar(int index) {
-//        int total = 0;
-//        total = setHargaKamar() + setDenda(index);
-//        return total;
-//    }
 
     public void setComponent(boolean value) {
         penghuniComboBox.setEnabled(value);
@@ -220,6 +245,9 @@ public class PemesananView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        LogoutNav = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -320,7 +348,7 @@ public class PemesananView extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setText("Tanggal Masuk");
+        jLabel10.setText("Tanggal Masuk (dd-MM-yyyy)");
 
         javax.swing.GroupLayout masukTextLayout = new javax.swing.GroupLayout(masukText);
         masukText.setLayout(masukTextLayout);
@@ -403,7 +431,7 @@ public class PemesananView extends javax.swing.JFrame {
 
         jPanel15.setOpaque(false);
 
-        jLabel11.setText("Tanggal Keluar");
+        jLabel11.setText("Tanggal Keluar (dd-MM-yyyy)");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -430,7 +458,7 @@ public class PemesananView extends javax.swing.JFrame {
 
         jLabel15.setText("Status");
 
-        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Dipesan", "Pesan" }));
+        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Lunas", "Lunas" }));
         statusComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusComboBoxActionPerformed(evt);
@@ -466,6 +494,11 @@ public class PemesananView extends javax.swing.JFrame {
         });
 
         cancelbtn.setText("Cancel");
+        cancelbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelbtnActionPerformed(evt);
+            }
+        });
 
         jenisPelanggaranText.setOpaque(false);
 
@@ -607,6 +640,11 @@ public class PemesananView extends javax.swing.JFrame {
                 "ID Pemesanan", "ID Penghuni", "ID Kamar", "Tgl Masuk", "Tgl Keluar", "ID Pelanggaran", "Total", "Status"
             }
         ));
+        tablePemesananShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePemesananShowMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablePemesananShow);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -648,6 +686,17 @@ public class PemesananView extends javax.swing.JFrame {
         );
 
         cariBtn.setText("Cari");
+        cariBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariBtnActionPerformed(evt);
+            }
+        });
+
+        cariText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariTextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
@@ -880,7 +929,7 @@ public class PemesananView extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(13, 82, 128));
@@ -914,6 +963,40 @@ public class PemesananView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        LogoutNav.setBackground(new java.awt.Color(21, 108, 165));
+        LogoutNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        LogoutNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LogoutNavMouseClicked(evt);
+            }
+        });
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Keluar");
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/logout.png"))); // NOI18N
+
+        javax.swing.GroupLayout LogoutNavLayout = new javax.swing.GroupLayout(LogoutNav);
+        LogoutNav.setLayout(LogoutNavLayout);
+        LogoutNavLayout.setHorizontalGroup(
+            LogoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LogoutNavLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel2)
+                .addContainerGap(41, Short.MAX_VALUE))
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        LogoutNavLayout.setVerticalGroup(
+            LogoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LogoutNavLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(28, 28, 28))
+        );
+
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
         NavPanel.setLayout(NavPanelLayout);
         NavPanelLayout.setHorizontalGroup(
@@ -933,21 +1016,25 @@ public class PemesananView extends javax.swing.JFrame {
                 .addComponent(pelanggaranNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transaksiNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LogoutNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         NavPanelLayout.setVerticalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
-                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(NavPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1))
-                    .addComponent(pelanggaranNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(aduanAdminNav, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(penghuniNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(kamarNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(transaksiNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(NavPanelLayout.createSequentialGroup()
+                            .addGap(24, 24, 24)
+                            .addComponent(jLabel1))
+                        .addComponent(pelanggaranNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(aduanAdminNav, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                        .addComponent(penghuniNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(kamarNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(transaksiNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LogoutNav, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -979,26 +1066,61 @@ public class PemesananView extends javax.swing.JFrame {
         // TODO add your handling code here:
         action = "edit";
         setComponent(true);
+        totalBayarText.setEnabled(false);
+        totalBayarText.setEditable(false);
+        dendaText.setEditable(false);
+        dendaText.setEnabled(false);
+
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
         // TODO add your handling code here:
+        try {
+            InputKosongException();
+            getIndexPenghuni = penghuniComboBox.getSelectedIndex();
+            int indexPenghuni = listPenghuni.get(getIndexPenghuni).getId_penghuni();
+            getIndexKamar = kamarComboBox.getSelectedIndex();
+            int indexKamar = listKamar.get(getIndexKamar).getId_kamar();
+            getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+            int indexPelanggaran = listPelanggaran.get(getIndexPelanggaran).getId_pelanggaran();
+            String dateFormat = "dd-MM-yyyy";
+            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+            Date date1 = sdf.parse(tanggalMasukText.getText());
+            Date date2 = sdf.parse(tanggalKeluarText.getText());
+            if (!isValidDate(tanggalMasukText.getText(), dateFormat) || !isValidDate(tanggalKeluarText.getText(), dateFormat)) {
+                JOptionPane.showMessageDialog(null, "Tanggal valid: " + dateFormat);
+            } else if (!date1.before(date2)) {
+                JOptionPane.showMessageDialog(null, "Tanggal invalid !");
+            } else {
+                if (action.equals("add")) {
+                    Pemesanan p = new Pemesanan(0, indexPenghuni, indexKamar, tanggalMasukText.getText(), tanggalKeluarText.getText(), indexPelanggaran, Integer.parseInt(totalBayarText.getText()), statusComboBox.getSelectedItem().toString());
+                    psnCtrl.insertDataPemesanan(p);
+                    System.out.println("masuk");
+                } else if (action.equals("edit")) {
+                    Pemesanan p = new Pemesanan(selectedId, indexPenghuni, indexKamar, tanggalMasukText.getText(), tanggalKeluarText.getText(), indexPelanggaran, Integer.parseInt(totalBayarText.getText()), statusComboBox.getSelectedItem().toString());
+                    psnCtrl.updateDatePemesanan(p, selectedId);
+                }
 
+                clearText();
+                showPemesanan();
+                setComponent(false);
+                setEditDeletebtn(false);
+            }
+        } catch (Exception e) {
+            System.out.println("eror " + e);
+            JOptionPane.showMessageDialog(null, "Error : " + e);
+        }
     }//GEN-LAST:event_SavebtnActionPerformed
 
     private void pelanggaranComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pelanggaranComboBoxActionPerformed
         // TODO add your handling code here:
-//       dendaText.setText(Integer.toString(setDenda(getIndexPelanggaran)));
-//        totalBayarText.setText(Integer.toString(setTotalBayar()));
         Object obj = evt.getSource();
-        if(obj == pelanggaranComboBox){
-//        dendaText.setText(Integer.toString(listPelanggaran.get(index).getDenda()));
-//            dendaText.setText(Integer.toString(setDenda(getIndexPelanggaran)));
-        getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
-        denda = listPelanggaran.get(getIndexPelanggaran).getDenda();
-        dendaText.setText(Integer.toString(denda));
-        totalBayar = hargaKamar + denda;
-        totalBayarText.setText(Integer.toString(totalBayar));
+        if (obj == pelanggaranComboBox) {
+            getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+            denda = listPelanggaran.get(getIndexPelanggaran).getDenda();
+            dendaText.setText(Integer.toString(denda));
+            totalBayar = hargaKamar + denda;
+            totalBayarText.setText(Integer.toString(totalBayar));
         }
     }//GEN-LAST:event_pelanggaranComboBoxActionPerformed
 
@@ -1040,7 +1162,9 @@ public class PemesananView extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
+        action = "add";
         setComponent(true);
+        clearText();
         dendaText.setEnabled(false);
         dendaText.setEditable(false);
         totalBayarText.setEnabled(false);
@@ -1052,8 +1176,7 @@ public class PemesananView extends javax.swing.JFrame {
         dendaText.setText(Integer.toString(denda));
         totalBayar = hargaKamar + denda;
         totalBayarText.setText(Integer.toString(totalBayar));
-//        dendaText.setText(Integer.toString(setDenda()));
-//        totalBayarText.setText(Integer.toString(setTotalBayar()));
+        idPemesananText.setText("Auto Increment");
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void kamarComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kamarComboBoxActionPerformed
@@ -1061,7 +1184,7 @@ public class PemesananView extends javax.swing.JFrame {
 //        dendaText.setText(Integer.toString(setDenda()));
 //        totalBayarText.setText(Integer.toString(setTotalBayar()));
         Object obj = evt.getSource();
-        if(obj == kamarComboBox){
+        if (obj == kamarComboBox) {
             getIndexKamar = kamarComboBox.getSelectedIndex();
             hargaKamar = listKamar.get(getIndexKamar).getHarga_sewa();
             totalBayar = hargaKamar + denda;
@@ -1104,6 +1227,127 @@ public class PemesananView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_transaksiNavMouseClicked
 
+    private void tablePemesananShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemesananShowMouseClicked
+        // TODO add your handling code here:
+        int indexpemesanan = -1;
+        setEditDeletebtn(true);
+        setComponent(false);
+
+        int clickedRow = tablePemesananShow.getSelectedRow();
+        TableModel tableModel = tablePemesananShow.getModel();
+
+        selectedId = Integer.parseInt(tableModel.getValueAt(clickedRow, 0).toString());
+
+        idPemesananText.setText(tableModel.getValueAt(clickedRow, 0).toString());
+        
+        int idPenghuni = Integer.parseInt(tableModel.getValueAt(clickedRow, 9).toString());
+        
+        for (Penghuni p : listPenghuni) {
+            if (p.getId_penghuni() == idPenghuni) {
+                indexPenghuni = listPenghuni.indexOf(p);
+                break;
+            }
+//            System.out.println("id getp" + p.getId_penghuni());
+
+        }
+        System.out.println(indexPenghuni);
+        penghuniComboBox.setSelectedIndex(indexPenghuni);
+
+        int idKamar = (int) tableModel.getValueAt(clickedRow, 10);
+        System.out.println(idKamar);
+        for (Kamar k : listKamar) {
+            if (k.getId_kamar() == (idKamar)) {
+                indexKamar = listKamar.indexOf(k);
+                break;
+            }
+        }
+        kamarComboBox.setSelectedIndex(indexKamar);
+
+        int idPelanggaran = (int) tableModel.getValueAt(clickedRow, 11);
+        System.out.println(idPelanggaran);
+        for (Pelanggaran p : listPelanggaran) {
+            if (p.getId_pelanggaran() == (idPelanggaran)) {
+                indexPelanggaran = listPelanggaran.indexOf(p);
+            }
+        }
+        pelanggaranComboBox.setSelectedIndex(indexPelanggaran);
+
+        dendaText.setText(tableModel.getValueAt(clickedRow, 6).toString());
+        tanggalMasukText.setText(tableModel.getValueAt(clickedRow, 3).toString());
+        tanggalKeluarText.setText(tableModel.getValueAt(clickedRow, 4).toString());
+        totalBayarText.setText(tableModel.getValueAt(clickedRow, 7).toString());
+        statusComboBox.setSelectedItem(tableModel.getValueAt(clickedRow, 8));
+
+    }//GEN-LAST:event_tablePemesananShowMouseClicked
+
+    private void cariBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariBtnActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            PemesananTable pt = psnCtrl.showPemesanan(cariText.getText());
+            if (pt.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePemesananShow.setModel(pt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_cariBtnActionPerformed
+
+    private void cariTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariTextActionPerformed
+        // TODO add your handling code here:
+        setEditDeletebtn(false);
+        setComponent(false);
+        try {
+            PemesananTable pt = psnCtrl.showPemesanan(cariText.getText());
+            if (pt.getRowCount() == 0) {
+                clearText();
+                setEditDeletebtn(false);
+                JOptionPane.showConfirmDialog(null, "Data tidak ditemukan", "Konfirmasi",
+                        JOptionPane.DEFAULT_OPTION);
+            } else {
+                tablePemesananShow.setModel(pt);
+            }
+            clearText();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_cariTextActionPerformed
+
+    private void LogoutNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutNavMouseClicked
+        // TODO add your handling code here:
+        Login l = new Login();
+        l.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutNavMouseClicked
+
+    private void cancelbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbtnActionPerformed
+        // TODO add your handling code here:
+        setComponent(false);
+        setEditDeletebtn(false);
+        clearText();
+        dendaText.setEnabled(false);
+        dendaText.setEditable(false);
+        totalBayarText.setEnabled(false);
+        totalBayarText.setEditable(false);
+        getIndexKamar = kamarComboBox.getSelectedIndex();
+        getIndexPelanggaran = pelanggaranComboBox.getSelectedIndex();
+        hargaKamar = listKamar.get(getIndexKamar).getHarga_sewa();
+        denda = listPelanggaran.get(getIndexPelanggaran).getDenda();
+        dendaText.setText(Integer.toString(denda));
+        totalBayar = hargaKamar + denda;
+        totalBayarText.setText(Integer.toString(totalBayar));
+        
+    }//GEN-LAST:event_cancelbtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1142,6 +1386,7 @@ public class PemesananView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
+    private javax.swing.JPanel LogoutNav;
     private javax.swing.JPanel NavPanel;
     private javax.swing.JButton Savebtn;
     private javax.swing.JLabel StatusLocation;
@@ -1164,6 +1409,7 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -1174,6 +1420,7 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
@@ -1183,26 +1430,24 @@ public class PemesananView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel kamarNav;
-    private javax.swing.JPanel pelanggaranNav;
-    private javax.swing.JPanel penghuniNav;
-    private javax.swing.JTable tablePelanggaranShow;
-    private javax.swing.JPanel transaksiNav;
     private javax.swing.JPanel jenisPelanggaranText;
     private javax.swing.JComboBox<Kamar> kamarComboBox;
+    private javax.swing.JPanel kamarNav;
     private javax.swing.JPanel masukText;
     private javax.swing.JPanel namaPenghuniText;
     private javax.swing.JComboBox<Pelanggaran> pelanggaranComboBox;
+    private javax.swing.JPanel pelanggaranNav;
     private javax.swing.JComboBox<Penghuni> penghuniComboBox;
+    private javax.swing.JPanel penghuniNav;
     private javax.swing.JComboBox<String> statusComboBox;
     private javax.swing.JTable tablePemesananShow;
     private javax.swing.JTextField tanggalKeluarText;
     private javax.swing.JTextField tanggalMasukText;
     private javax.swing.JTextField totalBayarText;
+    private javax.swing.JPanel transaksiNav;
     // End of variables declaration//GEN-END:variables
 }

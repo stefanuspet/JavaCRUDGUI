@@ -149,9 +149,11 @@ public class PenghuniView extends javax.swing.JFrame {
         NavPemesanan = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        LogoutNav = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -596,7 +598,7 @@ public class PenghuniView extends javax.swing.JFrame {
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel26)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         NavPelanggaran.setBackground(new java.awt.Color(21, 108, 165));
@@ -733,7 +735,7 @@ public class PenghuniView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(NavPemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                 .addContainerGap())
         );
         NavPemesananLayout.setVerticalGroup(
@@ -744,6 +746,40 @@ public class PenghuniView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        LogoutNav.setBackground(new java.awt.Color(21, 108, 165));
+        LogoutNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        LogoutNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LogoutNavMouseClicked(evt);
+            }
+        });
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Keluar");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/logout.png"))); // NOI18N
+
+        javax.swing.GroupLayout LogoutNavLayout = new javax.swing.GroupLayout(LogoutNav);
+        LogoutNav.setLayout(LogoutNavLayout);
+        LogoutNavLayout.setHorizontalGroup(
+            LogoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(LogoutNavLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel6)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        LogoutNavLayout.setVerticalGroup(
+            LogoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LogoutNavLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(34, 34, 34))
         );
 
         javax.swing.GroupLayout NavPanelLayout = new javax.swing.GroupLayout(NavPanel);
@@ -765,10 +801,13 @@ public class PenghuniView extends javax.swing.JFrame {
                 .addComponent(NavPelanggaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NavTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LogoutNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         NavPanelLayout.setVerticalGroup(
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(LogoutNav, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(NavPanelLayout.createSequentialGroup()
@@ -1033,6 +1072,13 @@ public class PenghuniView extends javax.swing.JFrame {
         tv.setVisible(true);
     }//GEN-LAST:event_NavTransaksiMouseClicked
 
+    private void LogoutNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutNavMouseClicked
+        // TODO add your handling code here:
+        Login l = new Login();
+        l.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutNavMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1075,6 +1121,7 @@ public class PenghuniView extends javax.swing.JFrame {
     private javax.swing.JPanel BodyPanel;
     private javax.swing.JButton EditBtn;
     private javax.swing.JPanel InputPanel;
+    private javax.swing.JPanel LogoutNav;
     private javax.swing.JPanel NavAduan;
     private javax.swing.JPanel NavKamar;
     private javax.swing.JPanel NavPanel;
@@ -1106,6 +1153,8 @@ public class PenghuniView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel12;

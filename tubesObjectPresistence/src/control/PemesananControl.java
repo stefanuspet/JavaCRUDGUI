@@ -3,6 +3,7 @@ package control;
 import dao.PemesananDAO;
 import java.util.List;
 import model.Pemesanan;
+import table.PemesananTable;
 
 public class PemesananControl {
     private PemesananDAO pDao = new PemesananDAO();
@@ -20,9 +21,15 @@ public class PemesananControl {
         pDao.deletePemesanan(id_pemesanan);
     }
     
-    public List<Pemesanan> showListPemesanan(String query){
+//    public List<Pemesanan> showListPemesanan(String query){
+//        List<Pemesanan> dataPemesanan = pDao.showAllPemesanan(query);
+//        return dataPemesanan;
+//    }
+    
+    public PemesananTable showPemesanan(String query){
         List<Pemesanan> dataPemesanan = pDao.showAllPemesanan(query);
-        return dataPemesanan;
+        PemesananTable pesan = new PemesananTable(dataPemesanan);
+        return pesan;
     }
 
     public Pemesanan getPemesanan(int id_pemesanan){
