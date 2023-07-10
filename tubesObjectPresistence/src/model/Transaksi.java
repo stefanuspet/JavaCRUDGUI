@@ -12,7 +12,7 @@ public class Transaksi {
     private int id_transaksi, id_pemesanan;
     private String jenis_pembayaran;
 
-    private Pemesanan pemesanan;
+    public Pemesanan pemesanan;
 
     public Transaksi(int id_transaksi, int id_pemesanan, String jenis_pembayaran) {
         this.id_transaksi = id_transaksi;
@@ -57,6 +57,5 @@ public class Transaksi {
     public void setPemesanan(Pemesanan pemesanan) {
         this.pemesanan = pemesanan;
     }
-    
     
 }

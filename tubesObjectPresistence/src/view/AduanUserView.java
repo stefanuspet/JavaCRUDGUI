@@ -157,6 +157,7 @@ public class AduanUserView extends javax.swing.JFrame {
         SearchText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         NavPanel.setBackground(new java.awt.Color(41, 128, 185));
 

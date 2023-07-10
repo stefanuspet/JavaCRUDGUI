@@ -31,8 +31,34 @@ public class PemesananControl {
         PemesananTable pesan = new PemesananTable(dataPemesanan);
         return pesan;
     }
+    
+    public PemesananTable showTablePemesanan(String query, String user){
+        List<Pemesanan> dataPemesanan = pDao.showAllPemesananByUser(query, user);
+        PemesananTable pesan = new PemesananTable(dataPemesanan);
+        return pesan;
+    }
 
     public Pemesanan getPemesanan(int id_pemesanan){
         return pDao.getPemesanan(id_pemesanan);
+    }
+    
+     public PemesananTable showTablePemesanan(String query){
+        List<Pemesanan> dataPemesanan = pDao.showAllPemesanan(query);
+        PemesananTable pemesanantbl = new PemesananTable(dataPemesanan);
+        
+        return pemesanantbl;
+    }
+    
+    public PemesananTable searchTablePemesanan(String query){
+        List<Pemesanan> dataPemesanan = pDao.searchPemesanTable(query);
+        PemesananTable pemesananTable = new PemesananTable(dataPemesanan);
+        return pemesananTable;
+    }
+    
+    public PemesananTable showPemesananByUser(String query, String id){
+        List<Pemesanan> dataPemesan = pDao.showAllPemesananByUser(query,id);
+        PemesananTable pemesananTable = new PemesananTable(dataPemesan);
+        
+        return pemesananTable;
     }
 }

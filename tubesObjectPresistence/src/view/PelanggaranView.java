@@ -113,6 +113,7 @@ public class PelanggaranView extends javax.swing.JFrame {
         searchbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         NavPanel.setBackground(new java.awt.Color(41, 128, 185));
 
@@ -906,7 +907,6 @@ public class PelanggaranView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
-    private javax.swing.JPanel LogoutNav1;
     private javax.swing.JPanel LogoutNav2;
     private javax.swing.JPanel NavPanel;
     private javax.swing.JButton Savebtn;
@@ -921,7 +921,6 @@ public class PelanggaranView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
@@ -937,7 +936,6 @@ public class PelanggaranView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;

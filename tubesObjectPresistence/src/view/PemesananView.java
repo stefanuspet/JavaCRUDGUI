@@ -250,6 +250,7 @@ public class PemesananView extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         BodyPanel.setBackground(new java.awt.Color(255, 255, 255));
 

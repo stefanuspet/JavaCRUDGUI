@@ -63,7 +63,6 @@ public class AduanAdminView extends javax.swing.JFrame {
             if (rs != null) {
                 while (rs.next()) {
                     adm = rs.getString("Admin");
-                    welcomeText.setText("Selamat Datang " + adm);
                 }
             }
             rs.close();
@@ -136,7 +135,6 @@ public class AduanAdminView extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        welcomeText = new javax.swing.JLabel();
         LogoutNav1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -163,6 +161,7 @@ public class AduanAdminView extends javax.swing.JFrame {
         SearchText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         NavPanel.setBackground(new java.awt.Color(41, 128, 185));
 
@@ -172,6 +171,11 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(21, 108, 165));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -203,6 +207,11 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jPanel21.setBackground(new java.awt.Color(21, 108, 165));
         jPanel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
 
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -233,6 +242,11 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jPanel23.setBackground(new java.awt.Color(21, 108, 165));
         jPanel23.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel23MouseClicked(evt);
+            }
+        });
 
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -263,6 +277,11 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jPanel24.setBackground(new java.awt.Color(21, 108, 165));
         jPanel24.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel24.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel24MouseClicked(evt);
+            }
+        });
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -330,6 +349,11 @@ public class AduanAdminView extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(21, 108, 165));
         jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -361,10 +385,6 @@ public class AduanAdminView extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        welcomeText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        welcomeText.setForeground(new java.awt.Color(255, 255, 255));
-        welcomeText.setText("Welcome");
 
         LogoutNav1.setBackground(new java.awt.Color(21, 108, 165));
         LogoutNav1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -406,9 +426,7 @@ public class AduanAdminView extends javax.swing.JFrame {
             NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavPanelLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(welcomeText))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -432,9 +450,7 @@ public class AduanAdminView extends javax.swing.JFrame {
                     .addGroup(NavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(NavPanelLayout.createSequentialGroup()
                             .addGap(24, 24, 24)
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(welcomeText))
+                            .addComponent(jLabel1))
                         .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
                         .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -780,6 +796,41 @@ public class AduanAdminView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_LogoutNav1MouseClicked
 
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        // TODO add your handling code here:
+        PemesananView pv = new PemesananView();
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        // TODO add your handling code here:
+        KamarView kv = new KamarView();
+        this.dispose();
+        kv.setVisible(true);
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        PenghuniView pv = new PenghuniView();
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_jPanel21MouseClicked
+
+    private void jPanel23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel23MouseClicked
+        // TODO add your handling code here:
+        PelanggaranView pvie = new PelanggaranView();
+        this.dispose();
+        pvie.setVisible(true);
+    }//GEN-LAST:event_jPanel23MouseClicked
+
+    private void jPanel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel24MouseClicked
+        // TODO add your handling code here:
+        TransaksiAdminView tav = new TransaksiAdminView();
+        this.dispose();
+        tav.setVisible(true);
+    }//GEN-LAST:event_jPanel24MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -820,7 +871,6 @@ public class AduanAdminView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BodyPanel;
-    private javax.swing.JPanel LogoutNav;
     private javax.swing.JPanel LogoutNav1;
     private javax.swing.JPanel NavPanel;
     private javax.swing.JButton SearchButon;
@@ -846,8 +896,6 @@ public class AduanAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
@@ -866,7 +914,6 @@ public class AduanAdminView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField namaPenghuniText;
     private javax.swing.JTextField tanggalText;
-    private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
 
     private String cekIdUser(String user) {

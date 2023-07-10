@@ -171,6 +171,7 @@ public class PemesananDAO {
             statement.executeQuery(sql);
             var result = statement.getResultSet();
             while (result.next()) {
+                System.out.println("MASUK");
                 p = new Pemesanan(
                         result.getInt("id_pemesanan"),
                         pc.searchPenghuni(result.getInt("id_penghuni")),
@@ -181,6 +182,7 @@ public class PemesananDAO {
                         result.getInt("total"),
                         result.getString("status")
                 );
+                System.out.println("KELUAR");
             }
             statement.close();
         } catch (SQLException e) {
@@ -188,5 +190,71 @@ public class PemesananDAO {
             throw new RuntimeException(e);
         }
         return p;
+    }
+    
+     public List<Pemesanan> showAllPemesananByUser(String query, String id){
+        List<Pemesanan> listPemesanan = new ArrayList<>();
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM pemesanan a JOIN penghuni p ON a.id_penghuni = p.id_penghuni WHERE p.username = '"+id+"'";
+        
+        try {
+            Statement statement = con.createStatement();
+            statement.executeQuery(sql);
+            var result = statement.getResultSet();
+            while (result.next()){
+                Pemesanan p = new Pemesanan(
+                        result.getInt("id_pemesanan"),
+                        pc.searchPenghuni(result.getInt("id_penghuni")),
+                        kc.getKamar(result.getInt("id_kamar")),
+                        result.getString("tanggal_masuk"),
+                        result.getString("tanggal_keluar"),
+                        plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                        result.getInt("total"),
+                        result.getString("status")
+                );
+                listPemesanan.add(p);
+            }
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error getting Pemesanan...");
+            throw new RuntimeException(e);
+        }
+        return listPemesanan;
+    }
+     
+     public List<Pemesanan> searchPemesanTable(String query) {
+        Pemesanan p = null;
+        con = dbConnection.makeConnection();
+        String sql = "SELECT * FROM pemesanan WHERE id_pemesanan LIKE '%" + query + "%' OR id_penghuni LIKE '%" + query + "%'"
+                + "OR id_kamar LIKE '%" + query + "%' OR tanggal_masuk LIKE '%" + query + "%' OR tanggal_keluar LIKE '%" + query + "%' OR id_pelanggaran LIKE '%" + query + "%'"
+                + query + "%' OR total LIKE '%" + query + "%' OR status LIKE '%";
+        System.out.println("Mengambil Data Pemesanan ...");
+        List<Pemesanan> list = new ArrayList();
+        try {
+            Statement statement = con.createStatement();
+            var result = statement.getResultSet();
+            if (result != null) {
+                while (result.next()) {
+                    p = new Pemesanan(
+                            result.getInt("id_pemesanan"),
+                            pc.searchPenghuni(result.getInt("id_penghuni")),
+                            kc.getKamar(result.getInt("id_kamar")),
+                            result.getString("tanggal_masuk"),
+                            result.getString("tanggal_keluar"),
+                            plc.getPelanggaran(result.getInt("id_pelanggaran")),
+                            result.getInt("total"),
+                            result.getString("status")
+                    );
+
+                }
+            }
+            result.close();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error Reading Database...");
+            throw new RuntimeException(e);
+        }
+        dbConnection.closeConnection();
+        return list;
     }
 }
